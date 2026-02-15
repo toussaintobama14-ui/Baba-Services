@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Flyer Builder Pro</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+
+<style>
+body {
+  margin:0;
+  font-family: Arial;
+  background:#0f0f0f;
+  color:white;
+  text-align:center;
+}
+
+#login {
+  margin-top:100px;
+}
+
+input, button {
+  padding:10px;
+  margin:5px;
+  border:none;
+  border-radius:5px;
+}
+
+button {
+  background:#00c3ff;
+  color:white;
+  cursor:pointer;
+}
+
+.templates {
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  padding:10px;
+  background:#1a1a1a;
+}
+
+.templates div {
+  width:70px;
+  height:90px;
+  border-radius:6px;
+  cursor:pointer;
+}
+
+canvas {
+  margin-top:10px;
+  border:2px solid #333;
+  border-radius:10px;
+}
+
+.tools {
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <h2>🔐 Accès Privé</h2>
+  <input type="text" id="code" placeholder="Entrer code">
+  <button onclick="login()">Valider</button>
+  <p id="error"></p>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+
+  <!-- TEMPLATE -->
+  <div class="templates">
+    <div style="background:red;" onclick="template('red')"></div>
+    <div style="background:green;" onclick="template('green')"></div>
+    <div style="background:blue;" onclick="template('blue')"></div>
+    <div style="background:purple;" onclick="template('purple')"></div>
+  </div>
+
+  <!-- CANVAS -->
+  <canvas id="canvas" width="400" height="500"></canvas>
+
+  <!-- TOOLS -->
+  <div class="tools">
+    <input type="text" id="text" placeholder="Ajouter texte">
+    <button onclick="addText()">Text</button>
+
+    <input type="color" onchange="changeColor(this.value)">
+    
+    <input type="file" onchange="addImage(event)">
+    
+    <button onclick="download()">Générer</button>
+  </div>
+
+</div>
+
+<script>
+const canvas = new fabric.Canvas('canvas');
+
+let access = false;
+let currentCode = "";
+
+// 🔐 CODE SYSTEM
+const codes = {
+  "VIP123": {used:false, expire:"2026-02-20"},
+  "PRO456": {used:false, expire:"2026-02-25"},
+  "CLIENT999": {used:false, expire:"2026-03-01"}
+};
+
+// LOGIN
+function login(){
+  let c = document.getElementById("code").value;
+  let today = new Date().toISOString().split("T")[0];
+
+  if(codes[c]){
+    if(codes[c].used){
+      error("Code déjà utilisé ❌");
+      return;
+    }
+
+    if(today > codes[c].expire){
+      error("Code expiré ❌");
+      return;
+    }
+
+    access = true;
+    currentCode = c;
+
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+  } else {
+    error("Code invalide ❌");
+  }
+}
+
+function error(msg){
+  document.getElementById("error").innerText = msg;
+}
+
+// TEMPLATE
+function template(color){
+  canvas.clear();
+  canvas.setBackgroundColor(color, canvas.renderAll.bind(canvas));
+}
+
+// TEXT
+function addText(){
+  let txt = document.getElementById("text").value;
+
+  let t = new fabric.Textbox(txt,{
+    left:50,
+    top:50,
+    fill:"#fff",
+    fontSize:22
+  });
+
+  canvas.add(t);
+}
+
+// COLOR
+function changeColor(color){
+  let obj = canvas.getActiveObject();
+  if(obj){
+    obj.set("fill", color);
+    canvas.renderAll();
+  }
+}
+
+// IMAGE
+function addImage(e){
+  let reader = new FileReader();
+
+  reader.onload = function(event){
+    fabric.Image.fromURL(event.target.result, function(img){
+      img.scale(0.5);
+      canvas.add(img);
+    });
+  };
+
+  reader.readAsDataURL(e.target.files[0]);
+}
+
+// DOWNLOAD + BLOKE
+function download(){
+  if(!access) return;
+
+  let link = document.createElement("a");
+  link.href = canvas.toDataURL({format:"png"});
+  link.download = "flyer.png";
+  link.click();
+
+  // BLOKE AKSÈ
+  codes[currentCode].used = true;
+  access = false;
+
+  alert("Aksè fini ❌");
+
+  location.reload();
+}
+</script>
+
+</body>
+</html>
