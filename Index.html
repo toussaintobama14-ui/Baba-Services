@@ -1,206 +1,347 @@
-Create a modern, professional and fully responsive registration website for "Akademi Dizay".
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Formulaire d'inscription - Akademi Dizay">
+    <title>Inscription | Akademi Dizay</title>
 
-TECHNOLOGY:
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- No frameworks required
-- Mobile-first responsive design
-- Clean and well-organized code
-- The website must be ready to deploy on GitHub Pages
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-BRAND COLORS:
-- Main color: White (#FFFFFF)
-- Secondary color: Blue (#0066FF)
-- Accent color: Yellow (#FFD400)
-- Text: Dark navy/black
+    <link rel="stylesheet" href="style.css">
+</head>
 
-WEBSITE PURPOSE:
-The website is an online registration form for people who want to become members/students of Akademi Dizay.
+<body>
 
-HEADER:
-- Display "AKADEMI DIZAY" as the main logo/text.
-- Add a small subtitle: "Formulaire d'inscription"
-- Clean white header with blue and yellow accents.
-- Add a professional blue/yellow decorative element.
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <span>AKADEMI</span>
+                <strong>DIZAY</strong>
+            </div>
 
-MAIN REGISTRATION FORM:
+            <div class="header-contact">
+                WhatsApp : <strong>+509 4005-2773</strong>
+            </div>
+        </div>
+    </header>
 
-Create a beautiful card containing the following fields:
+    <main class="main">
+        <div class="container">
 
-1. Nom complet
-   - Required
-   - Text input
-   - Placeholder: "Entrez votre nom complet"
+            <section class="hero">
+                <div class="hero-badge">INSCRIPTION</div>
+                <h1>Rejoignez <span>Akademi Dizay</span></h1>
+                <p>
+                    Remplissez le formulaire ci-dessous avec vos informations
+                    pour effectuer votre inscription.
+                </p>
+            </section>
 
-2. Numéro de téléphone
-   - Required
-   - Phone input
-   - Placeholder: "Entrez votre numéro de téléphone"
+            <section class="form-card">
 
-3. Adresse e-mail
-   - Required
-   - Email input
-   - Placeholder: "Entrez votre adresse e-mail"
+                <div class="form-header">
+                    <h2>Formulaire d'inscription</h2>
+                    <p>Tous les champs marqués d'un astérisque sont obligatoires.</p>
+                </div>
 
-4. Numéro NatCash
-   - Required
-   - Phone input
-   - Placeholder: "Numéro utilisé pour le paiement"
+                <form id="registrationForm">
 
-5. Nom sur le compte NatCash
-   - Required
-   - Text input
-   - Placeholder: "Nom indiqué sur NatCash"
+                    <div class="form-grid">
 
-6. Photo professionnelle
-   - Required
-   - File upload
-   - Accept JPG, JPEG and PNG
-   - Maximum file size: 5MB
-   - Show a preview of the uploaded photo.
-   - Add text explaining:
-     "Cette photo sera utilisée pour la création de votre badge."
+                        <div class="field">
+                            <label for="fullName">
+                                Nom complet <span>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="fullName"
+                                name="fullName"
+                                placeholder="Entrez votre nom complet"
+                                required
+                            >
+                            <small class="error" id="fullNameError"></small>
+                        </div>
 
-GENDER:
-Create two selectable cards/buttons:
-- Femme
-- Homme
+                        <div class="field">
+                            <label for="phone">
+                                Numéro de téléphone <span>*</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="phone"
+                                name="phone"
+                                placeholder="Ex : 40000000"
+                                required
+                            >
+                            <small class="error" id="phoneError"></small>
+                        </div>
 
-The user must select one.
-Make the selected option visually highlighted in blue.
+                        <div class="field">
+                            <label for="email">
+                                Adresse e-mail <span>*</span>
+                            </label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                placeholder="exemple@email.com"
+                                required
+                            >
+                            <small class="error" id="emailError"></small>
+                        </div>
 
-PAYMENT STATUS:
-Create two selectable cards:
--  J'ai déjà payé
--  Je n'ai pas encore payé
+                        <div class="field">
+                            <label for="natcashNumber">
+                                Numéro NatCash <span>*</span>
+                            </label>
+                            <input
+                                type="tel"
+                                id="natcashNumber"
+                                name="natcashNumber"
+                                placeholder="Numéro utilisé pour le paiement"
+                                required
+                            >
+                            <small class="error" id="natcashNumberError"></small>
+                        </div>
 
-The user must select one.
+                        <div class="field">
+                            <label for="natcashName">
+                                Nom sur le compte NatCash <span>*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="natcashName"
+                                name="natcashName"
+                                placeholder="Nom indiqué sur NatCash"
+                                required
+                            >
+                            <small class="error" id="natcashNameError"></small>
+                        </div>
 
-REFERRAL CODE:
-Add an optional field:
-"Code agent / parrainage (facultatif)"
+                        <div class="field">
+                            <label for="referral">
+                                Code agent / parrainage
+                                <span class="optional">(facultatif)</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="referral"
+                                name="referral"
+                                placeholder="Entrez le code si vous en avez un"
+                            >
+                        </div>
 
-This field must NOT be required.
+                    </div>
 
-WHATSAPP:
-All registration information must be prepared to be sent to WhatsApp number:
-40052773
+                    <div class="section">
 
-When the user clicks:
-"ENVOYER MON INSCRIPTION"
+                        <div class="section-title">
+                            <h3>Photo professionnelle</h3>
+                            <span class="required-label">*</span>
+                        </div>
 
-JavaScript should validate all required fields.
+                        <p class="section-description">
+                            Cette photo sera utilisée pour la création de votre badge.
+                        </p>
 
-If everything is valid:
-- Create a WhatsApp message containing all registration information.
-- Open WhatsApp using the WhatsApp link with the message encoded.
-- Use this WhatsApp number: 50940052773
+                        <div class="upload-area" id="uploadArea">
 
-IMPORTANT:
-The uploaded photo cannot be directly attached to WhatsApp through a normal wa.me link.
-Therefore:
-- Show the uploaded photo preview.
-- Before sending, display a clear message:
-  "Veuillez également envoyer votre photo professionnelle directement sur WhatsApp après avoir envoyé le formulaire."
-- The WhatsApp message should remind the person:
-  " N'oubliez pas d'envoyer votre photo professionnelle sur WhatsApp."
+                            <input
+                                type="file"
+                                id="photo"
+                                name="photo"
+                                accept="image/jpeg,image/png,image/jpg"
+                                hidden
+                                required
+                            >
 
-WHATSAPP MESSAGE FORMAT:
+                            <div class="upload-content" id="uploadContent">
+                                <div class="upload-icon">+</div>
+                                <h4>Ajouter votre photo</h4>
+                                <p>JPG, JPEG ou PNG — Maximum 5 MB</p>
+                                <button type="button" id="choosePhoto">
+                                    Choisir une photo
+                                </button>
+                            </div>
 
- INSCRIPTION — AKADEMI DIZAY
+                            <div class="preview-container" id="previewContainer">
+                                <img id="photoPreview" src="" alt="Aperçu de la photo">
+                                <button type="button" id="removePhoto">
+                                    Supprimer la photo
+                                </button>
+                            </div>
 
-👤 Nom complet: [name]
+                        </div>
 
- Téléphone: [phone]
+                        <small class="error" id="photoError"></small>
 
- Email: [email]
+                    </div>
 
- Numéro NatCash: [natcash number]
+                    <div class="section">
 
-👤 Nom sur NatCash: [natcash name]
+                        <div class="section-title">
+                            <h3>Sexe</h3>
+                            <span class="required-label">*</span>
+                        </div>
 
- Sexe: [gender]
+                        <div class="choice-grid">
 
- Paiement: [payment status]
+                            <label class="choice-card">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Femme"
+                                    required
+                                >
+                                <span class="choice-content">
+                                    <strong>Femme</strong>
+                                    <small>Sélectionner</small>
+                                </span>
+                            </label>
 
- Code agent: [referral code or "Non renseigné"]
+                            <label class="choice-card">
+                                <input
+                                    type="radio"
+                                    name="gender"
+                                    value="Homme"
+                                    required
+                                >
+                                <span class="choice-content">
+                                    <strong>Homme</strong>
+                                    <small>Sélectionner</small>
+                                </span>
+                            </label>
 
- Photo: À envoyer directement sur WhatsApp
+                        </div>
 
-After generating the WhatsApp link, open it in a new tab.
+                        <small class="error" id="genderError"></small>
 
-SUCCESS MESSAGE:
-After clicking the button, show a professional confirmation box:
+                    </div>
 
-"Inscription préparée avec succès !"
+                    <div class="section">
 
-"Votre inscription va être envoyée sur WhatsApp. N'oubliez pas d'envoyer votre photo professionnelle directement dans la conversation WhatsApp."
+                        <div class="section-title">
+                            <h3>Statut du paiement</h3>
+                            <span class="required-label">*</span>
+                        </div>
 
-Add a WhatsApp icon/button:
-"CONTINUER SUR WHATSAPP"
+                        <div class="choice-grid">
 
-DESIGN:
-- Premium but simple.
-- White background.
-- Blue buttons.
-- Yellow accents.
-- Rounded cards.
-- Soft shadows.
-- Modern typography.
-- Large clean form.
-- Excellent spacing.
-- Professional icons.
-- Smooth hover animations.
-- Smooth transitions.
-- Mobile responsive.
-- On mobile, the form should use one column.
-- On desktop, use a two-column layout where appropriate.
-- Keep the submit button large and easy to press.
+                            <label class="choice-card">
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="J'ai déjà payé"
+                                    required
+                                >
+                                <span class="choice-content">
+                                    <strong>J'ai déjà payé</strong>
+                                    <small>Paiement effectué</small>
+                                </span>
+                            </label>
 
-HEADER TEXT:
+                            <label class="choice-card">
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="Je n'ai pas encore payé"
+                                    required
+                                >
+                                <span class="choice-content">
+                                    <strong>Je n'ai pas encore payé</strong>
+                                    <small>Paiement non effectué</small>
+                                </span>
+                            </label>
 
-AKADEMI DIZAY
-"Développez vos compétences. Créez. Évoluez."
+                        </div>
 
-FORM TITLE:
+                        <small class="error" id="paymentError"></small>
 
-"Formulaire d'inscription"
+                    </div>
 
-FORM DESCRIPTION:
+                    <div class="notice">
+                        <div class="notice-line"></div>
 
-"Remplissez correctement les informations ci-dessous pour finaliser votre inscription."
+                        <div>
+                            <strong>Important</strong>
+                            <p>
+                                Après l'envoi du formulaire, vous devrez envoyer
+                                votre photo professionnelle directement sur
+                                WhatsApp afin que nous puissions préparer votre badge.
+                            </p>
+                        </div>
+                    </div>
 
-BOTTOM SECTION:
+                    <button type="submit" class="submit-btn">
+                        Envoyer mon inscription
+                    </button>
 
-"Une question ? Contactez-nous sur WhatsApp"
+                </form>
 
-WhatsApp:
-+509 4005-2773
+            </section>
 
-Add a floating WhatsApp button in the bottom-right corner.
+            <section class="contact-box">
+                <h3>Besoin d'aide ?</h3>
+                <p>
+                    Contactez-nous directement sur WhatsApp pour toute question
+                    concernant votre inscription.
+                </p>
 
-FOOTER:
+                <a
+                    href="https://wa.me/50940052773"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="whatsapp-btn"
+                >
+                    Contacter sur WhatsApp
+                </a>
+            </section>
 
-© 2026 Akademi Dizay — Tous droits réservés.
+        </div>
+    </main>
 
-SECURITY / UX:
-- Validate email format.
-- Validate required fields.
-- Prevent form submission if required fields are empty.
-- Validate phone number.
-- Validate image type and size.
-- Display friendly error messages.
-- Do not expose private information anywhere else on the page.
-- Do not store registration information in localStorage.
-- Make the code clean and easy to modify later.
+    <footer class="footer">
+        <div class="container">
+            <p>© 2026 Akademi Dizay. Tous droits réservés.</p>
+        </div>
+    </footer>
 
-FILES TO CREATE:
+    <div class="modal" id="successModal">
+        <div class="modal-content">
 
-index.html
-style.css
-script.js
+            <button class="close-modal" id="closeModal" type="button">
+                ×
+            </button>
 
-Make sure all three files work together correctly.
+            <div class="success-icon">
+                ✓
+            </div>
 
-The final result should look like a real professional registration website for a design academy, not like a basic HTML form.
+            <h2>Inscription préparée</h2>
+
+            <p>
+                Vos informations sont prêtes à être envoyées sur WhatsApp.
+                Après l'envoi, n'oubliez pas d'envoyer votre photo professionnelle
+                dans la conversation.
+            </p>
+
+            <a
+                href="#"
+                id="whatsappLink"
+                class="whatsapp-btn"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                Continuer sur WhatsApp
+            </a>
+
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
