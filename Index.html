@@ -3,20 +3,778 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Formulaire d'inscription - Akademi Dizay">
+
+    <meta name="description" content="Formulaire d'inscription à Akademi Dizay">
+    <meta name="theme-color" content="#0066ff">
+
     <title>Inscription | Akademi Dizay</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="style.css">
+    <style>
+
+        :root {
+            --blue: #0066ff;
+            --blue-dark: #0047b3;
+            --yellow: #ffd400;
+            --black: #101828;
+            --gray: #667085;
+            --light: #f7f9fc;
+            --border: #dfe5ee;
+            --white: #ffffff;
+            --danger: #e53935;
+            --success: #16a34a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Inter", sans-serif;
+            background: #ffffff;
+            color: var(--black);
+            line-height: 1.6;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .container {
+            width: min(100% - 32px, 1050px);
+            margin: auto;
+        }
+
+        /* HEADER */
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: #ffffff;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .header-content {
+            min-height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 19px;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        .logo strong {
+            color: var(--blue);
+            font-weight: 800;
+        }
+
+        .header-contact {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        .header-contact strong {
+            color: var(--blue);
+        }
+
+        /* MAIN */
+
+        .main {
+            min-height: 100vh;
+            padding: 70px 0 80px;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0, 102, 255, 0.08),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    to bottom,
+                    #ffffff,
+                    #f8fbff
+                );
+        }
+
+        /* HERO */
+
+        .hero {
+            max-width: 720px;
+            margin: 0 auto 45px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 7px 14px;
+            margin-bottom: 18px;
+
+            background: rgba(255, 212, 0, 0.18);
+            border: 1px solid rgba(255, 212, 0, 0.45);
+            border-radius: 50px;
+
+            color: #806800;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            margin-bottom: 18px;
+
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.1;
+            letter-spacing: -2px;
+        }
+
+        .hero h1 span {
+            color: var(--blue);
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: auto;
+
+            color: var(--gray);
+            font-size: 16px;
+        }
+
+        /* FORM CARD */
+
+        .form-card {
+            max-width: 900px;
+            margin: auto;
+
+            padding: 40px;
+
+            background: var(--white);
+            border: 1px solid #e6ebf2;
+            border-radius: 24px;
+
+            box-shadow:
+                0 20px 60px rgba(17, 24, 39, 0.08);
+        }
+
+        .form-header {
+            padding-bottom: 28px;
+            margin-bottom: 30px;
+
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .form-header h2 {
+            margin-bottom: 7px;
+            font-size: 25px;
+        }
+
+        .form-header p {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* INPUTS */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 22px;
+        }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .field label {
+            margin-bottom: 8px;
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .field label span {
+            color: var(--blue);
+        }
+
+        .field label .optional {
+            color: #98a2b3;
+            font-weight: 500;
+        }
+
+        .field input {
+            width: 100%;
+            height: 52px;
+
+            padding: 0 15px;
+
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            outline: none;
+
+            color: var(--black);
+            font-size: 14px;
+
+            transition: 0.25s ease;
+        }
+
+        .field input::placeholder {
+            color: #98a2b3;
+        }
+
+        .field input:focus {
+            border-color: var(--blue);
+
+            box-shadow:
+                0 0 0 4px rgba(0, 102, 255, 0.08);
+        }
+
+        .input-error {
+            border-color: var(--danger) !important;
+        }
+
+        /* SECTION */
+
+        .section {
+            margin-top: 35px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+
+            margin-bottom: 5px;
+        }
+
+        .section-title h3 {
+            font-size: 15px;
+        }
+
+        .required-label {
+            color: var(--blue);
+        }
+
+        .section-description {
+            margin-bottom: 15px;
+
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        /* PHOTO */
+
+        .upload-area {
+            min-height: 210px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background: #fafcff;
+            border: 2px dashed #cdd6e3;
+            border-radius: 16px;
+
+            text-align: center;
+
+            transition: 0.25s ease;
+        }
+
+        .upload-area:hover {
+            background: #f7faff;
+            border-color: var(--blue);
+        }
+
+        .upload-content {
+            padding: 30px;
+        }
+
+        .upload-icon {
+            width: 50px;
+            height: 50px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 13px;
+
+            background: rgba(0, 102, 255, 0.09);
+            border-radius: 50%;
+
+            color: var(--blue);
+            font-size: 28px;
+        }
+
+        .upload-content h4 {
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .upload-content p {
+            margin-bottom: 15px;
+
+            color: var(--gray);
+            font-size: 12px;
+        }
+
+        .upload-content button {
+            padding: 10px 17px;
+
+            border: 0;
+            border-radius: 8px;
+
+            background: var(--blue);
+            color: #ffffff;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            transition: 0.2s ease;
+        }
+
+        .upload-content button:hover {
+            background: var(--blue-dark);
+        }
+
+        .preview-container {
+            width: 100%;
+            padding: 20px;
+
+            display: none;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .preview-container.active {
+            display: flex;
+        }
+
+        .preview-container img {
+            width: 145px;
+            height: 145px;
+
+            object-fit: cover;
+
+            margin-bottom: 15px;
+
+            border: 3px solid #ffffff;
+            border-radius: 14px;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .preview-container button {
+            padding: 8px 15px;
+
+            background: #fff5f5;
+            border: 1px solid #f0b4b4;
+            border-radius: 8px;
+
+            color: var(--danger);
+            font-size: 12px;
+        }
+
+        /* CHOICES */
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .choice-card {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .choice-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice-content {
+            min-height: 76px;
+
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+
+            padding: 15px 18px;
+
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+
+            transition: 0.2s ease;
+        }
+
+        .choice-content strong {
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        .choice-content small {
+            color: var(--gray);
+            font-size: 11px;
+        }
+
+        .choice-card:hover .choice-content {
+            border-color: var(--blue);
+        }
+
+        .choice-card input:checked + .choice-content {
+            background: rgba(0, 102, 255, 0.05);
+            border-color: var(--blue);
+
+            box-shadow:
+                0 0 0 2px rgba(0, 102, 255, 0.08);
+        }
+
+        .choice-card input:checked + .choice-content strong {
+            color: var(--blue);
+        }
+
+        /* NOTICE */
+
+        .notice {
+            display: flex;
+            gap: 14px;
+
+            margin-top: 35px;
+            padding: 18px;
+
+            background: #fffbea;
+            border: 1px solid #f4df78;
+            border-radius: 13px;
+        }
+
+        .notice-line {
+            width: 4px;
+            min-width: 4px;
+
+            border-radius: 10px;
+            background: var(--yellow);
+        }
+
+        .notice strong {
+            font-size: 13px;
+        }
+
+        .notice p {
+            margin-top: 3px;
+
+            color: #6b5d1a;
+            font-size: 12px;
+        }
+
+        /* SUBMIT */
+
+        .submit-btn {
+            width: 100%;
+            height: 56px;
+
+            margin-top: 30px;
+
+            background: var(--blue);
+            border: none;
+            border-radius: 12px;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            transition: 0.25s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--blue-dark);
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 25px rgba(0, 102, 255, 0.2);
+        }
+
+        /* ERRORS */
+
+        .error {
+            min-height: 0;
+
+            margin-top: 5px;
+
+            color: var(--danger);
+            font-size: 11px;
+        }
+
+        /* CONTACT */
+
+        .contact-box {
+            max-width: 900px;
+            margin: 35px auto 0;
+
+            padding: 35px;
+
+            background: var(--black);
+            border-radius: 20px;
+
+            color: white;
+            text-align: center;
+        }
+
+        .contact-box h3 {
+            margin-bottom: 8px;
+            font-size: 21px;
+        }
+
+        .contact-box p {
+            max-width: 550px;
+            margin: 0 auto 20px;
+
+            color: #b9c1ce;
+            font-size: 13px;
+        }
+
+        .whatsapp-btn {
+            min-height: 46px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0 22px;
+
+            background: var(--yellow);
+            border-radius: 9px;
+
+            color: #111111;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            transition: 0.2s ease;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            padding: 25px 0;
+
+            background: #ffffff;
+            border-top: 1px solid #edf0f5;
+
+            text-align: center;
+        }
+
+        .footer p {
+            color: #98a2b3;
+            font-size: 11px;
+        }
+
+        /* MODAL */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+
+            display: none;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(8, 15, 30, 0.65);
+
+            backdrop-filter: blur(5px);
+
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+
+            width: min(100%, 470px);
+
+            padding: 40px;
+
+            background: #ffffff;
+            border-radius: 20px;
+
+            text-align: center;
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 14px;
+            right: 17px;
+
+            border: none;
+            background: transparent;
+
+            color: #667085;
+            font-size: 25px;
+        }
+
+        .success-icon {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 18px;
+
+            background: rgba(22, 163, 74, 0.1);
+            border-radius: 50%;
+
+            color: var(--success);
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .modal-content p {
+            margin-bottom: 23px;
+
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 700px) {
+
+            .container {
+                width: min(100% - 22px, 1050px);
+            }
+
+            .header-content {
+                min-height: 68px;
+            }
+
+            .header-contact {
+                display: none;
+            }
+
+            .main {
+                padding: 45px 0 60px;
+            }
+
+            .hero {
+                margin-bottom: 30px;
+            }
+
+            .hero h1 {
+                font-size: 34px;
+                letter-spacing: -1.2px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .form-card {
+                padding: 24px 18px;
+                border-radius: 18px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 18px;
+            }
+
+            .choice-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-box {
+                padding: 28px 20px;
+            }
+
+            .modal-content {
+                padding: 35px 22px;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .logo {
+                font-size: 16px;
+            }
+
+            .hero h1 {
+                font-size: 29px;
+            }
+
+            .form-card {
+                padding: 20px 14px;
+            }
+
+            .field input {
+                height: 49px;
+            }
+        }
+
+    </style>
 </head>
 
 <body>
 
     <header class="header">
+
         <div class="container header-content">
+
             <div class="logo">
                 <span>AKADEMI</span>
                 <strong>DIZAY</strong>
@@ -25,257 +783,452 @@
             <div class="header-contact">
                 WhatsApp : <strong>+509 4005-2773</strong>
             </div>
+
         </div>
+
     </header>
 
+
     <main class="main">
+
         <div class="container">
 
             <section class="hero">
-                <div class="hero-badge">INSCRIPTION</div>
-                <h1>Rejoignez <span>Akademi Dizay</span></h1>
+
+                <div class="hero-badge">
+                    INSCRIPTION
+                </div>
+
+                <h1>
+                    Rejoignez
+                    <span>Akademi Dizay</span>
+                </h1>
+
                 <p>
                     Remplissez le formulaire ci-dessous avec vos informations
                     pour effectuer votre inscription.
                 </p>
+
             </section>
+
 
             <section class="form-card">
 
                 <div class="form-header">
-                    <h2>Formulaire d'inscription</h2>
-                    <p>Tous les champs marqués d'un astérisque sont obligatoires.</p>
+
+                    <h2>
+                        Formulaire d'inscription
+                    </h2>
+
+                    <p>
+                        Tous les champs marqués d'un astérisque sont obligatoires.
+                    </p>
+
                 </div>
+
 
                 <form id="registrationForm">
 
                     <div class="form-grid">
 
                         <div class="field">
+
                             <label for="fullName">
                                 Nom complet <span>*</span>
                             </label>
+
                             <input
                                 type="text"
                                 id="fullName"
-                                name="fullName"
                                 placeholder="Entrez votre nom complet"
+                                autocomplete="name"
                                 required
                             >
-                            <small class="error" id="fullNameError"></small>
+
+                            <small
+                                class="error"
+                                id="fullNameError"
+                            ></small>
+
                         </div>
 
+
                         <div class="field">
+
                             <label for="phone">
                                 Numéro de téléphone <span>*</span>
                             </label>
+
                             <input
                                 type="tel"
                                 id="phone"
-                                name="phone"
                                 placeholder="Ex : 40000000"
+                                autocomplete="tel"
                                 required
                             >
-                            <small class="error" id="phoneError"></small>
+
+                            <small
+                                class="error"
+                                id="phoneError"
+                            ></small>
+
                         </div>
 
+
                         <div class="field">
+
                             <label for="email">
                                 Adresse e-mail <span>*</span>
                             </label>
+
                             <input
                                 type="email"
                                 id="email"
-                                name="email"
                                 placeholder="exemple@email.com"
+                                autocomplete="email"
                                 required
                             >
-                            <small class="error" id="emailError"></small>
+
+                            <small
+                                class="error"
+                                id="emailError"
+                            ></small>
+
                         </div>
 
+
                         <div class="field">
+
                             <label for="natcashNumber">
                                 Numéro NatCash <span>*</span>
                             </label>
+
                             <input
                                 type="tel"
                                 id="natcashNumber"
-                                name="natcashNumber"
                                 placeholder="Numéro utilisé pour le paiement"
                                 required
                             >
-                            <small class="error" id="natcashNumberError"></small>
+
+                            <small
+                                class="error"
+                                id="natcashNumberError"
+                            ></small>
+
                         </div>
 
+
                         <div class="field">
+
                             <label for="natcashName">
                                 Nom sur le compte NatCash <span>*</span>
                             </label>
+
                             <input
                                 type="text"
                                 id="natcashName"
-                                name="natcashName"
                                 placeholder="Nom indiqué sur NatCash"
                                 required
                             >
-                            <small class="error" id="natcashNameError"></small>
+
+                            <small
+                                class="error"
+                                id="natcashNameError"
+                            ></small>
+
                         </div>
 
+
                         <div class="field">
+
                             <label for="referral">
+
                                 Code agent / parrainage
-                                <span class="optional">(facultatif)</span>
+
+                                <span class="optional">
+                                    (facultatif)
+                                </span>
+
                             </label>
+
                             <input
                                 type="text"
                                 id="referral"
-                                name="referral"
                                 placeholder="Entrez le code si vous en avez un"
                             >
+
                         </div>
 
                     </div>
 
+
                     <div class="section">
 
                         <div class="section-title">
-                            <h3>Photo professionnelle</h3>
-                            <span class="required-label">*</span>
+
+                            <h3>
+                                Photo professionnelle
+                            </h3>
+
+                            <span class="required-label">
+                                *
+                            </span>
+
                         </div>
+
 
                         <p class="section-description">
                             Cette photo sera utilisée pour la création de votre badge.
                         </p>
 
-                        <div class="upload-area" id="uploadArea">
+
+                        <div
+                            class="upload-area"
+                            id="uploadArea"
+                        >
 
                             <input
                                 type="file"
                                 id="photo"
-                                name="photo"
                                 accept="image/jpeg,image/png,image/jpg"
                                 hidden
                                 required
                             >
 
-                            <div class="upload-content" id="uploadContent">
-                                <div class="upload-icon">+</div>
-                                <h4>Ajouter votre photo</h4>
-                                <p>JPG, JPEG ou PNG — Maximum 5 MB</p>
-                                <button type="button" id="choosePhoto">
+
+                            <div
+                                class="upload-content"
+                                id="uploadContent"
+                            >
+
+                                <div class="upload-icon">
+                                    +
+                                </div>
+
+                                <h4>
+                                    Ajouter votre photo
+                                </h4>
+
+                                <p>
+                                    JPG, JPEG ou PNG — Maximum 5 MB
+                                </p>
+
+                                <button
+                                    type="button"
+                                    id="choosePhoto"
+                                >
                                     Choisir une photo
                                 </button>
+
                             </div>
 
-                            <div class="preview-container" id="previewContainer">
-                                <img id="photoPreview" src="" alt="Aperçu de la photo">
-                                <button type="button" id="removePhoto">
+
+                            <div
+                                class="preview-container"
+                                id="previewContainer"
+                            >
+
+                                <img
+                                    id="photoPreview"
+                                    src=""
+                                    alt="Aperçu de la photo"
+                                >
+
+                                <button
+                                    type="button"
+                                    id="removePhoto"
+                                >
                                     Supprimer la photo
                                 </button>
+
                             </div>
 
                         </div>
 
-                        <small class="error" id="photoError"></small>
+
+                        <small
+                            class="error"
+                            id="photoError"
+                        ></small>
 
                     </div>
+
 
                     <div class="section">
 
                         <div class="section-title">
-                            <h3>Sexe</h3>
-                            <span class="required-label">*</span>
+
+                            <h3>
+                                Sexe
+                            </h3>
+
+                            <span class="required-label">
+                                *
+                            </span>
+
                         </div>
+
 
                         <div class="choice-grid">
 
                             <label class="choice-card">
+
                                 <input
                                     type="radio"
                                     name="gender"
                                     value="Femme"
                                     required
                                 >
+
                                 <span class="choice-content">
-                                    <strong>Femme</strong>
-                                    <small>Sélectionner</small>
+
+                                    <strong>
+                                        Femme
+                                    </strong>
+
+                                    <small>
+                                        Sélectionner
+                                    </small>
+
                                 </span>
+
                             </label>
 
+
                             <label class="choice-card">
+
                                 <input
                                     type="radio"
                                     name="gender"
                                     value="Homme"
                                     required
                                 >
+
                                 <span class="choice-content">
-                                    <strong>Homme</strong>
-                                    <small>Sélectionner</small>
+
+                                    <strong>
+                                        Homme
+                                    </strong>
+
+                                    <small>
+                                        Sélectionner
+                                    </small>
+
                                 </span>
+
                             </label>
 
                         </div>
 
-                        <small class="error" id="genderError"></small>
+
+                        <small
+                            class="error"
+                            id="genderError"
+                        ></small>
 
                     </div>
+
 
                     <div class="section">
 
                         <div class="section-title">
-                            <h3>Statut du paiement</h3>
-                            <span class="required-label">*</span>
+
+                            <h3>
+                                Statut du paiement
+                            </h3>
+
+                            <span class="required-label">
+                                *
+                            </span>
+
                         </div>
+
 
                         <div class="choice-grid">
 
                             <label class="choice-card">
+
                                 <input
                                     type="radio"
                                     name="payment"
                                     value="J'ai déjà payé"
                                     required
                                 >
+
                                 <span class="choice-content">
-                                    <strong>J'ai déjà payé</strong>
-                                    <small>Paiement effectué</small>
+
+                                    <strong>
+                                        J'ai déjà payé
+                                    </strong>
+
+                                    <small>
+                                        Paiement effectué
+                                    </small>
+
                                 </span>
+
                             </label>
 
+
                             <label class="choice-card">
+
                                 <input
                                     type="radio"
                                     name="payment"
                                     value="Je n'ai pas encore payé"
                                     required
                                 >
+
                                 <span class="choice-content">
-                                    <strong>Je n'ai pas encore payé</strong>
-                                    <small>Paiement non effectué</small>
+
+                                    <strong>
+                                        Je n'ai pas encore payé
+                                    </strong>
+
+                                    <small>
+                                        Paiement non effectué
+                                    </small>
+
                                 </span>
+
                             </label>
 
                         </div>
 
-                        <small class="error" id="paymentError"></small>
+
+                        <small
+                            class="error"
+                            id="paymentError"
+                        ></small>
 
                     </div>
 
+
                     <div class="notice">
+
                         <div class="notice-line"></div>
 
                         <div>
-                            <strong>Important</strong>
+
+                            <strong>
+                                Important
+                            </strong>
+
                             <p>
                                 Après l'envoi du formulaire, vous devrez envoyer
                                 votre photo professionnelle directement sur
                                 WhatsApp afin que nous puissions préparer votre badge.
                             </p>
+
                         </div>
+
                     </div>
 
-                    <button type="submit" class="submit-btn">
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
                         Envoyer mon inscription
                     </button>
 
@@ -283,8 +1236,13 @@
 
             </section>
 
+
             <section class="contact-box">
-                <h3>Besoin d'aide ?</h3>
+
+                <h3>
+                    Besoin d'aide ?
+                </h3>
+
                 <p>
                     Contactez-nous directement sur WhatsApp pour toute question
                     concernant votre inscription.
@@ -298,35 +1256,59 @@
                 >
                     Contacter sur WhatsApp
                 </a>
+
             </section>
 
         </div>
+
     </main>
 
+
     <footer class="footer">
+
         <div class="container">
-            <p>© 2026 Akademi Dizay. Tous droits réservés.</p>
+
+            <p>
+                © 2026 Akademi Dizay. Tous droits réservés.
+            </p>
+
         </div>
+
     </footer>
 
-    <div class="modal" id="successModal">
+
+    <div
+        class="modal"
+        id="successModal"
+    >
+
         <div class="modal-content">
 
-            <button class="close-modal" id="closeModal" type="button">
+            <button
+                class="close-modal"
+                id="closeModal"
+                type="button"
+            >
                 ×
             </button>
+
 
             <div class="success-icon">
                 ✓
             </div>
 
-            <h2>Inscription préparée</h2>
+
+            <h2>
+                Inscription préparée
+            </h2>
+
 
             <p>
                 Vos informations sont prêtes à être envoyées sur WhatsApp.
                 Après l'envoi, n'oubliez pas d'envoyer votre photo professionnelle
                 dans la conversation.
             </p>
+
 
             <a
                 href="#"
@@ -339,9 +1321,613 @@
             </a>
 
         </div>
+
     </div>
 
-    <script src="script.js"></script>
+
+    <script>
+
+        const form =
+            document.getElementById("registrationForm");
+
+        const photoInput =
+            document.getElementById("photo");
+
+        const choosePhoto =
+            document.getElementById("choosePhoto");
+
+        const uploadContent =
+            document.getElementById("uploadContent");
+
+        const previewContainer =
+            document.getElementById("previewContainer");
+
+        const photoPreview =
+            document.getElementById("photoPreview");
+
+        const removePhoto =
+            document.getElementById("removePhoto");
+
+        const successModal =
+            document.getElementById("successModal");
+
+        const closeModal =
+            document.getElementById("closeModal");
+
+        const whatsappLink =
+            document.getElementById("whatsappLink");
+
+
+        const WHATSAPP_NUMBER =
+            "50940052773";
+
+
+        /* PHOTO */
+
+        choosePhoto.addEventListener(
+            "click",
+            function () {
+
+                photoInput.click();
+
+            }
+        );
+
+
+        photoInput.addEventListener(
+            "change",
+            function () {
+
+                const file =
+                    photoInput.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                const allowedTypes = [
+                    "image/jpeg",
+                    "image/jpg",
+                    "image/png"
+                ];
+
+
+                const maxSize =
+                    5 * 1024 * 1024;
+
+
+                if (!allowedTypes.includes(file.type)) {
+
+                    showError(
+                        "photoError",
+                        "Veuillez sélectionner une image JPG, JPEG ou PNG."
+                    );
+
+                    photoInput.value = "";
+
+                    return;
+                }
+
+
+                if (file.size > maxSize) {
+
+                    showError(
+                        "photoError",
+                        "La photo ne doit pas dépasser 5 MB."
+                    );
+
+                    photoInput.value = "";
+
+                    return;
+                }
+
+
+                clearError("photoError");
+
+
+                const reader =
+                    new FileReader();
+
+
+                reader.onload =
+                    function (event) {
+
+                        photoPreview.src =
+                            event.target.result;
+
+                        uploadContent.style.display =
+                            "none";
+
+                        previewContainer.classList.add(
+                            "active"
+                        );
+
+                    };
+
+
+                reader.readAsDataURL(file);
+
+            }
+        );
+
+
+        /* REMOVE PHOTO */
+
+        removePhoto.addEventListener(
+            "click",
+            function () {
+
+                photoInput.value = "";
+
+                photoPreview.src = "";
+
+                previewContainer.classList.remove(
+                    "active"
+                );
+
+                uploadContent.style.display =
+                    "block";
+
+                clearError("photoError");
+
+            }
+        );
+
+
+        /* FORM */
+
+        form.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                clearAllErrors();
+
+
+                const fullName =
+                    document
+                        .getElementById("fullName")
+                        .value
+                        .trim();
+
+
+                const phone =
+                    document
+                        .getElementById("phone")
+                        .value
+                        .trim();
+
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+
+                const natcashNumber =
+                    document
+                        .getElementById("natcashNumber")
+                        .value
+                        .trim();
+
+
+                const natcashName =
+                    document
+                        .getElementById("natcashName")
+                        .value
+                        .trim();
+
+
+                const referral =
+                    document
+                        .getElementById("referral")
+                        .value
+                        .trim();
+
+
+                const genderElement =
+                    document.querySelector(
+                        'input[name="gender"]:checked'
+                    );
+
+
+                const paymentElement =
+                    document.querySelector(
+                        'input[name="payment"]:checked'
+                    );
+
+
+                const photo =
+                    photoInput.files[0];
+
+
+                let isValid = true;
+
+
+                /* NAME */
+
+                if (fullName.length < 3) {
+
+                    showError(
+                        "fullNameError",
+                        "Veuillez entrer votre nom complet."
+                    );
+
+                    markInputError("fullName");
+
+                    isValid = false;
+
+                }
+
+
+                /* PHONE */
+
+                const phoneClean =
+                    phone.replace(/\D/g, "");
+
+
+                if (phoneClean.length < 8) {
+
+                    showError(
+                        "phoneError",
+                        "Veuillez entrer un numéro de téléphone valide."
+                    );
+
+                    markInputError("phone");
+
+                    isValid = false;
+
+                }
+
+
+                /* EMAIL */
+
+                const emailRegex =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+                if (!emailRegex.test(email)) {
+
+                    showError(
+                        "emailError",
+                        "Veuillez entrer une adresse e-mail valide."
+                    );
+
+                    markInputError("email");
+
+                    isValid = false;
+
+                }
+
+
+                /* NATCASH */
+
+                const natcashClean =
+                    natcashNumber.replace(/\D/g, "");
+
+
+                if (natcashClean.length < 8) {
+
+                    showError(
+                        "natcashNumberError",
+                        "Veuillez entrer un numéro NatCash valide."
+                    );
+
+                    markInputError(
+                        "natcashNumber"
+                    );
+
+                    isValid = false;
+
+                }
+
+
+                /* NATCASH NAME */
+
+                if (natcashName.length < 2) {
+
+                    showError(
+                        "natcashNameError",
+                        "Veuillez entrer le nom utilisé sur NatCash."
+                    );
+
+                    markInputError(
+                        "natcashName"
+                    );
+
+                    isValid = false;
+
+                }
+
+
+                /* PHOTO */
+
+                if (!photo) {
+
+                    showError(
+                        "photoError",
+                        "Veuillez ajouter votre photo professionnelle."
+                    );
+
+                    isValid = false;
+
+                }
+
+
+                /* GENDER */
+
+                if (!genderElement) {
+
+                    showError(
+                        "genderError",
+                        "Veuillez sélectionner votre sexe."
+                    );
+
+                    isValid = false;
+
+                }
+
+
+                /* PAYMENT */
+
+                if (!paymentElement) {
+
+                    showError(
+                        "paymentError",
+                        "Veuillez sélectionner votre statut de paiement."
+                    );
+
+                    isValid = false;
+
+                }
+
+
+                if (!isValid) {
+
+                    const firstError =
+                        document.querySelector(
+                            ".error:not(:empty)"
+                        );
+
+
+                    if (firstError) {
+
+                        firstError.scrollIntoView({
+                            behavior: "smooth",
+                            block: "center"
+                        });
+
+                    }
+
+                    return;
+
+                }
+
+
+                /* VALUES */
+
+                const gender =
+                    genderElement.value;
+
+
+                const payment =
+                    paymentElement.value;
+
+
+                const referralValue =
+                    referral.length > 0
+                        ? referral
+                        : "Non renseigné";
+
+
+                /* WHATSAPP MESSAGE */
+
+                const message = `
+INSCRIPTION - AKADEMI DIZAY
+
+Nom complet : ${fullName}
+
+Numéro de téléphone : ${phone}
+
+Adresse e-mail : ${email}
+
+Numéro NatCash : ${natcashNumber}
+
+Nom sur NatCash : ${natcashName}
+
+Sexe : ${gender}
+
+Statut du paiement : ${payment}
+
+Code agent / parrainage : ${referralValue}
+
+Photo professionnelle : À envoyer directement sur WhatsApp.
+
+Je viens de remplir le formulaire d'inscription. Je vais également envoyer ma photo professionnelle dans cette conversation pour la création de mon badge.
+                `.trim();
+
+
+                const encodedMessage =
+                    encodeURIComponent(message);
+
+
+                const whatsappURL =
+                    "https://wa.me/" +
+                    WHATSAPP_NUMBER +
+                    "?text=" +
+                    encodedMessage;
+
+
+                whatsappLink.href =
+                    whatsappURL;
+
+
+                successModal.classList.add(
+                    "active"
+                );
+
+
+                setTimeout(
+                    function () {
+
+                        window.open(
+                            whatsappURL,
+                            "_blank",
+                            "noopener,noreferrer"
+                        );
+
+                    },
+                    700
+                );
+
+            }
+        );
+
+
+        /* MODAL */
+
+        closeModal.addEventListener(
+            "click",
+            function () {
+
+                successModal.classList.remove(
+                    "active"
+                );
+
+            }
+        );
+
+
+        successModal.addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target === successModal
+                ) {
+
+                    successModal.classList.remove(
+                        "active"
+                    );
+
+                }
+
+            }
+        );
+
+
+        /* ERRORS */
+
+        function showError(id, message) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+
+                element.textContent =
+                    message;
+
+            }
+
+        }
+
+
+        function clearError(id) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+
+                element.textContent = "";
+
+            }
+
+        }
+
+
+        function markInputError(id) {
+
+            const input =
+                document.getElementById(id);
+
+            if (input) {
+
+                input.classList.add(
+                    "input-error"
+                );
+
+            }
+
+        }
+
+
+        function clearAllErrors() {
+
+            const errors =
+                document.querySelectorAll(
+                    ".error"
+                );
+
+
+            errors.forEach(
+                function (error) {
+
+                    error.textContent = "";
+
+                }
+            );
+
+
+            const inputs =
+                document.querySelectorAll(
+                    "input"
+                );
+
+
+            inputs.forEach(
+                function (input) {
+
+                    input.classList.remove(
+                        "input-error"
+                    );
+
+                }
+            );
+
+        }
+
+
+        /* CLEAR INPUT ERRORS */
+
+        const textInputs =
+            document.querySelectorAll(
+                'input[type="text"], input[type="tel"], input[type="email"]'
+            );
+
+
+        textInputs.forEach(
+            function (input) {
+
+                input.addEventListener(
+                    "input",
+                    function () {
+
+                        input.classList.remove(
+                            "input-error"
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
