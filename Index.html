@@ -1,98 +1,206 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <title>Remove Background Pro</title>
-  <style>
-    body {
-      font-family: Arial;
-      text-align: center;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-    }
+Create a modern, professional and fully responsive registration website for "Akademi Dizay".
 
-    .box {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 15px;
-      max-width: 400px;
-      margin: auto;
-    }
+TECHNOLOGY:
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- No frameworks required
+- Mobile-first responsive design
+- Clean and well-organized code
+- The website must be ready to deploy on GitHub Pages
 
-    input {
-      margin: 10px;
-    }
+BRAND COLORS:
+- Main color: White (#FFFFFF)
+- Secondary color: Blue (#0066FF)
+- Accent color: Yellow (#FFD400)
+- Text: Dark navy/black
 
-    img {
-      max-width: 100%;
-      margin-top: 20px;
-      border-radius: 10px;
-    }
+WEBSITE PURPOSE:
+The website is an online registration form for people who want to become members/students of Akademi Dizay.
 
-    button {
-      padding: 10px 20px;
-      border: none;
-      background: #22c55e;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-    }
+HEADER:
+- Display "AKADEMI DIZAY" as the main logo/text.
+- Add a small subtitle: "Formulaire d'inscription"
+- Clean white header with blue and yellow accents.
+- Add a professional blue/yellow decorative element.
 
-  </style>
-</head>
-<body>
+MAIN REGISTRATION FORM:
 
-  <h1>Retire Background AI</h1>
+Create a beautiful card containing the following fields:
 
-  <div class="box">
-    <input type="file" id="upload" />
-    <br>
-    <button onclick="removeBg()">Retire Background</button>
+1. Nom complet
+   - Required
+   - Text input
+   - Placeholder: "Entrez votre nom complet"
 
-    <div id="result"></div>
-  </div>
+2. Numéro de téléphone
+   - Required
+   - Phone input
+   - Placeholder: "Entrez votre numéro de téléphone"
 
-<script>
-async function removeBg() {
-  const fileInput = document.getElementById("upload");
-  const file = fileInput.files[0];
+3. Adresse e-mail
+   - Required
+   - Email input
+   - Placeholder: "Entrez votre adresse e-mail"
 
-  if (!file) {
-    alert("Chwazi yon foto!");
-    return;
-  }
+4. Numéro NatCash
+   - Required
+   - Phone input
+   - Placeholder: "Numéro utilisé pour le paiement"
 
-  const formData = new FormData();
-  formData.append("image_file", file);
-  formData.append("size", "auto");
+5. Nom sur le compte NatCash
+   - Required
+   - Text input
+   - Placeholder: "Nom indiqué sur NatCash"
 
-  const response = await fetch("https://api.remove.bg/v1.0/removebg", {
-    method: "POST",
-    headers: {
-      "X-Api-Key": "METE_API_KEY_OU_ISIT"
-    },
-    body: formData
-  });
+6. Photo professionnelle
+   - Required
+   - File upload
+   - Accept JPG, JPEG and PNG
+   - Maximum file size: 5MB
+   - Show a preview of the uploaded photo.
+   - Add text explaining:
+     "Cette photo sera utilisée pour la création de votre badge."
 
-  if (!response.ok) {
-    alert("Gen yon erè!");
-    return;
-  }
+GENDER:
+Create two selectable cards/buttons:
+- Femme
+- Homme
 
-  const blob = await response.blob();
-  const url = URL.createObjectURL(blob);
+The user must select one.
+Make the selected option visually highlighted in blue.
 
-  document.getElementById("result").innerHTML = `
-    <h3>Rezilta:</h3>
-    <img src="${url}" />
-    <br><br>
-    <a href="${url}" download="result.png">
-      <button>Telechaje</button>
-    </a>
-  `;
-}
-</script>
+PAYMENT STATUS:
+Create two selectable cards:
+-  J'ai déjà payé
+-  Je n'ai pas encore payé
 
-</body>
-</html>
+The user must select one.
+
+REFERRAL CODE:
+Add an optional field:
+"Code agent / parrainage (facultatif)"
+
+This field must NOT be required.
+
+WHATSAPP:
+All registration information must be prepared to be sent to WhatsApp number:
+40052773
+
+When the user clicks:
+"ENVOYER MON INSCRIPTION"
+
+JavaScript should validate all required fields.
+
+If everything is valid:
+- Create a WhatsApp message containing all registration information.
+- Open WhatsApp using the WhatsApp link with the message encoded.
+- Use this WhatsApp number: 50940052773
+
+IMPORTANT:
+The uploaded photo cannot be directly attached to WhatsApp through a normal wa.me link.
+Therefore:
+- Show the uploaded photo preview.
+- Before sending, display a clear message:
+  "Veuillez également envoyer votre photo professionnelle directement sur WhatsApp après avoir envoyé le formulaire."
+- The WhatsApp message should remind the person:
+  " N'oubliez pas d'envoyer votre photo professionnelle sur WhatsApp."
+
+WHATSAPP MESSAGE FORMAT:
+
+ INSCRIPTION — AKADEMI DIZAY
+
+👤 Nom complet: [name]
+
+ Téléphone: [phone]
+
+ Email: [email]
+
+ Numéro NatCash: [natcash number]
+
+👤 Nom sur NatCash: [natcash name]
+
+ Sexe: [gender]
+
+ Paiement: [payment status]
+
+ Code agent: [referral code or "Non renseigné"]
+
+ Photo: À envoyer directement sur WhatsApp
+
+After generating the WhatsApp link, open it in a new tab.
+
+SUCCESS MESSAGE:
+After clicking the button, show a professional confirmation box:
+
+"Inscription préparée avec succès !"
+
+"Votre inscription va être envoyée sur WhatsApp. N'oubliez pas d'envoyer votre photo professionnelle directement dans la conversation WhatsApp."
+
+Add a WhatsApp icon/button:
+"CONTINUER SUR WHATSAPP"
+
+DESIGN:
+- Premium but simple.
+- White background.
+- Blue buttons.
+- Yellow accents.
+- Rounded cards.
+- Soft shadows.
+- Modern typography.
+- Large clean form.
+- Excellent spacing.
+- Professional icons.
+- Smooth hover animations.
+- Smooth transitions.
+- Mobile responsive.
+- On mobile, the form should use one column.
+- On desktop, use a two-column layout where appropriate.
+- Keep the submit button large and easy to press.
+
+HEADER TEXT:
+
+AKADEMI DIZAY
+"Développez vos compétences. Créez. Évoluez."
+
+FORM TITLE:
+
+"Formulaire d'inscription"
+
+FORM DESCRIPTION:
+
+"Remplissez correctement les informations ci-dessous pour finaliser votre inscription."
+
+BOTTOM SECTION:
+
+"Une question ? Contactez-nous sur WhatsApp"
+
+WhatsApp:
++509 4005-2773
+
+Add a floating WhatsApp button in the bottom-right corner.
+
+FOOTER:
+
+© 2026 Akademi Dizay — Tous droits réservés.
+
+SECURITY / UX:
+- Validate email format.
+- Validate required fields.
+- Prevent form submission if required fields are empty.
+- Validate phone number.
+- Validate image type and size.
+- Display friendly error messages.
+- Do not expose private information anywhere else on the page.
+- Do not store registration information in localStorage.
+- Make the code clean and easy to modify later.
+
+FILES TO CREATE:
+
+index.html
+style.css
+script.js
+
+Make sure all three files work together correctly.
+
+The final result should look like a real professional registration website for a design academy, not like a basic HTML form.
