@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Akademi Dizay — Baba Design</title>
+<style>:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#fff;--gray:#666;--light:#f7f7f7;--grad-ro:#12d6f5;--grad-oy:#12d6f5;--grad-yo:#12d6f5}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;overflow-x:hidden}
+.wrap{width:min(1180px,92%);margin:auto;position:relative;z-index:1}
+.top{padding:38px 0 26px}
+.brand{display:inline-flex;align-items:center;gap:8px;font-size:12px}
+.top h1{font-size:clamp(32px,5vw,58px);line-height:1.02;margin:12px 0 8px}
+.top p{margin:0;font-size:15px}
+.card{padding:26px;margin-bottom:20px;position:relative;overflow:hidden}
+@keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+input, select, textarea, button{width:100%;padding:13px 14px}
+textarea{min-height:120px;resize:vertical}
+button{cursor:pointer}
+.login{max-width:500px;margin:38px auto}
+.error{color:var(--red);min-height:22px;margin-top:8px}
+.success{color:#16864b;min-height:22px;margin-top:8px}
+.hidden{display:none}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stat{padding:20px;position:relative;overflow:hidden}
+.stat b{font-size:32px;display:block;margin-top:4px}
+.stat span{display:block;font-size:11px}
+.tabs{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:18px}
+.tab{width:auto;padding:10px 15px}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.wide{grid-column:1/-1}
+.notice{padding:14px}
+.hint{font-size:12px;line-height:1.6}
+.list{display:grid;gap:10px;margin-top:16px}
+.person{padding:15px}
+.checks{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.checks label{padding:10px 12px;border:1px solid #ddd;border-radius:11px;background:var(--white);color:var(--dark)}
+.checks input{width:auto}
+.foot{text-align:center;padding:22px;font-size:12px}
+.finance-panel{margin-top:22px;padding:20px}
+.finance-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.finance-head h3{margin:5px 0 0}
+.finance-kicker{font-size:10px}
+.finance-form{display:grid;grid-template-columns:1.2fr 1fr .8fr 1.2fr;gap:10px}
+.finance-form button{margin:0}
+.finance-list{display:grid;gap:12px;margin-top:16px}
+.finance-agent{padding:16px}
+.finance-agent-top{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.finance-agent-name{font-size:17px}
+.finance-agent-code{font-size:12px}
+.money-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}
+.money-stat{padding:12px}
+.money-stat span{display:block;font-size:10px}
+.money-stat b{display:block;margin-top:3px}
+.money-actions{display:flex;gap:8px;flex-wrap:wrap}
+.money-actions button{width:auto;margin:0;padding:9px 12px}
+.money-history{margin-top:10px;padding-top:10px}
+.money-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;font-size:13px}
+#photoPreview{display:block;max-width:180px;width:auto!important;height:auto!important;max-height:220px;object-fit:contain!important;padding:4px}
+@media(max-width:900px){.finance-form{grid-template-columns:1fr 1fr}}
+@media(max-width:750px){.grid, .formgrid{grid-template-columns:1fr}
+.wide{grid-column:auto}}
+@media(max-width:600px){.finance-form, .money-stats{grid-template-columns:1fr}
+.money-row{flex-direction:column}
+.card{padding:20px}}
+.badge-count{display:inline-flex;min-width:24px;height:24px;align-items:center;justify-content:center;border-radius:99px;background:#12d6f5;color:#fff;font-size:12px;margin-left:6px}
+.submission-card{padding:16px;margin:12px 0}
+.submission-meta{font-size:13px;line-height:1.7;margin:8px 0}
+.admin-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.admin-actions button{width:auto;padding:10px 13px;margin:0}
+.btn-danger{background:#333}
+.preview-work{display:block;max-width:100%;max-height:360px;object-fit:contain;margin-top:10px}
+.status-pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#fff1e8;color:#a63d00;font-size:12px}
+@media(max-width:600px){.admin-actions button{width:100%}}
+:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#101012;--white:#fff;--gray:#777780;--light:#f5f5f7}
+.wrap{width:min(1200px,94%);padding-bottom:28px}
+.top{margin:24px 0 22px;padding:28px 30px;overflow:hidden;position:relative}
+.brand{position:relative;z-index:1}
+.top h1{position:relative;z-index:1;font-size:clamp(34px,5vw,56px);margin:17px 0 9px}
+.top p{position:relative;z-index:1;font-size:14px}
+.card{padding:clamp(18px,2.5vw,28px)}
+.grid{gap:16px;margin:0 0 20px}
+.stat{padding:22px}
+.stat b{font-size:clamp(28px,4vw,36px)}
+h2{font-size:clamp(22px,3vw,29px);margin-top:0}
+h3{font-size:19px}
+.tabs{position:sticky;top:8px;z-index:5;padding:8px;margin:18px 0}
+.tab{padding:11px 15px}
+.badge-count{background:#12d6f5;box-shadow:0 4px 10px rgba(239,38,0,.2)}
+.foot{padding:28px 12px}
+@keyframes heroIn{from{opacity:0;transform:translateY(12px) scale(.99)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes statIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:700px){.wrap{width:94%}
+.top{margin:12px 0 16px;padding:24px 20px}
+.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.stat{padding:15px 11px}
+.stat b{font-size:27px}
+.stat span{font-size:9px}
+.tabs{position:relative;top:auto;gap:6px;padding:7px}
+.tab{font-size:12px;padding:10px}
+.card{padding:18px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr}
+.stat{padding:18px}
+.stat span{font-size:10px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+.admin-actions button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.lesson-student-row{cursor:pointer}</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+</head><body class="dz"><svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="4.3"/><path d="M3.8 20.6C3.8 16.2 7.5 14 12 14s8.2 2.2 8.2 6.6c0 .8-.6 1.4-1.4 1.4H5.2c-.8 0-1.4-.6-1.4-1.4z"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M12 3 1.5 8.5 12 14l8.5-4.45V16h2V8.5z"/><path d="M5.5 12.8V17c0 1.7 3 3.5 6.5 3.5s6.5-1.8 6.5-3.5v-4.2L12 16.2z"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5.5h18A1.5 1.5 0 0 1 22.5 7v.4L12 13.6 1.5 7.4V7A1.5 1.5 0 0 1 3 5.5z"/><path d="M1.5 9.7 12 16l10.5-6.3V17a1.5 1.5 0 0 1-1.5 1.5H3A1.5 1.5 0 0 1 1.5 17z"/></symbol><symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 3C6.5 3 2.5 6.6 2.5 11.2c0 2.2 1 4.2 2.6 5.6-.1 1.3-.6 2.6-1.6 3.7a.6.6 0 0 0 .6 1c2.2-.2 4-.9 5.2-1.7.9.2 1.8.3 2.7.3 5.5 0 9.5-3.6 9.5-8.2S17.5 3 12 3z"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M10.5 4h3v6.5H20v3h-6.5V20h-3v-6.5H4v-3h6.5z"/></symbol><symbol id="i-media" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6.500 3h11A2.500 2.500 0 0 1 20 5.500v13a2.500 2.500 0 0 1-2.500 2.500h-11A2.500 2.500 0 0 1 4 18.500v-13A2.500 2.500 0 0 1 6.500 3zM10 8.500v7l6-3.500z"/></symbol><symbol id="i-task" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm5.200 14.500 5-5.300-1.300-1.200-3.700 3.900-1.600-1.600-1.300 1.300z"/></symbol><symbol id="i-info" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2zm0-8h-2V7h2z"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0z"/></symbol><symbol id="i-unlock" viewBox="0 0 24 24"><path d="M18 10h-1V7a5 5 0 0 0-9.700-1.700l1.900.6A3 3 0 0 1 15 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2z"/></symbol><symbol id="i-file" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M6 2h8l6 6v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2zm7 1.500V9h5.500z"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-1.200 14.200L6.500 12l1.400-1.400 2.900 2.800 5.300-5.300 1.400 1.400z"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 22a2.500 2.500 0 0 0 2.400-2h-4.800A2.500 2.500 0 0 0 12 22zm7-6.500V11a7 7 0 0 0-5.500-6.800V3.500a1.500 1.500 0 0 0-3 0v.7A7 7 0 0 0 5 11v4.500L3.500 17v1h17v-1z"/></symbol></defs></svg><div class="wrap">
+<header class="top"><div class="brand">AKADEMI DIZAY</div><h1>BABA DESIGN</h1><p>GS</p><div class="greet"><div class="greet-t">Bonjour, <span class="gradient-text">Admin</span></div><div class="greet-s">Voici l’aperçu de votre académie.</div></div><button type="button" id="dzBell" class="bell" data-t="pedagogie" aria-label="Nouveaux devoirs"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg></button></header>
+<section id="adminLogin" class="card login"><h2>Connexion</h2><input id="adminCode" type="password" placeholder="Code" autocomplete="off"><button onclick="adminLogin()">Ouvrir</button><div id="adminError" class="error"></div><p class="hint">Baba Design</p></section>
+<main id="dashboard" class="hidden"><div class="grid"><div class="hero-copy"><small>Vue d’ensemble</small><strong>Votre académie en direct</strong><div class="hero-bar"><i></i></div></div><div class="glass-chip"><span class="chip-t"><i class="live"></i>Activité en direct</span><svg viewBox="0 0 120 44" aria-hidden="true"><path class="spark" pathLength="220" d="M2 36C14 34 18 22 30 26S48 40 60 30 78 8 90 16 108 6 118 3"/></svg></div><div class="stat"><span><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg> Agents</span><b id="agentCount">0</b></div><div class="stat"><span><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg> Élèves</span><b id="studentCount">0</b></div><div class="stat"><span><svg class="ic" aria-hidden="true"><use href="#i-media"/></svg> Formations</span><b id="courseCount">0</b></div><div class="hero-actions"><button type="button" class="hact" data-go="agents"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span>Créer un agent</button><button type="button" class="hact" data-go="students"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg></span>Créer un élève</button><button type="button" class="hact" data-go="newCourse"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg></span>Nouvelle formation</button><button type="button" class="hact" data-go="messages"><span class="ico"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>Envoyer un message</button></div><i class="ice ice-1"></i><i class="ice ice-2"></i><i class="ice ice-3"></i></div>
+<div class="notice" id="adminSubmissionNotice">Notifications : connectez-vous pour consulter les nouveaux devoirs remis par les élèves.</div>
+<aside class="tabs"><div class="side-inner"><div class="side-user"><span class="avatar-sil"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span><div><strong>Baba Design</strong><small class="js-date"></small><small class="js-time"></small></div></div><nav class="side-nav"><button class="tab active" data-t="agents" onclick="showTab('agents',this)"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Agents</span> </button><button class="tab" data-t="students" onclick="showTab('students',this)"><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg><span>Élèves</span> </button><button class="tab" data-t="messages" onclick="showTab('messages',this)"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg><span>Messages</span> </button><button class="tab" data-t="chatTab" onclick="showTab('chatTab',this)"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span>Chat privé</span> <span id="akcBadge" class="badge-count">0</span></button><button class="tab" data-t="newCourse" onclick="showTab('newCourse',this);renderCourseAdminList()"><svg class="ic" aria-hidden="true"><use href="#i-plus"/></svg><span>Nouvelle formation</span> </button><button class="tab" data-t="courseMedia" onclick="showTab('courseMedia',this);loadCourseMedia()"><svg class="ic" aria-hidden="true"><use href="#i-media"/></svg><span>Vidéos &amp; photos</span> </button><button class="tab" data-t="pedagogie" onclick="showTab('pedagogie',this);loadPedagogy()"><svg class="ic" aria-hidden="true"><use href="#i-task"/></svg><span>Devoirs &amp; certificats</span> <span id="submissionBadge" class="badge-count">0</span></button><button class="tab" data-t="professors" onclick="showTab('professors',this);loadProfessorAdmin()"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg><span>Professeurs</span></button><button class="tab" data-t="guide" onclick="showTab('guide',this)"><svg class="ic" aria-hidden="true"><use href="#i-info"/></svg><span>Guide</span> </button></nav><div class="side-card"><span class="avatar-sil sm"><svg class="ic" aria-hidden="true"><use href="#i-user"/></svg></span><small>Espace administrateur</small><b>Connexion active</b><div class="hero-bar"><i></i></div><i class="ice ice-4"></i></div></div></aside>
+<section id="agents" class="card"><h2>Créer un agent</h2><div class="formgrid"><input id="aCode" placeholder="Code personnel, ex: AD003"><input id="aName" placeholder="Nom complet"><input id="aPhone" placeholder="Téléphone"><input id="aRole" placeholder="Fonction" value="Agent"><div class="wide"><label for="aPhoto"><b>Photo de l’agent</b></label><input id="aPhoto" type="file" accept="image/jpeg,image/png,image/webp" style="margin-top:8px"><div class="hint" style="margin-top:6px">Choisissez directement la photo depuis votre ordinateur. Elle sera envoyée dans Supabase automatiquement.</div><img id="photoPreview" class="hidden" style="margin-top:10px;width:110px;height:110px;object-fit:cover;border-radius:16px;border:1px solid #e7e0b9"></div><button class="wide" onclick="createAgent()">Créer l'agent directement</button></div><div id="agentResult" class="notice" style="margin-top:14px">L'agent sera enregistré dans Supabase immédiatement.</div>
+<div class="finance-panel">
+  <div class="finance-head"><div><span class="finance-kicker">GESTION FINANCIÈRE</span><h3>Revenus & retraits des agents</h3></div></div>
+  <div class="finance-form">
+    <select id="moneyAgent"></select>
+    <select id="moneyType">
+      <option value="revenu">Ajouter aux revenus</option>
+      <option value="retrait">Retirer / enregistrer un retrait</option>
+    </select>
+    <input id="moneyAmount" type="number" min="0.01" step="0.01" placeholder="Montant en HTG">
+    <input id="moneyDescription" placeholder="Description (optionnelle)">
+    <button onclick="saveAgentMoney()">Enregistrer le mouvement</button>
+  </div>
+  <div id="moneyResult" class="notice" style="margin-top:12px"></div>
+  <div id="financeAgents" class="finance-list"></div>
+</div>
+<div id="agentList" class="list"></div></section>
+<section id="students" class="card hidden"><h2>Créer un élève et attribuer ses formations</h2><div class="formgrid"><input id="sCode" placeholder="Code personnel, ex: EL003"><input id="sName" placeholder="Nom complet"><input id="sPhone" placeholder="Téléphone"><div class="wide"><b>Formations accessibles</b><div id="courseChecks" class="checks"></div></div><button class="wide" onclick="createStudent()">Créer l'élève et enregistrer ses accès</button></div><div id="studentResult" class="notice" style="margin-top:14px">Attribuez les formations à chaque élève. Les vidéos et photos se gèrent dans « Vidéos & photos ».</div><div id="studentList" class="list"></div></section>
+<section id="messages" class="card hidden"><h2>Message de l'administration</h2><select id="audience"><option value="all">Tout le monde</option><option value="agents">Agents seulement</option><option value="students">Élèves seulement</option></select><textarea id="message" placeholder="Écrivez votre message..."></textarea><button onclick="sendMessage()">Envoyer le message</button><div id="messageResult" class="notice" style="margin-top:14px"></div><div id="messageList" class="list"></div></section>
+
+<section id="chatTab" class="card hidden"><h2>Chat privé</h2><div class="notice">Écrivez en privé aux agents et aux élèves. ✓ envoyé · ✓✓ reçu · <span style="color:#1d9bf0;font-weight:800">✓✓</span> lu. Le point vert indique qui est en ligne.</div><div id="adminChatMount" style="margin-top:14px"></div></section>
+<section id="newCourse" class="card hidden"><h2>Créer une nouvelle formation</h2><div class="notice">Créez la formation ici, puis ajoutez ses vidéos et photos dans « Vidéos &amp; photos ». Donnez ensuite l’accès aux élèves dans l’onglet « Élèves ».</div><div class="formgrid" style="margin-top:14px"><input id="ncName" placeholder="Nom de la formation, ex : Photoshop Avancé"><input id="ncSlug" placeholder="Identifiant, ex : photoshop-avance"><button class="wide" onclick="createCourse()">Créer la formation</button></div><div id="ncResult" class="notice" style="margin-top:12px"></div><div id="ncList" class="list"></div></section>
+<section id="courseMedia" class="card hidden">
+<h2>Bibliothèque des cours</h2>
+<div class="notice">Ajoutez les vidéos Google Drive et les photos à télécharger. Les vidéos verrouillées ne s’affichent pas aux élèves. Les photos sont enregistrées dans la base sous forme de données intégrées, sans bucket supplémentaire.</div>
+<div class="formgrid" style="margin-top:16px">
+<input id="lessonId" type="hidden">
+<select id="lessonCourse" class="wide"><option value="">Choisir une formation</option></select>
+<input id="lessonTitle" placeholder="Titre de la leçon">
+<select id="lessonType"><option value="video">Vidéo</option><option value="photo">Photo téléchargeable</option><option value="pdf">Document PDF</option></select>
+<input id="lessonOrder" type="number" min="0" value="0" placeholder="Ordre d’affichage">
+<input id="lessonDriveUrl" class="wide" placeholder="Lien Google Drive (vidéo) ou URL image">
+<input id="lessonDriveId" class="wide" placeholder="ID Google Drive (facultatif)">
+<label class="wide">Ou téléverser directement une vidéo depuis votre ordinateur
+  <input id="lessonVideoFile" type="file" accept="video/mp4,video/webm,video/ogg,video/quicktime">
+  <span class="hint">Vidéo directe : maximum 100 Mo. Pour les vidéos plus lourdes, utilisez Google Drive.</span>
+</label>
+<textarea id="lessonDescription" class="wide" placeholder="Description (facultative)"></textarea>
+<label class="wide" id="lessonPhotoLabel">Ou choisir une photo à intégrer à la leçon <input id="lessonPhotoFile" type="file" accept="image/*"></label>
+<label class="wide" id="lessonPdfLabel">Ou téléverser un PDF (cours, support, exercices) <input id="lessonPdfFile" type="file" accept="application/pdf"><span class="hint">PDF : maximum 50 Mo. Vous pouvez aussi coller un lien PDF dans le champ ci-dessus.</span></label>
+<div class="checks wide"><label><input id="lessonPublished" type="checkbox" checked> Publiée</label><label><input id="lessonLocked" type="checkbox"> Verrouillée</label></div>
+<div class="wide" style="padding:14px;border:1px solid #eee;border-radius:14px;background:#fff8f5">
+  <b>Verrouillage individuel et en groupe</b>
+  <p class="hint">Cochez plusieurs élèves, puis utilisez les boutons sur une leçon. Vous verrez aussi les noms des élèves verrouillés et pourrez rétablir l’accès individuellement.</p>
+  <div class="admin-actions" style="margin:10px 0">
+    <button type="button" class="btn-light" onclick="selectLessonStudents(true)">Sélectionner tous les élèves</button>
+    <button type="button" class="btn-light" onclick="selectLessonStudents(false)">Tout désélectionner</button>
+    <button type="button" class="btn-light" onclick="loadCourseMedia()">Actualiser les accès</button>
+  </div>
+  <input id="lessonStudentSearch" type="search" placeholder="Rechercher un élève par nom ou code" oninput="filterLessonStudents()">
+  <div id="lessonStudentChecks" class="list" style="max-height:260px;overflow:auto;margin-top:10px"><span class="hint">Connectez-vous pour afficher les élèves.</span></div>
+  <div id="lessonLockResult" class="notice" style="margin-top:10px">Sélectionnez les élèves que vous voulez verrouiller.</div>
+</div>
+<button onclick="saveCourseMedia()">Enregistrer la leçon</button><button class="btn-light" onclick="resetCourseMediaForm()">Nouveau / vider le formulaire</button>
+</div><div id="lessonResult" class="notice" style="margin-top:12px"></div><div id="lessonList" class="list">Connectez-vous pour charger les leçons.</div>
+</section>
+<section id="pedagogie" class="card hidden">
+<h2>Suivi pédagogique</h2><div class="notice">Gestion des devoirs, notes, descriptions de formation, échéances et certificats individuels.</div>
+<div class="tabs"><button class="tab active" onclick="showPedagogyPanel('devoirs',this)">Devoirs reçus <span id="pendingBadge" class="badge-count">0</span></button><button class="tab" onclick="showPedagogyPanel('formations',this)">Descriptions & échéances</button><button class="tab" onclick="showPedagogyPanel('certificats',this)">Certificats</button></div>
+<div id="pedagogy-devoirs"><button class="btn-light" onclick="loadPedagogy()">Actualiser les devoirs</button><div id="submissionList" class="list">Chargement…</div></div>
+<div id="pedagogy-formations" class="hidden"><h3>Description de formation</h3><div class="formgrid"><select id="pedCourse" class="wide"><option value="">Choisir une formation</option></select><textarea id="pedDescription" class="wide" placeholder="Description et objectifs de la formation"></textarea><button class="wide" onclick="saveCourseDescription()">Enregistrer la description</button></div><h3>Programmer un devoir</h3><div class="formgrid"><input id="deadlineStudentCode" placeholder="Code élève (vide = tous)"><select id="deadlineCourse"><option value="">Formation concernée</option></select><input id="deadlineTitle" class="wide" placeholder="Titre du devoir"><textarea id="deadlineInstructions" class="wide" placeholder="Description et consignes"></textarea><label>Date limite<input id="deadlineDate" type="date"></label><label>Heure limite<input id="deadlineTime" type="time"></label><button class="wide" onclick="saveAssignment()">Enregistrer le devoir</button></div><div id="pedagogyResult" class="notice"></div><div id="assignmentList" class="list"></div></div>
+<div id="pedagogy-certificats" class="hidden"><h3>Envoyer un certificat</h3><div class="formgrid"><input id="certStudentCode" placeholder="Code personnel de l'élève"><select id="certCourse"><option value="">Formation</option></select><input id="certTitle" placeholder="Titre du certificat"><input id="certFile" type="file" accept="image/*,application/pdf"><button class="wide" onclick="sendCertificate()">Envoyer le certificat</button></div><div id="certificateResult" class="notice"></div><h3>Certificats envoyés</h3><div id="certificateList" class="list"></div></div>
+</section>
+<section id="guide" class="card hidden"><h2>Guide</h2><div class="notice"><b>Agents :</b> ils utilisent uniquement leur code dans <b>agents.html</b>.<br><br><b>Élèves :</b> ils utilisent uniquement leur code dans <b>cours.html</b> et ne voient que les formations que vous leur attribuez.<br><br><b>Messages :</b> vous pouvez les envoyer aux agents, aux élèves ou à tout le monde.<br><br><b>Important :</b> aucune donnée agent/élève n'est plus à copier dans le HTML. Tout est enregistré dans Supabase.</div></section>
+<section id="professors" class="card hidden">
+<h2>Gestion des professeurs</h2>
+<div class="notice">Créez un professeur et attribuez-lui un code privé. Il utilisera ce code sur la page de connexion de l’Académie pour accéder à son espace.</div>
+<div class="formgrid"><div><label>Nom complet</label><input id="newProfName" placeholder="Nom du professeur"></div><div><label>Téléphone</label><input id="newProfPhone" placeholder="Téléphone"></div><div><label>Code privé du professeur</label><input id="newProfCode" placeholder="Créer un code privé"></div></div>
+<button type="button" onclick="createProfessorFromAdmin()">Créer le professeur</button><div id="profCreateResult" class="success"></div>
+<h3>Professeurs enregistrés</h3><div id="adminProfessorList" class="list"></div>
+<h3>Ventes et répartition des revenus</h3><div class="grid"><div class="stat"><span>Total des ventes</span><b id="adminProfTotal">0 HTG</b></div><div class="stat"><span>Part de l’Académie (25 %)</span><b id="adminProfAcademy">0 HTG</b></div><div class="stat"><span>Part du professeur (75 %)</span><b id="adminProfShare">0 HTG</b></div></div><div id="adminProfSales" class="list"></div>
+<h3>Demandes de certificats</h3><div id="adminProfRequests" class="list"></div>
+<div class="formgrid"><div><label>ID du professeur à contacter</label><input id="adminReplyProfId" type="number"></div><div><label>Message destiné au professeur</label><input id="adminReplyProfText" placeholder="Rédigez votre réponse"></div></div><button type="button" onclick="adminReplyProfessor()">Envoyer la réponse</button><div id="adminProfReplyResult" class="success"></div>
+</section>
+</main><div class="foot">Akademi Dizay • Baba Design</div></div>
+<main id="profDashboard" class="wrap hidden"><header><div><div class="brand">AKADEMI DIZAY · ESPACE PROFESSEUR</div><h1>Bienvenue, <span id="pr_profName">Professeur</span></h1><div class="muted">Gérez vos formations, élèves, devoirs, certificats et revenus.</div></div><button class="secondary" onclick="professorLogout()">Déconnexion</button></header>
+<div class="grid"><div class="stat"><small>Mes élèves</small><b id="pr_studentCount">0</b></div><div class="stat"><small>Formations de l’Académie</small><b id="pr_courseCount">0</b></div><div class="stat"><small>Ventes enregistrées</small><b id="pr_salesCount">0</b></div><div class="stat"><small>Mes revenus (75 %)</small><b id="pr_myRevenue">0 HTG</b></div></div>
+<nav class="tabs"><button class="active" onclick="profTab('home',this)">Vue d’ensemble</button><button onclick="profTab('courses',this)">Formations</button><button onclick="profTab('students',this)">Élèves</button><button onclick="profTab('homework',this)">Devoirs</button><button onclick="profTab('certs',this)">Certificats</button><button onclick="profTab('finance',this)">Finances</button><button onclick="profTab('messages',this)">Administration</button></nav>
+<section id="pr_home" class="panel content"><h2>Activité et finances</h2><p class="muted">L’Académie reçoit les paiements. Pour chaque vente enregistrée : 25 % reviennent à l’Académie et 75 % au professeur.</p><div class="chart" id="pr_homeChart"></div><div id="pr_recentSales" class="list"></div></section>
+<section id="pr_courses" class="panel content hidden"><h2>Catalogue des formations de l’Académie</h2><p class="hint">Toutes les formations existantes apparaissent ici afin d’éviter les doublons.</p><div id="pr_courseList" class="list"></div><h2 style="margin-top:25px">Créer une nouvelle formation</h2><div class="formgrid"><div class="field"><label>Nom de la formation</label><input id="pr_courseName" placeholder="Ex. : Montage vidéo IA"></div><div class="field"><label>Identifiant unique (sans espaces)</label><input id="pr_courseSlug" placeholder="montage-video-ia"></div><div class="field"><label>Prix de la formation (HTG)</label><input id="pr_coursePrice" type="number" min="1" value="250"></div><div class="field"><label>Description</label><input id="pr_courseDesc" placeholder="Ce que l’élève apprendra"></div></div><button onclick="createCourse()">Créer la formation</button><p id="pr_courseMsg" class="hint"></p>
+<h2 style="margin-top:24px">Ajouter une leçon à votre formation</h2><div class="formgrid">
+<div class="field"><label>Votre formation</label><select id="pr_lessonCourse"></select></div>
+<div class="field"><label>Titre de la leçon</label><input id="pr_lessonTitle"></div>
+<div class="field"><label>Type de contenu</label><select id="pr_lessonType"><option value="video">Vidéo</option><option value="pdf">PDF</option><option value="text">Texte</option><option value="link">Lien</option></select></div>
+<div class="field"><label>Lien du média / fichier</label><input id="pr_lessonUrl" placeholder="https://..."></div>
+<div class="field wide"><label>Description / instructions</label><textarea id="pr_lessonDesc"></textarea></div>
+</div><button onclick="profCreateLesson()">Ajouter la leçon</button><p id="pr_lessonMsg" class="hint"></p></section>
+<section id="pr_students" class="panel content hidden"><h2>Créer un élève et attribuer un accès</h2><div class="formgrid"><div class="field"><label>Nom de l’élève</label><input id="pr_studentName"></div><div class="field"><label>Code privé de l’élève</label><input id="pr_studentCode"></div><div class="field"><label>Téléphone</label><input id="pr_studentPhone"></div><div class="field"><label>Formation à attribuer</label><select id="pr_studentCourse"></select></div></div><button onclick="profCreateStudent()">Créer l’élève</button><p id="pr_studentMsg" class="hint"></p><h2 style="margin-top:24px">Mes élèves</h2><div id="pr_studentList" class="list"></div></section>
+<section id="pr_homework" class="panel content hidden"><h2>Attribuer un devoir</h2><div class="formgrid"><div class="field"><label>Élève</label><select id="pr_hwStudent"></select></div><div class="field"><label>Formation</label><select id="pr_hwCourse"></select></div><div class="field"><label>Titre du devoir</label><input id="pr_hwTitle"></div><div class="field"><label>Date limite</label><input id="pr_hwDate" type="date"></div><div class="field wide"><label>Instructions</label><textarea id="pr_hwDesc"></textarea></div></div><button onclick="profHomework()">Envoyer le devoir</button><p id="pr_hwMsg" class="hint"></p><h2 style="margin-top:24px">Travaux remis par les élèves</h2><p class="hint">Les travaux remis par les élèves apparaîtront ici lorsque le mécanisme de dépôt sera relié à ce projet.</p><div id="pr_submissionList" class="list"></div></section>
+<section id="pr_certs" class="panel content hidden"><h2>Demander un certificat pour un élève</h2><div class="formgrid"><div class="field"><label>Élève</label><select id="pr_certStudent"></select></div><div class="field"><label>Formation</label><select id="pr_certCourse"></select></div><div class="field wide"><label>Note à l’administrateur</label><textarea id="pr_certNote" placeholder="L’élève a terminé la formation…"></textarea></div></div><button onclick="profCertificate()">Envoyer la demande</button><p id="pr_certMsg" class="hint"></p><div id="pr_certList" class="list"></div></section>
+<section id="pr_finance" class="panel content hidden"><h2>Tableau financier</h2><div class="grid"><div class="stat"><small>Total des ventes</small><b id="pr_totalSales">0 HTG</b></div><div class="stat"><small>Part de l’Académie (25 %)</small><b id="pr_academyShare">0 HTG</b></div><div class="stat"><small>Part du professeur (75 %)</small><b id="pr_profShare">0 HTG</b></div><div class="stat"><small>Inscription d’un agent</small><b>150 HTG / agent</b></div></div><p class="hint">La part du professeur constitue un montant dû par l’Académie. Cette page n’effectue aucun transfert automatique.</p><div id="pr_salesList" class="list"></div><h2 style="margin-top:24px">Enregistrer une vente déjà payée à l’Académie</h2><div class="formgrid"><div class="field"><label>Code de l’élève</label><input id="pr_saleStudent"></div><div class="field"><label>Formation</label><select id="pr_saleCourse"></select></div><div class="field"><label>Montant reçu (HTG)</label><input id="pr_salePrice" type="number" min="1"></div></div><button onclick="profAddSale()">Enregistrer la vente</button><p id="pr_saleMsg" class="hint"></p></section>
+<section id="pr_messages" class="panel content hidden"><h2>Communication privée avec l’administration</h2><div id="pr_messageList" class="list"></div><div class="field"><label>Votre message</label><textarea id="pr_adminMessage" placeholder="Écrivez votre message à l’administrateur…"></textarea></div><button onclick="sendMessage()">Envoyer le message</button><p id="pr_messageMsg" class="hint"></p></section></main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_URL = "https://tlkuxqojbjpycgsaqone.supabase.co";
+const SUPABASE_KEY = "sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
+<script>
+let ADMIN_CODE_SESSION="";
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+async function adminLogin(){
+ const code=document.getElementById("adminCode").value.trim(),e=document.getElementById("adminError");
+ if(!code){e.textContent="Veuillez saisir votre code.";return}
+ let a;
+ try { a=await db.rpc("admin_login",{p_code:code}); } catch(err) { a={error:err}; }
+ if(!a.error&&(a.data?.ok===true||a.data?.success===true)){
+  ADMIN_CODE_SESSION=code;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.remove("hidden");document.getElementById("profDashboard").classList.add("hidden");document.body.classList.add("is-admin");
+  __akStart({db,role:"admin",name:"Admin",code,mount:document.getElementById("adminChatMount"),badge:"akcBadge",peers:()=>[...(DATA.agents||[]).map(x=>({role:"agent",code:x.code,name:x.nom||x.name||x.code})),...(DATA.students||[]).map(x=>({role:"student",code:x.code,name:x.nom||x.name||x.code}))]});
+  await loadData();return;
+ }
+ let p;
+ try { p=await db.rpc("professor_login",{p_code:code}); } catch(err) { p={error:err}; }
+ if(!p.error&&(p.data?.ok===true||p.data?.success===true)){PROFESSOR_CODE=code;document.getElementById("adminLogin").classList.add("hidden");document.getElementById("dashboard").classList.add("hidden");document.getElementById("profDashboard").classList.remove("hidden");try{await refreshProfessor();}catch(err){document.getElementById("profDashboard").classList.add("hidden");document.getElementById("adminLogin").classList.remove("hidden");e.textContent="Connexion réussie, mais chargement du compte impossible : "+err.message;}return}
+ e.textContent=p.error?.message||"Code non reconnu. Veuillez vérifier votre code.";
+}
+function showTab(id,btn){document.querySelectorAll("#dashboard>section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
+let DATA={agents:[],students:[],courses:[],messages:[]};
+async function loadData(){const {data,error}=await db.rpc("get_admin_data",{p_code:ADMIN_CODE_SESSION});if(error||!data?.ok){alert(data?.message||error?.message||"Impossible de charger les données.");return}DATA=data;document.getElementById("agentCount").textContent=DATA.agents.length;document.getElementById("studentCount").textContent=DATA.students.length;document.getElementById("courseCount").textContent=DATA.courses.length;renderCourses();renderLists();await loadAgentMoney();await refreshSubmissionNotifications();if(window.PED_NOTIF_TIMER)clearInterval(window.PED_NOTIF_TIMER);window.PED_NOTIF_TIMER=setInterval(refreshSubmissionNotifications,30000)}
+function renderCourses(){document.getElementById("courseChecks").innerHTML=DATA.courses.map(c=>`<label><input type="checkbox" value="${esc(c.slug)}"> ${esc(c.nom)}</label>`).join("")}
+function renderLists(){document.getElementById("agentList").innerHTML="<h3>Agents enregistrés</h3>"+DATA.agents.map(a=>`<div class="person"><b>${esc(a.nom)}</b> — ${esc(a.code)}<br>${esc(a.telephone)} · ${esc(a.fonction)}</div>`).join("")||"<div class=hint>Aucun agent.</div>";document.getElementById("studentList").innerHTML="<h3>Élèves enregistrés</h3>"+DATA.students.map(s=>`<div class="person"><b>${esc(s.nom)}</b> — ${esc(s.code)}<br>${esc(s.telephone)}<br><small>${s.courses.map(c=>esc(c.nom)).join(" · ")||"Aucun cours"}</small></div>`).join("")||"<div class=hint>Aucun élève.</div>";document.getElementById("messageList").innerHTML="<h3>Messages envoyés</h3>"+DATA.messages.map(m=>`<div class="person"><b>${esc(m.audience)}</b> · ${new Date(m.created_at).toLocaleString()}<br>${esc(m.message)}</div>`).join("")||"<div class=hint>Aucun message.</div>"}
+async function createAgent(){
+ const code=document.getElementById("aCode").value.trim(),nom=document.getElementById("aName").value.trim(),tel=document.getElementById("aPhone").value.trim(),role=document.getElementById("aRole").value.trim()||"Agent";
+ const file=document.getElementById("aPhoto").files[0]; const box=document.getElementById("agentResult");
+ if(!ADMIN_CODE_SESSION){box.textContent="Session administrateur expirée. Reconnectez-vous.";return;}
+ if(!code||!nom){box.textContent="Remplissez au minimum le code et le nom.";return}
+ if(!file){box.textContent="Choisissez une photo de l'agent.";return}
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){box.textContent="Format accepté : JPG, PNG ou WEBP.";return}
+ if(file.size>5*1024*1024){box.textContent="La photo doit faire 5 Mo maximum.";return}
+ box.textContent="Envoi de la photo...";
+ const ext=(file.name.split(".").pop()||"jpg").toLowerCase().replace(/[^a-z0-9]/g,"");
+ const path=`agents/${Date.now()}-${crypto.randomUUID()}.${ext||"jpg"}`;
+ const upload=await db.storage.from("agent-photos").upload(path,file,{contentType:file.type,upsert:false});
+ if(upload.error){box.textContent="Impossible d'envoyer la photo : "+upload.error.message;return}
+ const photoUrl=db.storage.from("agent-photos").getPublicUrl(path).data.publicUrl;
+ box.textContent="Création de l'agent...";
+ const {data,error}=await db.rpc("create_agent",{p_admin_code:ADMIN_CODE_SESSION,p_code:code,p_nom:nom,p_telephone:tel,p_fonction:role,p_photo:photoUrl});
+ box.textContent=data?.message||(data?.ok?"Agent créé avec succès.":error?.message||"Erreur.");
+ if(!data?.ok){await db.storage.from("agent-photos").remove([path]);return}
+ ["aCode","aName","aPhone"].forEach(id=>document.getElementById(id).value="");document.getElementById("aPhoto").value="";document.getElementById("photoPreview").classList.add("hidden");await loadData()
+}
+async function createStudent(){
+  const slugs = [...document.querySelectorAll("#courseChecks input:checked")]
+    .map(x => x.value);
+
+  const code = document.getElementById("sCode").value.trim();
+  const nom = document.getElementById("sName").value.trim();
+  const tel = document.getElementById("sPhone").value.trim();
+  const box = document.getElementById("studentResult");
+
+  if (!code || !nom) {
+    box.textContent = "Code et nom obligatoires.";
+    return;
+  }
+
+  box.textContent = "Création de l'élève...";
+
+  const { data, error } = await db.rpc("create_student", {
+    p_admin_code: ADMIN_CODE_SESSION,
+    p_code: code,
+    p_nom: nom,
+    p_telephone: tel,
+    p_course_slugs: slugs
+  });
+
+  console.log("create_student data:", data);
+  console.log("create_student error:", error);
+
+  if (error) {
+    box.textContent = "Erreur Supabase : " + error.message;
+    return;
+  }
+
+  if (!data?.ok) {
+    box.textContent = data?.message || "La création a échoué.";
+    return;
+  }
+
+  box.textContent = "Élève créé avec succès.";
+
+  ["sCode","sName","sPhone"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+
+  document.querySelectorAll("#courseChecks input")
+    .forEach(x => x.checked = false);
+
+  await loadData();
+}
+
+let MONEY_DATA={};
+
+function moneyHTG(v){return Number(v||0).toLocaleString("fr-FR",{minimumFractionDigits:2,maximumFractionDigits:2})+" HTG"}
+
+async function loadAgentMoney(){
+  const select=document.getElementById("moneyAgent");
+  if(!select)return;
+  select.innerHTML=DATA.agents.length
+    ? DATA.agents.map(a=>`<option value="${esc(a.code)}">${esc(a.nom)} — ${esc(a.code)}</option>`).join("")
+    : `<option value="">Aucun agent</option>`;
+
+  const results=await Promise.all(DATA.agents.map(async a=>{
+    const {data,error}=await db.rpc("get_agent_money",{p_agent_code:a.code});
+    return [a.code, error||!data?.ok ? {ok:false,total_revenu:0,total_retrait:0,solde:0,history:[]} : data];
+  }));
+  MONEY_DATA=Object.fromEntries(results);
+  renderFinanceAgents();
+}
+
+function renderFinanceAgents(){
+  const box=document.getElementById("financeAgents");
+  if(!box)return;
+  if(!DATA.agents.length){box.innerHTML='<div class="hint">Aucun agent.</div>';return}
+  box.innerHTML=DATA.agents.map(a=>{
+    const m=MONEY_DATA[a.code]||{total_revenu:0,total_retrait:0,solde:0,history:[]};
+    const hist=(m.history||[]).slice(0,8).map(x=>{
+      const sign=x.movement_type==="retrait"?"−":"+";
+      const cls=x.movement_type==="retrait"?"money-retrait":"money-revenu";
+      return `<div class="money-row"><span>${new Date(x.created_at).toLocaleString("fr-FR")} · ${esc(x.description||x.movement_type)}</span><span class="${cls}">${sign}${moneyHTG(x.amount)} <button class="btn-light" style="display:inline-block;width:auto;padding:5px 8px;margin:0 0 0 5px" onclick="editAgentMoney(${x.id},'${esc(a.code)}',${Number(x.amount)},'${esc(x.movement_type)}',${JSON.stringify(x.description||"")})">Modifier</button> <button class="btn-light" style="display:inline-block;width:auto;padding:5px 8px;margin:0" onclick="deleteAgentMoney(${x.id})">Supprimer</button></span></div>`;
+    }).join("");
+    return `<div class="finance-agent">
+      <div class="finance-agent-top"><div><div class="finance-agent-name">${esc(a.nom)}</div><div class="finance-agent-code">${esc(a.code)} · ${esc(a.telephone||"")}</div></div></div>
+      <div class="money-stats">
+        <div class="money-stat"><span>Revenus</span><b>${moneyHTG(m.total_revenu)}</b></div>
+        <div class="money-stat"><span>Retraits</span><b>${moneyHTG(m.total_retrait)}</b></div>
+        <div class="money-stat"><span>Solde</span><b>${moneyHTG(m.solde)}</b></div>
+      </div>
+      <div class="money-history">${hist||'<div class="hint">Aucun mouvement enregistré.</div>'}</div>
+    </div>`;
+  }).join("");
+}
+
+async function saveAgentMoney(){
+  const code=document.getElementById("moneyAgent").value;
+  const type=document.getElementById("moneyType").value;
+  const amount=Number(document.getElementById("moneyAmount").value);
+  const description=document.getElementById("moneyDescription").value.trim();
+  const box=document.getElementById("moneyResult");
+  if(!code){box.textContent="Sélectionnez un agent.";return}
+  if(!amount||amount<=0){box.textContent="Entrez un montant valide.";return}
+  const fn=type==="retrait"?"withdraw_agent_money":"add_agent_money";
+  const {data,error}=await db.rpc(fn,{p_admin_code:ADMIN_CODE_SESSION,p_agent_code:code,p_amount:amount,p_description:description});
+  box.textContent=data?.message||error?.message||"Erreur.";
+  if(data?.ok){document.getElementById("moneyAmount").value="";document.getElementById("moneyDescription").value="";await loadAgentMoney()}
+}
+
+async function editAgentMoney(id,agentCode,amount,type,description){
+  const newAmount=prompt("Nouveau montant HTG :",amount);
+  if(newAmount===null)return;
+  const parsed=Number(newAmount);
+  if(!parsed||parsed<=0){alert("Montant invalide.");return}
+  const newType=prompt("Type : revenu ou retrait",type);
+  if(newType===null)return;
+  const normalized=newType.trim().toLowerCase();
+  if(!["revenu","retrait"].includes(normalized)){alert("Type invalide.");return}
+  const newDescription=prompt("Description :",description);
+  if(newDescription===null)return;
+  const {data,error}=await db.rpc("update_agent_money",{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_amount:parsed,p_movement_type:normalized,p_description:newDescription});
+  alert(data?.message||error?.message||"Erreur.");
+  if(data?.ok)await loadAgentMoney();
+}
+
+async function deleteAgentMoney(id){
+  if(!confirm("Supprimer ce mouvement ?"))return;
+  const {data,error}=await db.rpc("delete_agent_money",{p_admin_code:ADMIN_CODE_SESSION,p_id:id});
+  alert(data?.message||error?.message||"Erreur.");
+  if(data?.ok)await loadAgentMoney();
+}
+
+async function sendMessage(){const message=document.getElementById("message").value.trim(),audience=document.getElementById("audience").value;const {data,error}=await db.rpc("send_message",{p_admin_code:ADMIN_CODE_SESSION,p_message:message,p_audience:audience});const box=document.getElementById("messageResult");box.textContent=data?.message||(data?.ok?"Message envoyé.":"Erreur.");if(data?.ok){document.getElementById("message").value="";await loadData()}}
+document.getElementById("aPhoto").addEventListener("change",e=>{const f=e.target.files[0],img=document.getElementById("photoPreview");if(!f){img.classList.add("hidden");return}img.src=URL.createObjectURL(f);img.classList.remove("hidden")});
+document.getElementById("adminCode").addEventListener("keydown",e=>{if(e.key==="Enter")adminLogin()});
+
+async function refreshSubmissionNotifications(){
+ if(!ADMIN_CODE_SESSION)return;
+ const {count,error}=await db.from('student_submissions').select('id',{count:'exact',head:true}).eq('admin_seen',false);
+ const note=document.getElementById('adminSubmissionNotice'),badge=document.getElementById('submissionBadge'),pending=document.getElementById('pendingBadge');
+ if(error){if(note)note.textContent='Notifications de devoirs indisponibles tant que la configuration SQL n’est pas installée.';return}
+ const n=count||0;if(badge)badge.textContent=n;if(pending)pending.textContent=n;
+ if(note)note.innerHTML=n?`<b>${n} nouveau(x) devoir(s) reçu(s).</b> <button style="width:auto;margin:0 0 0 8px;padding:8px 12px" onclick="document.querySelector('.tab[onclick*=pedagogie]').click()">Consulter les devoirs</button>`:'Aucun nouveau devoir non consulté.';
+}
+/* Module pédagogique : requiert les tables et buckets Supabase décrits dans le SQL associé. */
+function showPedagogyPanel(n,b){document.querySelectorAll('#pedagogie .tabs .tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');['devoirs','formations','certificats'].forEach(k=>document.getElementById('pedagogy-'+k).classList.toggle('hidden',k!==n))}
+function studentByCode(c){return (DATA.students||[]).find(x=>String(x.code)===String(c))}
+function courseBySlug(c){return (DATA.courses||[]).find(x=>String(x.slug)===String(c))}
+function fillPedCourses(){const opts='<option value="">Choisir une formation</option>'+(DATA.courses||[]).map(c=>`<option value="${esc(c.slug)}">${esc(c.nom)}</option>`).join('');['pedCourse','deadlineCourse','certCourse'].forEach(id=>{let e=document.getElementById(id),v=e.value;e.innerHTML=opts;if(v)e.value=v})}
+async function loadPedagogy(){if(!ADMIN_CODE_SESSION)return;fillPedCourses();const box=document.getElementById('submissionList');const [sr,ar,cr,dr]=await Promise.all([db.from('student_submissions').select('*').order('submitted_at',{ascending:false}).limit(200),db.from('student_assignments').select('*').order('created_at',{ascending:false}).limit(200),db.from('student_certificates').select('*').order('created_at',{ascending:false}).limit(200),db.from('course_descriptions').select('*')]);const bad=[sr,ar,cr,dr].find(x=>x.error);if(bad){box.innerHTML='<div class="notice">Tables ou autorisations Supabase manquantes : '+esc(bad.error.message)+'. Installez le SQL de migration correspondant.</div>';return}const subs=sr.data||[],ass=ar.data||[],certs=cr.data||[],descs=dr.data||[];let n=subs.filter(x=>!x.admin_seen).length;document.getElementById('submissionBadge').textContent=n;document.getElementById('pendingBadge').textContent=n;box.innerHTML=subs.length?subs.map(x=>{let st=studentByCode(x.student_code),co=courseBySlug(x.course_slug),u=x.file_url||'',im=/\.(png|jpe?g|webp|gif)(\?|$)/i.test(u);return `<article class="submission-card"><span class="status-pill">${esc(x.status||'À corriger')}</span> ${!x.admin_seen?'<span class="status-pill">Nouveau</span>':''}<h3>${esc(x.title||'Devoir remis')}</h3><div class="submission-meta"><b>Élève :</b> ${esc(st?.nom||x.student_name||x.student_code)} (${esc(x.student_code)})<br><b>Formation :</b> ${esc(co?.nom||x.course_slug||'')}<br><b>Envoyé le :</b> ${esc(x.submitted_at?new Date(x.submitted_at).toLocaleString('fr-FR'):'Inconnu')}<br><b>Note :</b> ${x.grade==null?'Non noté':esc(x.grade+'/100')}</div>${x.description?esc(x.description):''}<br>${u?`<a href="${esc(u)}" target="_blank" rel="noopener">Ouvrir le devoir</a>${im?`<img class="preview-work" src="${esc(u)}" alt="Devoir">`:''}`:'Aucun fichier'}<div class="formgrid"><input id="grade-${esc(x.id)}" type="number" min="0" max="100" placeholder="Note sur 100" value="${x.grade??''}"><input id="feedback-${esc(x.id)}" placeholder="Commentaire" value="${esc(x.feedback||'')}"></div><div class="admin-actions"><button onclick="gradeSubmission('${esc(x.id)}')">Enregistrer la note</button><button class="btn-light" onclick="markSubmissionSeen('${esc(x.id)}')">Marquer comme lu</button><button class="btn-danger" onclick="deleteSubmission('${esc(x.id)}','${esc(x.storage_path||'')}')">Supprimer devoir + fichier</button></div></article>`}).join(''):'<div class="empty">Aucun devoir reçu.</div>';document.getElementById('assignmentList').innerHTML=ass.map(a=>`<div class="person"><b>${esc(a.title)}</b><br>${esc(a.student_code||'Tous les élèves')} · ${esc(a.course_slug)}<br>${esc(a.description)}<br>Échéance : ${esc(a.due_date)} ${esc(a.due_time)}<button class="btn-danger" onclick="deleteAssignment('${esc(a.id)}')">Supprimer</button></div>`).join('')||'<div class="hint">Aucun devoir programmé.</div>';document.getElementById('certificateList').innerHTML=certs.map(c=>`<div class="person"><b>${esc(c.title)}</b><br>Élève : ${esc(studentByCode(c.student_code)?.nom||c.student_code)} · ${esc(c.course_slug)}<br><a href="${esc(c.file_url)}" target="_blank">Ouvrir le certificat</a><button class="btn-danger" onclick="deleteCertificate('${esc(c.id)}','${esc(c.storage_path||'')}')">Supprimer</button></div>`).join('')||'<div class="hint">Aucun certificat.</div>';const slug=document.getElementById('pedCourse').value;document.getElementById('pedDescription').value=descs.find(x=>x.course_slug===slug)?.description||''}
+async function saveCourseDescription(){let course_slug=document.getElementById('pedCourse').value,description=document.getElementById('pedDescription').value.trim(),box=document.getElementById('pedagogyResult');if(!course_slug){box.textContent='Choisissez une formation.';return}let {error}=await db.from('course_descriptions').upsert({course_slug,description,updated_at:new Date().toISOString()},{onConflict:'course_slug'});box.textContent=error?error.message:'Description enregistrée.';if(!error)await loadPedagogy()}
+async function saveAssignment(){let course_slug=document.getElementById('deadlineCourse').value,student_code=document.getElementById('deadlineStudentCode').value.trim(),title=document.getElementById('deadlineTitle').value.trim(),description=document.getElementById('deadlineInstructions').value.trim(),due_date=document.getElementById('deadlineDate').value,due_time=document.getElementById('deadlineTime').value,box=document.getElementById('pedagogyResult');if(!course_slug||!title||!description||!due_date||!due_time){box.textContent='Complétez la formation, le titre, la description, la date et l’heure.';return}let {error}=await db.from('student_assignments').insert({course_slug,student_code:student_code||null,title,description,due_date,due_time});box.textContent=error?error.message:'Devoir programmé.';if(!error)await loadPedagogy()}
+async function gradeSubmission(id){let grade=Number(document.getElementById('grade-'+id).value),feedback=document.getElementById('feedback-'+id).value.trim();if(!Number.isInteger(grade)||grade<0||grade>100){alert('La note doit être comprise entre 0 et 100.');return}let {error}=await db.from('student_submissions').update({grade,feedback,status:'Corrigé',graded_at:new Date().toISOString()}).eq('id',id);if(error){alert(error.message);return}await loadPedagogy()}
+async function markSubmissionSeen(id){let {error}=await db.from('student_submissions').update({admin_seen:true}).eq('id',id);if(error)alert(error.message);else await loadPedagogy()}
+async function deleteSubmission(id,path){if(!confirm('Supprimer définitivement le devoir et son fichier ?'))return;if(path){let r=await db.storage.from('student-work').remove([path]);if(r.error){alert(r.error.message);return}}let {error}=await db.from('student_submissions').delete().eq('id',id);if(error)alert(error.message);else await loadPedagogy()}
+async function deleteAssignment(id){if(!confirm('Supprimer ce devoir programmé ?'))return;let {error}=await db.from('student_assignments').delete().eq('id',id);if(error)alert(error.message);else await loadPedagogy()}
+async function sendCertificate(){let student_code=document.getElementById('certStudentCode').value.trim(),course_slug=document.getElementById('certCourse').value,title=document.getElementById('certTitle').value.trim(),file=document.getElementById('certFile').files[0],box=document.getElementById('certificateResult');if(!student_code||!course_slug||!title||!file){box.textContent='Complétez les champs et choisissez le fichier.';return}if(file.size>10*1024*1024){box.textContent='Fichier limité à 10 Mo.';return}let ext=(file.name.split('.').pop()||'pdf').replace(/[^a-z0-9]/gi,''),path=`${student_code}/${Date.now()}-${crypto.randomUUID()}.${ext}`,up=await db.storage.from('student-certificates').upload(path,file,{contentType:file.type});if(up.error){box.textContent=up.error.message;return}let url=db.storage.from('student-certificates').getPublicUrl(path).data.publicUrl,{error}=await db.from('student_certificates').insert({student_code,course_slug,title,file_url:url,storage_path:path});if(error){await db.storage.from('student-certificates').remove([path]);box.textContent=error.message;return}box.textContent='Certificat envoyé.';await loadPedagogy()}
+async function deleteCertificate(id,path){if(!confirm('Supprimer ce certificat et son fichier ?'))return;if(path){let r=await db.storage.from('student-certificates').remove([path]);if(r.error){alert(r.error.message);return}}let {error}=await db.from('student_certificates').delete().eq('id',id);if(error)alert(error.message);else await loadPedagogy()}
+document.getElementById('pedCourse')?.addEventListener('change',async()=>{let slug=document.getElementById('pedCourse').value;if(!slug)return;let {data,error}=await db.from('course_descriptions').select('description').eq('course_slug',slug).maybeSingle();if(!error)document.getElementById('pedDescription').value=data?.description||''});
+
+function fillLessonCourses(){const el=document.getElementById('lessonCourse');if(!el)return;const old=el.value;el.innerHTML='<option value="">Choisir une formation</option>'+(DATA.courses||[]).map(c=>`<option value="${esc(c.slug)}">${esc(c.nom)}</option>`).join('');if(old)el.value=old}
+function driveEmbedUrl(url,id){let fileId=id||'';const m=String(url||'').match(/drive\.google\.com\/file\/d\/([^/]+)/);if(!fileId&&m)fileId=m[1];if(!fileId){const q=String(url||'').match(/[?&]id=([^&]+)/);if(q)fileId=q[1]}return fileId?`https://drive.google.com/file/d/${encodeURIComponent(fileId)}/preview`:url}
+function selectedLessonStudentCodes(){return [...document.querySelectorAll('#lessonStudentChecks input[data-student-code]:checked')].map(e=>e.dataset.studentCode)}
+function selectLessonStudents(checked){document.querySelectorAll('#lessonStudentChecks input[data-student-code]').forEach(e=>{if(e.closest('.lesson-student-row')?.style.display!=='none')e.checked=checked});updateLessonSelectionButtons()}
+function updateLessonSelectionButtons(){const n=selectedLessonStudentCodes().length;document.querySelectorAll('[data-lesson-bulk-action]').forEach(b=>{b.disabled=!n;b.innerHTML=(b.dataset.lessonBulkAction==='lock'?IC('lock')+' Verrouiller pour les élèves sélectionnés (':IC('unlock')+' Déverrouiller pour les élèves sélectionnés (')+n+')'})}
+function filterLessonStudents(){const q=(document.getElementById('lessonStudentSearch')?.value||'').trim().toLowerCase();document.querySelectorAll('#lessonStudentChecks .lesson-student-row').forEach(row=>{row.style.display=row.dataset.search.includes(q)?'flex':'none'})}
+function renderLessonStudentChecks(){const box=document.getElementById('lessonStudentChecks');if(!box)return;box.innerHTML=(DATA.students||[]).length?DATA.students.map(s=>`<label class="lesson-student-row" data-search="${esc((s.nom+' '+s.code).toLowerCase())}" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid #eee;border-radius:11px;background:#fff"><input type="checkbox" data-student-code="${esc(s.code)}" onchange="updateLessonSelectionButtons()" style="width:auto;flex:0 0 auto"><span><b>${esc(s.nom)}</b><br><small class="hint">Code : ${esc(s.code)}</small></span></label>`).join(''):'<span class="hint">Aucun élève enregistré.</span>';filterLessonStudents()}
+async function loadCourseMedia(){
+ if(!ADMIN_CODE_SESSION)return;
+ fillLessonCourses();
+ const previouslySelected=new Set(selectedLessonStudentCodes());
+ renderLessonStudentChecks();
+ document.querySelectorAll('#lessonStudentChecks input[data-student-code]').forEach(e=>{e.checked=previouslySelected.has(e.dataset.studentCode)});
+ const box=document.getElementById('lessonList');box.innerHTML='Chargement des leçons et des accès…';
+ const {data,error}=await db.rpc('admin_list_course_lessons',{p_admin_code:ADMIN_CODE_SESSION});
+ if(error){box.innerHTML=`<div class="notice">${esc(error.message)}<br>Installez le SQL de migration fourni avec ce fichier.</div>`;return}
+ window.COURSE_MEDIA_ROWS=data||[];
+ const lockResults=await Promise.all((DATA.students||[]).map(async st=>{
+   const r=await db.rpc('admin_list_student_lesson_locks',{p_admin_code:ADMIN_CODE_SESSION,p_student_code:st.code});
+   return {student:st,data:r.data||[],error:r.error};
+ }));
+ const lockMap={};
+ lockResults.forEach(r=>{if(r.error)return;(r.data||[]).filter(x=>x.is_locked).forEach(x=>{const id=String(x.lesson_id);(lockMap[id]||(lockMap[id]=[])).push(r.student)})});
+ window.COURSE_LESSON_LOCK_MAP=lockMap;
+ const studentsSelected=selectedLessonStudentCodes();
+ box.innerHTML=window.COURSE_MEDIA_ROWS.length?window.COURSE_MEDIA_ROWS.map(x=>{
+   const lockedStudents=lockMap[String(x.id)]||[];
+   const lockedNames=lockedStudents.length?lockedStudents.map(st=>`<span class="status-pill" style="display:inline-flex;align-items:center;gap:5px;margin:3px">${esc(st.nom)} · ${esc(st.code)} <button type="button" class="btn-light" style="width:auto;padding:4px 7px;margin-left:2px;font-size:11px" onclick="toggleStudentLessonLock('${esc(x.id)}','${esc(st.code)}',false)">Déverrouiller</button></span>`).join(''):'<span class="hint">Aucun élève verrouillé individuellement.</span>';
+   const selectedCount=studentsSelected.length;
+   return `<article class="person"><div class="finance-head"><b>${esc(x.title)}</b><span class="status-pill">${x.content_type==='video'?'VIDÉO':(x.content_type==='pdf'?'PDF':'PHOTO')} · ${x.is_locked?'VERROUILLÉE POUR TOUS':'OUVERTE'}</span></div><div class="hint">Formation : ${esc((DATA.courses||[]).find(c=>c.slug===x.course_slug)?.nom||x.course_slug)} · Ordre : ${Number(x.sort_order)||0} · ${x.is_published?'Publiée':'Masquée'}</div><p>${esc(x.description||'')}</p>${x.content_type==='photo'?`<img src="${esc(x.media_url)}" class="preview-work" alt="${esc(x.title)}">`:''}${x.content_type==='pdf'?`<a href="${esc(x.media_url)}" target="_blank" rel="noopener">${IC('file')} Ouvrir le PDF</a>`:''}<div style="margin:12px 0;padding:12px;background:#fff8f5;border:1px solid #f0e1d9;border-radius:12px"><b>Élèves verrouillés individuellement (${lockedStudents.length})</b><div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:8px">${lockedNames}</div></div><div class="admin-actions"><button onclick="editCourseMedia('${esc(x.id)}')">Modifier</button><button class="btn-light" onclick="toggleCourseMediaLock('${esc(x.id)}',${!x.is_locked})">${x.is_locked?'Déverrouiller pour tous':'Verrouiller pour tous'}</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="lock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',true)" ${selectedCount?'':'disabled'}>${IC('lock')} Verrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" data-lesson-id="${esc(x.id)}" data-lesson-bulk-action="unlock" onclick="bulkToggleStudentLessonLock('${esc(x.id)}',false)" ${selectedCount?'':'disabled'}>${IC('unlock')} Déverrouiller pour les élèves sélectionnés (${selectedCount})</button><button class="btn-light" onclick="toggleCourseMediaPublish('${esc(x.id)}',${!x.is_published})">${x.is_published?'Masquer':'Publier'}</button><button class="btn-danger" onclick="deleteCourseMedia('${esc(x.id)}')">Supprimer</button></div></article>`
+ }).join(''):'<div class="hint">Aucune leçon pour le moment.</div>';
+ updateLessonSelectionButtons();
+}
+async function toggleStudentLessonLock(id,studentCode,locked){
+ const {data,error}=await db.rpc('admin_set_student_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_lesson_id:id,p_student_code:studentCode,p_locked:locked});
+ if(error||!data?.ok){alert(data?.message||error?.message||'Impossible de modifier cet accès.');return}
+ await loadCourseMedia();
+}
+async function bulkToggleStudentLessonLock(id,locked){
+ const codes=selectedLessonStudentCodes();
+ const result=document.getElementById('lessonLockResult');
+ if(!codes.length){if(result)result.textContent='Cochez au moins un élève avant de continuer.';return}
+ const action=locked?'verrouiller':'déverrouiller';
+ if(!confirm(`Confirmer : ${action} cette leçon pour ${codes.length} élève(s) sélectionné(s) ?`))return;
+ if(result)result.textContent=`Mise à jour des accès pour ${codes.length} élève(s)…`;
+ let ok=0,failed=[];
+ for(const code of codes){
+   const {data,error}=await db.rpc('admin_set_student_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_lesson_id:id,p_student_code:code,p_locked:locked});
+   if(error||!data?.ok)failed.push(code);else ok++;
+ }
+ if(result)result.textContent=`Terminé : ${ok} accès ${locked?'verrouillé(s)':'déverrouillé(s)'}.`+(failed.length?` Échec pour : ${failed.join(', ')}.`:'');
+ await loadCourseMedia();
+ if(failed.length)alert('Certains accès n’ont pas pu être modifiés : '+failed.join(', '));
+}
+function resetCourseMediaForm(){['lessonId','lessonTitle','lessonDriveUrl','lessonDriveId','lessonDescription'].forEach(id=>document.getElementById(id).value='');if(document.getElementById('lessonVideoFile'))document.getElementById('lessonVideoFile').value='';document.getElementById('lessonCourse').value='';document.getElementById('lessonType').value='video';document.getElementById('lessonOrder').value='0';document.getElementById('lessonPublished').checked=true;document.getElementById('lessonLocked').checked=false;document.getElementById('lessonPhotoFile').value='';if(document.getElementById('lessonPdfFile'))document.getElementById('lessonPdfFile').value='';document.getElementById('lessonResult').textContent='';updateLessonTypeUI()}
+function editCourseMedia(id){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;document.getElementById('lessonId').value=x.id;document.getElementById('lessonCourse').value=x.course_slug;document.getElementById('lessonTitle').value=x.title;document.getElementById('lessonType').value=x.content_type;document.getElementById('lessonOrder').value=x.sort_order||0;document.getElementById('lessonDriveUrl').value=x.media_url;document.getElementById('lessonDriveId').value=x.drive_file_id||'';document.getElementById('lessonDescription').value=x.description||'';document.getElementById('lessonPublished').checked=!!x.is_published;document.getElementById('lessonLocked').checked=!!x.is_locked;document.getElementById('lessonResult').textContent='Modification de : '+x.title;updateLessonTypeUI();document.getElementById('courseMedia').scrollIntoView({behavior:'smooth'})}
+async function saveCourseMedia(){
+ const id=document.getElementById('lessonId').value||null,
+ course_slug=document.getElementById('lessonCourse').value,
+ title=document.getElementById('lessonTitle').value.trim(),
+ content_type=document.getElementById('lessonType').value;
+ let media_url=document.getElementById('lessonDriveUrl').value.trim(),
+ drive_file_id=document.getElementById('lessonDriveId').value.trim();
+ const photoFile=document.getElementById('lessonPhotoFile').files[0],
+ videoFile=document.getElementById('lessonVideoFile')?.files[0],
+ pdfFile=document.getElementById('lessonPdfFile')?.files[0],
+ box=document.getElementById('lessonResult');
+ if(!course_slug||!title){box.textContent='Choisissez une formation et indiquez un titre.';return}
+ box.textContent='Préparation du média…';
+ if(content_type==='photo'&&photoFile){
+   if(!photoFile.type.startsWith('image/')){box.textContent='Choisissez un fichier image.';return}
+   if(photoFile.size>2*1024*1024){box.textContent='Image trop grande : maximum 2 Mo.';return}
+   media_url=await new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(photoFile)});
+   drive_file_id='';
+ }else if(content_type==='pdf'&&pdfFile){
+   if(pdfFile.type!=='application/pdf'&&!/\.pdf$/i.test(pdfFile.name)){box.textContent='Choisissez un fichier PDF.';return}
+   if(pdfFile.size>50*1024*1024){box.textContent='PDF trop volumineux : maximum 50 Mo.';return}
+   const safePdf=pdfFile.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const pdfPath=`pdf/${Date.now()}_${safePdf}`;
+   box.textContent='Envoi du PDF vers Supabase…';
+   const upPdf=await db.storage.from('course-media').upload(pdfPath,pdfFile,{upsert:false,contentType:'application/pdf'});
+   if(upPdf.error){box.textContent='Échec de l’envoi du PDF : '+upPdf.error.message+' — exécutez le SQL (bucket course-media).';return}
+   media_url=db.storage.from('course-media').getPublicUrl(pdfPath).data.publicUrl;
+   drive_file_id='';
+ }else if(content_type==='pdf'){
+   if(!media_url&&!drive_file_id){box.textContent='Choisissez un PDF ou collez un lien PDF / Google Drive.';return}
+   if(drive_file_id||/drive\.google\.com/.test(media_url))media_url=driveEmbedUrl(media_url,drive_file_id);
+ }else if(content_type==='video'&&videoFile){
+   if(!videoFile.type.startsWith('video/')){box.textContent='Choisissez un fichier vidéo.';return}
+   if(videoFile.size>100*1024*1024){box.textContent='Vidéo trop volumineuse : maximum 100 Mo. Utilisez Google Drive pour les fichiers plus lourds.';return}
+   const safeName=videoFile.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+   const path=`lessons/${Date.now()}_${safeName}`;
+   box.textContent='Envoi de la vidéo vers Supabase…';
+   const up=await db.storage.from('course-media').upload(path,videoFile,{upsert:false,contentType:videoFile.type});
+   if(up.error){box.textContent='Échec de l’envoi vidéo : '+up.error.message+' — vérifiez que le SQL a créé le bucket course-media.';return}
+   media_url=db.storage.from('course-media').getPublicUrl(path).data.publicUrl;
+   drive_file_id='';
+ }else if(content_type==='video'){
+   if(!media_url&&!drive_file_id){box.textContent='Choisissez un fichier vidéo ou ajoutez un lien Google Drive / vidéo.';return}
+   media_url=(/\.(mp4|webm|ogg|mov)(?:$|[?#])/i.test(media_url)&&!drive_file_id)?media_url:driveEmbedUrl(media_url,drive_file_id);
+ }else if(content_type==='photo'&&!media_url){
+   box.textContent='Ajoutez une URL d’image ou choisissez une photo depuis votre ordinateur.';return
+ }
+ box.textContent='Enregistrement de la leçon…';
+ const {data,error}=await db.rpc('admin_save_course_lesson',{
+  p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_course_slug:course_slug,p_title:title,
+  p_description:document.getElementById('lessonDescription').value.trim(),
+  p_content_type:content_type,p_media_url:media_url,p_drive_file_id:drive_file_id||null,
+  p_sort_order:Number(document.getElementById('lessonOrder').value)||0,
+  p_is_published:document.getElementById('lessonPublished').checked,
+  p_is_locked:document.getElementById('lessonLocked').checked
+ });
+ box.textContent=data?.message||error?.message||'Erreur.';
+ if(data?.ok){resetCourseMediaForm();await loadCourseMedia()}
+}
+async function toggleCourseMediaLock(id,locked){const {data,error}=await db.rpc('admin_set_course_lesson_lock',{p_admin_code:ADMIN_CODE_SESSION,p_id:id,p_locked:locked});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
+async function toggleCourseMediaPublish(id,published){const x=(window.COURSE_MEDIA_ROWS||[]).find(r=>r.id===id);if(!x)return;const {data,error}=await db.rpc('admin_save_course_lesson',{p_admin_code:ADMIN_CODE_SESSION,p_id:x.id,p_course_slug:x.course_slug,p_title:x.title,p_description:x.description||'',p_content_type:x.content_type,p_media_url:x.media_url,p_drive_file_id:x.drive_file_id||null,p_sort_order:x.sort_order||0,p_is_published:published,p_is_locked:x.is_locked});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
+async function deleteCourseMedia(id){if(!confirm('Supprimer cette leçon ?'))return;const {data,error}=await db.rpc('admin_delete_course_lesson',{p_admin_code:ADMIN_CODE_SESSION,p_id:id});if(error||!data?.ok){alert(data?.message||error?.message);return}await loadCourseMedia()}
+
+</script>
+<style id="dizay-clean">
+/* ===== THÈME CLASSIQUE — navy + cyan · Inter ===== */
+:root{
+  --red:#e5484d;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#fff;--gray:#5b6b7d;--light:#f5f8fc;--line:#e3eaf2;--bg:#f5f8fc;--border:#e3eaf2;--ink:#0b1b2e;
+  --r:#12d6f5;--o:#12d6f5;--y:#12d6f5;
+  --cy:#12d6f5;--cy-d:#0ab3d1;--cy-ink:#04121f;--navy:#07111f;--navy-2:#0c2340;--blue:#1d8fdc;--muted:#5b6b7d;--soft:#eef3f9;
+  --grad:linear-gradient(135deg,#12d6f5 0%,#4aa8ff 100%);--grad-text:linear-gradient(90deg,#0ab3d1,#2b6fe0);--grad-navy:linear-gradient(135deg,#07111f,#16407a);
+  --sh:0 1px 2px rgba(7,17,31,.04),0 10px 30px -14px rgba(7,17,31,.14);
+  --sh-lg:0 2px 4px rgba(7,17,31,.05),0 26px 50px -22px rgba(7,17,31,.28);
+  --ease:cubic-bezier(.22,.8,.24,1);--f:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*,*:before,*:after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html body{margin:0;font-family:var(--f);font-weight:500;font-size:16px;line-height:1.6;color:var(--ink);background-color:var(--light);background-image:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 60% 34% at 50% -8%,rgba(18,214,245,.13),transparent 70%)}
+::selection{background:rgba(18,214,245,.28)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+/* Typographie : gros titres ExtraBold · sous-titres Medium · petits textes SemiBold */
+h1,h2,h3,h4,.brand,.name,.authlogo,.logo-nav,.section-title,.stat b,.stat-value,.price,.formation-price,.number,.natcash-number{font-family:var(--f);font-weight:800;letter-spacing:-.025em;line-height:1.12;text-transform:none}
+h1{letter-spacing:-.035em;line-height:1.05}
+h2{font-size:clamp(24px,3vw,34px)}h3{font-size:19px}
+p,.section-header p,.hero-content p,.top p,.authsub,.student-info,.role{font-weight:500}
+small,label,.label,.hint,.muted,.pill,.tag,.kicker,.k,.status-pill,.badge-count,button,.btn,.portal-btn,.formation-btn,.submit-btn,.contact-btn,.links a,.certificate-card a,.copy,.tab,.navbtn,.nav-links a,.foot,footer,.stat span,.stat small,.stat-label,.empty,.msg,.notice,.hero-mini-stats span,.natcash-label,.hero-badge,.section-header span,.finance-kicker,.controller-code-kicker{font-family:var(--f);font-weight:600}
+.gradient-text,.accent{background:linear-gradient(90deg,#12d6f5,#6cc4ff,#a3adff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.brand span,.authlogo span,.logo-nav span,.brand i{color:var(--cy-d);font-style:normal}
+/* Boutons */
+:where(button),.btn,.portal-btn,.formation-btn,.submit-btn,.contact-btn,.links a,.certificate-card a,.copy{
+  font-size:14.5px;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;
+  padding:13px 24px;border:1.5px solid transparent;border-radius:999px;cursor:pointer;background:var(--grad);color:var(--cy-ink);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s,filter .2s,border-color .2s,color .2s}
+:where(button):hover:not(:disabled),.btn:hover,.portal-btn:hover,.formation-btn:hover,.submit-btn:hover,.contact-btn:hover,.links a:hover,.certificate-card a:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 12px 24px -12px rgba(18,214,245,.75)}
+:where(button):active:not(:disabled),.btn:active,.portal-btn:active{transform:translateY(0);box-shadow:none}
+:where(button):disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-primary:after,.formation-btn:after,.contact-btn:after{content:"→";font-weight:700;transition:transform .2s var(--ease)}
+.btn-primary:hover:after,.formation-btn:hover:after,.contact-btn:hover:after{transform:translateX(3px)}
+.btn-glass,.btn-light,.logout,.portal-btn.dark,.copy,.btn.dark,.btn-secondary,.tabs button:not(.active){background:#fff;color:var(--ink);border:1.5px solid #cfd9e6;box-shadow:none}
+.btn-glass:hover,.btn-light:hover,.logout:hover,.portal-btn.dark:hover,.copy:hover,.btn.dark:hover,.btn-secondary:hover,.tabs button:not(.active):hover{border-color:var(--ink);background:#fff;box-shadow:none;filter:none}
+.btn-danger,.delete-order{background:#fff;color:#d33a40;border:1.5px solid #f1c3c6;box-shadow:none}
+.btn-danger:hover,.delete-order:hover{background:#d33a40;color:#fff;border-color:#d33a40;box-shadow:none}
+.btn.green{background:#16a34a;color:#fff}
+.btn.sm,.portal-btn.small{padding:9px 16px;font-size:13px}
+.menu-toggle,.portfolio-arrow,.controller-code-close,.video-expand{border-radius:50%}
+/* Champs */
+input:where(:not([type=checkbox],[type=radio],[type=range],[type=file],[type=submit],[type=button])),select,textarea{
+  font-family:var(--f);font-weight:500;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid #d5deea;border-radius:12px;padding:13px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
+input::placeholder,textarea::placeholder{color:#97a5b6;font-weight:500}
+input:hover,select:hover,textarea:hover{border-color:#b7c5d6}
+input:focus,select:focus,textarea:focus{border-color:var(--cy-d);box-shadow:0 0 0 4px rgba(18,214,245,.2)}
+:focus-visible{outline:2px solid var(--cy-d);outline-offset:2px}
+input[type=file]{padding:9px;border:1.5px dashed #c3d0e0;border-radius:12px;background:var(--soft);width:100%;font-weight:600}
+input[type=file]::file-selector-button{font-family:var(--f);font-weight:600;font-size:13px;border:0;border-radius:999px;padding:8px 16px;margin-right:12px;background:var(--navy);color:#fff;cursor:pointer}
+input[type=checkbox],input[type=radio]{accent-color:var(--cy-d)}
+label,.label{font-size:13px;color:#33465c}
+/* Cartes */
+.card,.panel,.side,.main,.stat,.stat-card,.course,.assignment-card,.certificate-card,.person,.submission-card,.finance-agent,.formation-card,.about-box,.order-item,.chat-card,.authbox,.private-profile,.request-status,.finance-panel,.controller-code-box,.validation-box,.waiting-box,.success-box,.loaderbox,.agent-money-card,.withdrawals,.money-box{
+  background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh)}
+.item,.row,.course-lesson,.money-stat,.file,.lesson-student-row{background:var(--soft);border:1px solid var(--line);border-radius:12px}
+.message,.msg{border-radius:12px}
+.course,.formation-card,.person,.submission-card,.stat,.stat-card,.order-item,.agent-money-card{transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
+.course:hover,.formation-card:hover,.person:hover,.submission-card:hover,.stat:hover,.stat-card:hover,.assignment-card:hover,.order-item:hover,.agent-money-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);border-color:#cfe3f0}
+.stat b,.stat-value{font-weight:800;color:var(--ink)}
+.stat span,.stat small,.stat-label,.agent-money-card span{color:var(--muted);font-size:12.5px}
+.price,.formation-price,.agent-money-card b,.withdrawal-amount{color:var(--blue);font-weight:800}
+.notice,.notice-box,.hint-box,.publicite-notice,.error-note,.upload-note,.locked-notice,.message{background:#eaf8fd;border:1px solid #c9ecf7;border-left:4px solid var(--cy);border-radius:12px;color:#0b3a4d;font-size:14px}
+.hint,.muted,small,.empty,.empty-money,.stat-hint{color:var(--muted)}
+.error,.controller-code-error{color:#d33a40;font-weight:600}
+/* Étiquettes */
+.section-header span,.finance-kicker,.controller-code-kicker,.kicker,.k{display:inline-block;background:none;border:0;padding:0;color:var(--blue);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#cfe9f2;font-size:12.5px;letter-spacing:.02em}
+.hero-badge:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cy)}
+.tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;background:#dcebf8;color:#2b6fa8;font-size:12px;letter-spacing:.02em;text-transform:none}
+.status-pill,.pill{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;font-size:12px}
+.badge-count,.chat-notification,.chat-notification-dot{background:var(--cy);color:var(--cy-ink);border-radius:999px}
+/* Onglets & navigation */
+.tabs{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px;box-shadow:var(--sh)}
+.tab,.navbtn,.tabs button{border-radius:999px;font-size:13.5px;padding:10px 18px}
+.tab:not(.active),.navbtn:not(.active){background:#fff;color:var(--ink);border:1.5px solid transparent;box-shadow:none}
+.tab:not(.active):hover,.navbtn:not(.active):hover{background:var(--soft);box-shadow:none;filter:none}
+.tab.active,.navbtn.active,.tabs button.active{background:var(--grad-navy);color:#fff;border-color:var(--navy);box-shadow:none}
+.navbtn{border-radius:12px}
+.premium-bottom-nav,.dashboard-nav,#student .dashboard-nav{background:rgba(7,17,31,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 20px 40px -16px rgba(7,17,31,.55)}
+.premium-bottom-nav a,.dashboard-nav a{color:#9fb1c6;font-weight:600;border-radius:14px;transition:background .25s,color .25s}
+.premium-bottom-nav a:hover,.dashboard-nav a:hover{color:#fff}
+.premium-bottom-nav a.active,.dashboard-nav a.active{background:var(--grad);color:var(--cy-ink)}
+.avatar{background:var(--grad);color:var(--cy-ink);font-weight:800;border-radius:12px}
+.bar,.progress-shell{background:#e3eaf2;border-radius:99px;overflow:hidden}
+.fill,.progress-fill{background:var(--grad);border-radius:99px}
+.spin{border:3px solid #dbe5f0;border-top-color:var(--cy-d)}
+.loader,.waiting-overlay,.validation-overlay{background:rgba(245,248,252,.88);backdrop-filter:blur(6px)}
+.controller-code-backdrop{background:rgba(7,17,31,.6);backdrop-filter:blur(5px)}
+.controller-code-orb{background:var(--cy);color:var(--cy-ink);border-radius:14px}
+.bubble,.chat-bubble{border-radius:16px;background:var(--soft);border:1px solid var(--line)}
+.bubble.me,.me .bubble,.chat-bubble.me{background:var(--grad);color:var(--cy-ink);border-color:var(--cy)}
+.video-frame{background:#000;border-radius:14px;overflow:hidden}
+.upload-area{background:var(--soft);border:1.5px dashed #c3d0e0;border-radius:12px}
+.locked-icon,.section-icon,.side-icon,.status-icon{background:#e3f6fc;color:var(--cy-d);border-radius:12px}
+.natcash-premium,footer{background:var(--navy);color:#fff}
+.natcash-label{color:var(--cy);letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+footer{color:#aab9cb;font-size:13.5px}footer a{color:var(--cy)!important}
+.foot{color:var(--muted);font-size:13px}
+*{scrollbar-width:thin;scrollbar-color:#c3d0e0 transparent}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#c3d0e0;border-radius:99px}
+/* Animations simples */
+@keyframes dzIn{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+.top,.hero,.authbox,#login,.card,.stat,.stat-card,.panel{animation:dzIn .55s var(--ease) backwards}
+.stat:nth-child(2){animation-delay:.06s}.stat:nth-child(3){animation-delay:.12s}.stat:nth-child(4){animation-delay:.18s}
+@supports (animation-timeline:view()){.section-header,.formation-card,.service,.about-box,.portfolio-slide,.order-item{animation:dzIn linear both;animation-timeline:view();animation-range:entry 0% entry 35%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Dégradés doux */
+.section-header span,.finance-kicker,.controller-code-kicker{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{background:linear-gradient(135deg,#e1f8fd,#dfe9ff)}
+.stat,.stat-card{background:linear-gradient(180deg,#fff,#f3f8ff)}
+.card,.course,.formation-card,.person,.about-box{background:linear-gradient(180deg,#fff 0%,#fbfdff 100%)}
+.badge-count,.chat-notification,.chat-notification-dot{background:var(--grad)}
+[hidden]{display:none!important}
+
+.top{background:radial-gradient(ellipse 60% 90% at 90% 0%,rgba(29,143,220,.4),transparent 65%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(18,214,245,.14),transparent 65%),var(--navy);color:#fff;border-radius:20px;box-shadow:var(--sh-lg);padding:30px clamp(22px,4vw,40px)}
+.top .brand{color:var(--cy);font-size:12px;letter-spacing:.14em;font-weight:700}
+.top h1{font-size:clamp(34px,5.4vw,60px);color:#fff;margin:10px 0 6px}
+.top p{color:#b4c3d6}
+#login{max-width:460px;margin-inline:auto}
+input+button,select+button,textarea+button,.formgrid+button{margin-top:12px}
+.finance-panel{background:var(--soft)}
+
+</style>
+<script>window.__akStart=function(o){if(!window.AKCHAT){alert("Le fichier akademi-chat.js est introuvable : mettez-le dans le même dossier que cette page.");return}try{AKCHAT.start(o)}catch(e){console.error(e);alert("Chat : "+e.message)}};</script><script src="akademi-chat.js"></script><script>
+function renderCourseAdminList(){document.getElementById("ncList").innerHTML="<h3>Formations existantes</h3>"+(DATA.courses.map(c=>`<div class="person"><b>${esc(c.nom)}</b> — ${esc(c.slug)}</div>`).join("")||"<div class=hint>Aucune formation.</div>")}
+document.addEventListener("input",e=>{if(e.target.id==="ncName"){const sl=document.getElementById("ncSlug");if(!sl.dataset.t)sl.value=e.target.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}if(e.target.id==="ncSlug")e.target.dataset.t=1});
+async function createCourse(){const b=document.getElementById("ncResult"),nom=document.getElementById("ncName").value.trim(),slug=document.getElementById("ncSlug").value.trim();if(!nom||!slug){b.textContent="Nom et identifiant obligatoires.";return}b.textContent="Création…";const {data,error}=await db.rpc("admin_create_course",{p_admin_code:ADMIN_CODE_SESSION,p_nom:nom,p_slug:slug});if(error||!data?.ok){b.textContent=data?.message||error?.message||"Erreur.";return}b.innerHTML=IC("check")+" "+esc(data.message);document.getElementById("ncName").value="";document.getElementById("ncSlug").value="";await loadData();renderCourseAdminList()}
+
+function updateLessonTypeUI(){const t=document.getElementById('lessonType').value;const v=document.getElementById('lessonVideoFile')?.closest('label'),ph=document.getElementById('lessonPhotoLabel'),pd=document.getElementById('lessonPdfLabel');if(v)v.style.display=t==='video'?'':'none';if(ph)ph.style.display=t==='photo'?'':'none';if(pd)pd.style.display=t==='pdf'?'':'none'}
+document.getElementById('lessonType').addEventListener('change',updateLessonTypeUI);updateLessonTypeUI();
+</script><style id="dz-glass">
+@keyframes dzRun{from{background-position:-70% 0}to{background-position:170% 0}}
+@keyframes dzFloat{0%,100%{transform:translate3d(0,0,0) rotate(var(--r0,0deg))}50%{transform:translate3d(0,-14px,0) rotate(calc(var(--r0,0deg) + 5deg))}}
+@keyframes dzShine{0%{transform:translateX(-130%) skewX(-18deg)}60%,100%{transform:translateX(420%) skewX(-18deg)}}
+@keyframes dzPulse{0%{box-shadow:0 0 0 0 rgba(18,214,245,.6)}100%{box-shadow:0 0 0 10px rgba(18,214,245,0)}}
+@keyframes dzDraw{from{stroke-dashoffset:220}to{stroke-dashoffset:0}}
+@keyframes dzFill{0%,100%{width:14%}50%{width:82%}}
+.ic{width:1.15em;height:1.15em;fill:currentColor;flex:none;vertical-align:-.2em}
+.greet,.bell{display:none}
+body.is-admin:before{display:none!important}
+html body.is-admin{background-color:#07111f!important;background-image:radial-gradient(900px 520px at 10% -10%,rgba(18,214,245,.3),transparent 60%),radial-gradient(800px 560px at 100% 100%,rgba(29,143,220,.38),transparent 60%),linear-gradient(160deg,#07111f,#0c2340 60%,#07111f)!important;background-attachment:fixed;padding:clamp(8px,2.4vw,34px)}
+body.is-admin .wrap{position:relative;width:min(1340px,100%);max-width:100%;margin:0 auto;padding:0 0 0 272px;background:#f4f8fc;border-radius:34px;min-height:calc(100vh - 2*clamp(8px,2.4vw,34px));box-shadow:0 40px 90px -30px rgba(0,0,0,.65);overflow:clip}
+/* en-tête */
+body.is-admin .top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;background:none;box-shadow:none;border-radius:0;color:#0b1b2e;margin:0;padding:34px 38px 20px;animation:none}
+body.is-admin .top>.brand,body.is-admin .top>h1,body.is-admin .top>p{display:none}
+body.is-admin .greet{display:block}
+.greet-t{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.1;color:#0b1b2e}
+.greet-s{margin-top:6px;color:#5b6b7d;font-size:14px;font-weight:500}
+.greet-s:after{content:"";display:block;height:3px;width:150px;margin-top:9px;border-radius:99px;background:linear-gradient(90deg,transparent,#12d6f5 45%,#4aa8ff 55%,transparent) -70% 0/45% 100% no-repeat,rgba(18,214,245,.16);animation:dzRun 2.6s linear infinite}
+body.is-admin .bell{display:inline-flex;position:relative;width:48px;height:48px;padding:0;border-radius:50%;background:#fff;color:#0b1b2e;border:1.5px solid #d5deea;box-shadow:none}
+.bell.has-new:after{content:"";position:absolute;top:6px;right:7px;width:11px;height:11px;border-radius:50%;background:#12d6f5;border:2px solid #fff;animation:dzPulse 1.8s ease-out infinite}
+body.is-admin #dashboard{padding:0 38px 10px}
+body.is-admin .foot{padding:10px 38px 30px}
+/* barres animées sous les textes */
+body.is-admin #dashboard h2:after,body.is-admin #dashboard h3:after,.side-user strong:after{content:"";display:block;height:3px;width:min(200px,60%);margin-top:9px;border-radius:99px;background:linear-gradient(90deg,transparent,#12d6f5 45%,#4aa8ff 55%,transparent) -70% 0/45% 100% no-repeat,rgba(18,214,245,.16);animation:dzRun 2.6s linear infinite}
+.hero-bar{height:7px;width:min(420px,100%);border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden}
+.hero-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#fff,#aef3ff);animation:dzFill 6s ease-in-out infinite}
+/* formes glacées */
+.ice{position:absolute;pointer-events:none;z-index:0;background:linear-gradient(145deg,rgba(255,255,255,.62),rgba(255,255,255,.12) 42%,rgba(160,240,255,.4));backdrop-filter:blur(6px);animation:dzFloat 9s ease-in-out infinite}
+.ice-1{width:210px;height:250px;right:9%;top:-46px;--r0:8deg;clip-path:polygon(52% 0,100% 30%,88% 82%,46% 100%,6% 74%,0 22%)}
+.ice-2{width:96px;height:96px;right:2%;bottom:-18px;--r0:20deg;clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);animation-duration:7s;animation-delay:-2s}
+.ice-3{width:78px;height:78px;left:46%;bottom:-30px;border-radius:50%;background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.7),rgba(255,255,255,.08) 55%,rgba(18,214,245,.3));animation-duration:11s}
+.ice-4{width:70px;height:70px;right:-14px;top:-14px;--r0:14deg;clip-path:polygon(50% 0,100% 40%,78% 100%,22% 100%,0 40%);animation-duration:8s}
+/* carte principale */
+body.is-admin #dashboard>.grid{position:relative;isolation:isolate;overflow:hidden;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:30px;margin:0 0 18px;border-radius:30px;color:#fff;background:radial-gradient(ellipse 50% 70% at 85% 0%,rgba(18,214,245,.55),transparent 65%),linear-gradient(135deg,#0a2a5e 0%,#1d8fdc 58%,#12d6f5 120%);box-shadow:0 32px 60px -30px rgba(18,120,220,.75)}
+body.is-admin #dashboard>.grid:after{content:"";position:absolute;top:0;bottom:0;left:0;width:26%;z-index:2;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);animation:dzShine 7s ease-in-out infinite}
+body.is-admin #dashboard>.grid>:not(.ice){position:relative;z-index:1}
+.hero-copy{grid-column:1/span 2}
+.hero-copy small{display:block;color:rgba(255,255,255,.78);font-size:13px}
+.hero-copy strong{display:block;margin:6px 0 16px;font-size:clamp(24px,3.4vw,38px);font-weight:800;letter-spacing:-.03em;line-height:1.08}
+.glass-chip{align-self:stretch;padding:14px 16px;border-radius:22px;background:linear-gradient(145deg,rgba(255,255,255,.3),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(16px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5)}
+.chip-t{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:rgba(255,255,255,.9)}
+.live{width:8px;height:8px;border-radius:50%;background:#7dffb0;animation:dzPulse 1.8s ease-out infinite}
+.glass-chip svg{width:100%;height:auto;margin-top:8px}
+.spark{fill:none;stroke:#fff;stroke-width:2.4;stroke-linecap:round;stroke-dasharray:220;animation:dzDraw 3.6s ease-in-out infinite alternate}
+body.is-admin #dashboard .stat{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.3);border-radius:20px;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4);backdrop-filter:blur(14px)}
+body.is-admin #dashboard .stat b{color:#fff}
+body.is-admin #dashboard .stat span{color:rgba(255,255,255,.82);font-size:13px}
+body.is-admin #dashboard .stat:hover{border-color:rgba(255,255,255,.55);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 18px 34px -20px rgba(0,20,60,.7)}
+.hero-actions{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px}
+body.is-admin .hero-actions .hact{justify-content:flex-start;gap:12px;padding:9px 14px 9px 9px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.32);color:#fff;font-size:14px;backdrop-filter:blur(10px)}
+.hact .ico{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.24);flex:none}
+.hact .ic{width:19px;height:19px}
+body.is-admin .hero-actions .hact:hover{background:rgba(255,255,255,.22);box-shadow:none}
+/* barre latérale */
+body.is-admin #dashboard>.tabs{position:absolute;left:0;top:0;bottom:0;width:272px;display:block;margin:0;padding:0;border:0;border-radius:0 30px 30px 0;background:#fff;box-shadow:14px 0 40px -30px rgba(7,17,31,.35);z-index:3}
+.side-inner{position:sticky;top:0;display:flex;flex-direction:column;gap:22px;padding:28px 18px 24px;min-height:min(100vh,760px)}
+.avatar-sil{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#12d6f5,#1d8fdc);color:#04121f;box-shadow:0 0 0 4px #fff,0 0 0 6px rgba(18,214,245,.55);flex:none}
+.avatar-sil .ic{width:30px;height:30px}
+.avatar-sil.sm{width:40px;height:40px;background:rgba(255,255,255,.9);color:#0a2a5e;box-shadow:none}
+.avatar-sil.sm .ic{width:22px;height:22px}
+.side-user{display:flex;align-items:center;gap:14px;padding:0 6px}
+.side-user strong{display:block;font-size:17px;font-weight:800;letter-spacing:-.02em;color:#0b1b2e}
+.side-user small{display:block;color:#5b6b7d;font-size:12.5px;text-transform:capitalize}
+.side-nav{display:flex;flex-direction:column;gap:4px}
+body.is-admin #dashboard>.tabs .tab{position:relative;width:100%;justify-content:flex-start;gap:14px;padding:13px 14px;border:0;border-radius:14px;background:transparent;color:#0b1b2e;font-size:15px;font-weight:600;text-align:left;box-shadow:none}
+body.is-admin #dashboard>.tabs .tab .ic{width:20px;height:20px;color:#8ea0b6;transition:color .2s}
+body.is-admin #dashboard>.tabs .tab:hover:not(.active){background:#eef3f9;transform:none;box-shadow:none}
+body.is-admin #dashboard>.tabs .tab:hover .ic{color:#12b8d8}
+body.is-admin #dashboard>.tabs .tab.active{background:linear-gradient(135deg,#07111f,#16407a);color:#fff;box-shadow:0 14px 26px -16px rgba(7,17,31,.7)}
+body.is-admin #dashboard>.tabs .tab.active .ic{color:#12d6f5}
+body.is-admin #dashboard>.tabs .tab.active:before{content:"";position:absolute;left:-18px;top:20%;bottom:20%;width:4px;border-radius:0 4px 4px 0;background:#12d6f5;box-shadow:0 0 12px #12d6f5}
+.tab .badge-count{margin-left:auto}
+.side-card{position:relative;overflow:hidden;margin-top:auto;display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:22px;color:#fff;background:linear-gradient(145deg,#0a2a5e,#1d8fdc 70%,#12d6f5)}
+.side-card small{opacity:.8;font-size:12.5px}
+.side-card b{font-size:15px;font-weight:800;margin-bottom:4px}
+.side-card>*:not(.ice){position:relative;z-index:1}
+/* cartes & contenu */
+body.is-admin section.card{border-radius:26px;border:1px solid #e6edf5;background:#fff;box-shadow:0 18px 40px -30px rgba(7,17,31,.3)}
+body.is-admin section.card:before{content:"";position:absolute;right:-34px;top:-34px;width:170px;height:170px;pointer-events:none;clip-path:polygon(52% 0,100% 30%,88% 82%,46% 100%,6% 74%,0 22%);background:linear-gradient(145deg,rgba(18,214,245,.2),rgba(29,143,220,.03));animation:dzFloat 12s ease-in-out infinite;--r0:6deg}
+body.is-admin .notice{border-radius:18px;margin:0 0 18px}
+body.is-admin .person,body.is-admin .submission-card,body.is-admin .finance-agent{border-radius:18px}
+body.is-admin .finance-panel{border-radius:22px}
+/* adaptatif */
+@media(max-width:960px){
+body.is-admin .wrap{padding-left:0;border-radius:24px}
+body.is-admin #dashboard>.tabs{position:static;width:auto;border-radius:0;box-shadow:none;border-bottom:1px solid #e6edf5}
+.side-inner{position:static;flex-direction:row;min-height:0;padding:12px}
+.side-user,.side-card{display:none}
+.side-nav{flex-direction:row;overflow-x:auto;gap:6px}
+body.is-admin #dashboard>.tabs .tab{width:auto;flex:none;white-space:nowrap;padding:11px 14px}
+body.is-admin #dashboard>.tabs .tab.active:before{display:none}
+body.is-admin .top{padding:22px 20px 12px}
+body.is-admin #dashboard{padding:0 14px 8px}
+body.is-admin #dashboard>.grid{padding:20px}
+.hero-copy,.glass-chip{grid-column:1/-1}
+.hero-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
+.ice-1{opacity:.55}}
+@media(max-width:420px){body.is-admin #dashboard>.grid{grid-template-columns:1fr}.hero-actions{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){.ice,.spark,.hero-bar i,.live,.bell:after,.greet-s:after,body.is-admin #dashboard h2:after,body.is-admin #dashboard h3:after,.side-user strong:after,body.is-admin #dashboard>.grid:after,body.is-admin section.card:before{animation:none!important}}
+</style>
+<script>
+window.IC=n=>`<svg class="ic" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+(function(){
+ const d=document.querySelectorAll('.js-date'),t=document.querySelectorAll('.js-time');
+ function clock(){const n=new Date();d.forEach(e=>e.textContent=n.toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'}));t.forEach(e=>e.textContent=n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}))}
+ clock();setInterval(clock,20000);
+ document.addEventListener('click',e=>{const g=e.target.closest('[data-go],#dzBell');if(!g)return;const k=g.dataset.go||g.dataset.t;document.querySelector('.tab[data-t="'+k+'"]')?.click()});
+ const b=document.getElementById('submissionBadge'),bell=document.getElementById('dzBell');
+ if(b&&bell){const f=()=>bell.classList.toggle('has-new',(parseInt(b.textContent,10)||0)>0);new MutationObserver(f).observe(b,{childList:true,characterData:true,subtree:true});f()}
+})();
+</script>
+<link rel="stylesheet" href="baba-pro.css"><script src="baba-pro.js"></script><script>
+let PROFESSOR_CODE="",PROF_DATA={courses:[],students:[],sales:[],messages:[],requests:[]},PROF_ID=null;
+async function profRpc(fn,args){const {data,error}=await db.rpc(fn,args);if(error)throw new Error(error.message||"Erreur Supabase");if(!(data?.ok===true||data?.success===true))throw new Error(data?.message||"L’opération a échoué.");return data}
+async function createProfessorFromAdmin(){try{await profRpc("admin_create_professor",{p_admin_code:ADMIN_CODE_SESSION,p_name:document.getElementById("newProfName").value,p_phone:document.getElementById("newProfPhone").value,p_professor_code:document.getElementById("newProfCode").value});document.getElementById("profCreateResult").textContent="Professeur créé. Code privé : "+document.getElementById("newProfCode").value+" — copiez-le et transmettez-le-lui.";document.getElementById("newProfCode").value="";await loadProfessorAdmin()}catch(e){document.getElementById("profCreateResult").textContent=e.message}}
+async function loadProfessorAdmin(){try{const d=await profRpc("admin_professor_overview",{p_admin_code:ADMIN_CODE_SESSION}),sales=d.sales||[],sum=k=>sales.reduce((a,x)=>a+Number(x[k]||0),0);document.getElementById("adminProfTotal").textContent=sum("sale_price_htg").toLocaleString()+" HTG";document.getElementById("adminProfAcademy").textContent=sum("academy_share_htg").toLocaleString()+" HTG";document.getElementById("adminProfShare").textContent=sum("professor_share_htg").toLocaleString()+" HTG";document.getElementById("adminProfessorList").innerHTML=(d.professors||[]).map(x=>`<div class="person"><b>${esc(x.full_name)}</b> · ID ${x.id}<br>${esc(x.phone||"Aucun téléphone")}</div>`).join("")||"Aucun professeur enregistré.";document.getElementById("adminProfSales").innerHTML=sales.map(x=>`<div class="person"><b>${esc(x.professor_name)}</b> · ${esc(x.student_code)} · ${esc(x.course_slug)}<br>${x.sale_price_htg} HTG — Académie ${x.academy_share_htg} — Professeur ${x.professor_share_htg}</div>`).join("")||"Aucune vente enregistrée.";document.getElementById("adminProfRequests").innerHTML=(d.requests||[]).map(x=>`<div class="person"><b>${esc(x.professor_name)}</b> demande un certificat pour ${esc(x.student_code)} · ${esc(x.course_slug)} · ${esc(x.status)}</div>`).join("")||"Aucune demande."}catch(e){document.getElementById("profCreateResult").textContent=e.message}}
+async function adminReplyProfessor(){try{await profRpc("admin_reply_professor",{p_admin_code:ADMIN_CODE_SESSION,p_professor_id:Number(document.getElementById("adminReplyProfId").value),p_message:document.getElementById("adminReplyProfText").value});document.getElementById("adminProfReplyResult").textContent="Réponse envoyée."}catch(e){document.getElementById("adminProfReplyResult").textContent=e.message}}
+async function refreshProfessor(){const d=await profRpc("professor_get_data",{p_professor_code:PROFESSOR_CODE});if(!d.professor)throw new Error("Impossible de charger les données du professeur.");PROF_DATA=d;PROF_ID=d.professor.id;document.getElementById("pr_profName").textContent=d.professor.name||"Professeur";renderProfessor()}
+function profMoney(v){return Number(v||0).toLocaleString("fr-FR")+" HTG"}function profOptions(id,items,value,label){document.getElementById(id).innerHTML=items.map(x=>`<option value="${esc(x[value])}">${esc(x[label])}</option>`).join("")}
+function renderProfessor(){const D=PROF_DATA,sales=D.sales||[],students=D.students||[],courses=D.courses||[],total=sales.reduce((a,x)=>a+Number(x.sale_price_htg),0),academy=sales.reduce((a,x)=>a+Number(x.academy_share_htg),0),mine=sales.reduce((a,x)=>a+Number(x.professor_share_htg),0);document.getElementById("pr_studentCount").textContent=students.length;document.getElementById("pr_courseCount").textContent=courses.length;document.getElementById("pr_salesCount").textContent=sales.length;document.getElementById("pr_myRevenue").textContent=profMoney(mine);document.getElementById("pr_totalSales").textContent=profMoney(total);document.getElementById("pr_academyShare").textContent=profMoney(academy);document.getElementById("pr_profShare").textContent=profMoney(mine);["pr_studentCourse","pr_hwCourse","pr_certCourse","pr_saleCourse"].forEach(id=>profOptions(id,courses,"slug","nom"));profOptions("pr_lessonCourse",courses.filter(x=>x.professor_id===PROF_ID),"slug","nom");["pr_hwStudent","pr_certStudent"].forEach(id=>profOptions(id,students,"code","nom"));document.getElementById("pr_courseList").innerHTML=courses.map(c=>`<div class="person"><b>${esc(c.nom)}</b> · ${esc(c.slug)} · ${profMoney(c.price_htg)} ${c.professor_id===PROF_ID?"(Ma formation)":"(Catalogue de l’Académie)"}</div>`).join("")||"Aucune formation.";document.getElementById("pr_studentList").innerHTML=students.map(x=>`<div class="person"><b>${esc(x.nom)}</b> · ${esc(x.code)}<br>${esc(x.telephone||"")}</div>`).join("")||"Aucun élève.";document.getElementById("pr_salesList").innerHTML=sales.map(x=>`<div class="person">${esc(x.course_slug)} · ${esc(x.student_code)}<br>${profMoney(x.sale_price_htg)} — Académie ${profMoney(x.academy_share_htg)} — Professeur ${profMoney(x.professor_share_htg)}</div>`).join("")||"Aucune vente enregistrée.";document.getElementById("pr_recentSales").innerHTML=sales.slice(0,5).map(x=>`<div class="person">${esc(x.course_slug)} · ${profMoney(x.sale_price_htg)}</div>`).join("")||"Aucune vente enregistrée.";document.getElementById("pr_messageList").innerHTML=(D.messages||[]).map(x=>`<div class="person"><b>${x.sender_role==="admin"?"Administration":"Moi"}</b><br>${esc(x.message)}</div>`).join("")||"Aucun message.";document.getElementById("pr_certList").innerHTML=(D.requests||[]).map(x=>`<div class="person">Élève ${esc(x.student_code)} · ${esc(x.course_slug)} · ${esc(x.status)}</div>`).join("");document.getElementById("pr_homeChart").innerHTML=sales.slice(0,8).map(x=>`<div class="bar" style="height:${Math.max(5,Number(x.sale_price_htg)/Math.max(1,...sales.map(y=>Number(y.sale_price_htg)))*120)}px"><span>${Number(x.sale_price_htg)}</span></div>`).join("")}
+function profTab(id,b){document.querySelectorAll("#profDashboard section").forEach(x=>x.classList.add("hidden"));document.getElementById(id).classList.remove("hidden");document.querySelectorAll("#profDashboard .tabs button").forEach(x=>x.classList.remove("active"));b.classList.add("active")}
+function professorLogout(){PROFESSOR_CODE="";PROF_ID=null;document.getElementById("profDashboard").classList.add("hidden");document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminCode").value=""}
+async function profCreateCourse(){try{await profRpc("professor_create_course",{p_professor_code:PROFESSOR_CODE,p_name:document.getElementById("pr_courseName").value,p_slug:document.getElementById("pr_courseSlug").value,p_price:Number(document.getElementById("pr_coursePrice").value),p_description:document.getElementById("pr_courseDesc").value});document.getElementById("pr_courseMsg").textContent="Formation créée.";await refreshProfessor()}catch(e){document.getElementById("pr_courseMsg").textContent=e.message}}
+async function profCreateLesson(){try{await profRpc("professor_create_lesson",{p_professor_code:PROFESSOR_CODE,p_course_slug:document.getElementById("pr_lessonCourse").value,p_title:document.getElementById("pr_lessonTitle").value,p_description:document.getElementById("pr_lessonDesc").value,p_content_type:document.getElementById("pr_lessonType").value,p_media_url:document.getElementById("pr_lessonUrl").value,p_sort_order:1});document.getElementById("pr_lessonMsg").textContent="Leçon ajoutée."}catch(e){document.getElementById("pr_lessonMsg").textContent=e.message}}
+async function profCreateStudent(){try{await profRpc("professor_create_student",{p_professor_code:PROFESSOR_CODE,p_student_code:document.getElementById("pr_studentCode").value,p_name:document.getElementById("pr_studentName").value,p_phone:document.getElementById("pr_studentPhone").value,p_course_slug:document.getElementById("pr_studentCourse").value});document.getElementById("pr_studentMsg").textContent="Élève créé.";await refreshProfessor()}catch(e){document.getElementById("pr_studentMsg").textContent=e.message}}
+async function profAddSale(){try{await profRpc("professor_add_sale",{p_professor_code:PROFESSOR_CODE,p_student_code:document.getElementById("pr_saleStudent").value,p_course_slug:document.getElementById("pr_saleCourse").value,p_price:Number(document.getElementById("pr_salePrice").value)});document.getElementById("pr_saleMsg").textContent="Vente enregistrée.";await refreshProfessor()}catch(e){document.getElementById("pr_saleMsg").textContent=e.message}}
+async function profHomework(){try{await profRpc("professor_assign_homework",{p_professor_code:PROFESSOR_CODE,p_student_code:document.getElementById("pr_hwStudent").value,p_course_slug:document.getElementById("pr_hwCourse").value,p_title:document.getElementById("pr_hwTitle").value,p_description:document.getElementById("pr_hwDesc").value,p_due_date:document.getElementById("pr_hwDate").value||null,p_due_time:null});document.getElementById("pr_hwMsg").textContent="Devoir envoyé."}catch(e){document.getElementById("pr_hwMsg").textContent=e.message}}
+async function profCertificate(){try{await profRpc("professor_request_certificate",{p_professor_code:PROFESSOR_CODE,p_student_code:document.getElementById("pr_certStudent").value,p_course_slug:document.getElementById("pr_certCourse").value,p_note:document.getElementById("pr_certNote").value});document.getElementById("pr_certMsg").textContent="Demande de certificat envoyée.";await refreshProfessor()}catch(e){document.getElementById("pr_certMsg").textContent=e.message}}
+async function profMessage(){try{await profRpc("professor_send_message",{p_professor_code:PROFESSOR_CODE,p_message:document.getElementById("pr_adminMessage").value});document.getElementById("pr_adminMessage").value="";document.getElementById("pr_messageMsg").textContent="Message envoyé.";await refreshProfessor()}catch(e){document.getElementById("pr_messageMsg").textContent=e.message}}
+
+</script></body></html>
