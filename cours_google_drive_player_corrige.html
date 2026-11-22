@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akademi Dizay — Espace élève</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>*{box-sizing:border-box}
+:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#fff;--gray:#666;--light:#f7f7f7;--border:#e8e8e8;--shadow:0 18px 55px rgba(17,17,17,.09)}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh}
+.wrap{width:min(1180px,92%);margin:auto;position:relative;z-index:1}
+.top{padding:58px 0 30px;text-align:center}
+.brand{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:8px 15px;font-size:12px}
+.top h1{font-size:clamp(34px,6vw,62px);line-height:1;margin:18px 0 12px}
+.top p{margin:18px 0 0;font-size:15px}
+.card{padding:32px}
+#login{max-width:590px;margin:18px auto 0;position:relative;overflow:hidden}
+#login h2{margin:4px 0 8px;font-size:28px}
+#login p{line-height:1.6}
+input, button{width:100%;padding:15px 16px;font-size:16px}
+input{margin-top:12px}
+button{margin-top:13px;cursor:pointer}
+button:disabled{cursor:not-allowed;transform:none}
+.error{color:#c40000;min-height:22px;margin-top:11px;font-size:14px}
+.success{color:#16803c;min-height:22px;margin-top:10px}
+.hidden{display:none!important}
+#student{margin:24px auto 0;position:relative;overflow:hidden}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:22px}
+.course{padding:23px;position:relative;overflow:hidden}
+.course h3{margin:5px 0 8px;font-size:21px}
+.course p{margin:0 0 16px;line-height:1.55;font-size:14px}
+.links{display:grid;gap:10px}
+.links a, .copy{display:flex;align-items:center;justify-content:center;min-height:47px;padding:12px 14px;text-align:center;cursor:pointer;margin:0}
+.message{margin-top:22px;padding:19px 20px;line-height:1.65}
+.head{display:flex;justify-content:space-between;gap:20px;align-items:center;padding-bottom:20px}
+.tag{display:inline-flex;align-items:center;padding:7px 12px;font-size:11px}
+.student-info{margin-top:5px;font-size:14px}
+.logout{max-width:190px}
+.loading{text-align:center;padding:30px}
+.empty{text-align:center;padding:35px 18px}
+.foot{text-align:center;padding:30px 0 35px;font-size:12px}
+.dashboard-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:24px 0}
+.stat-card{padding:20px;position:relative;overflow:hidden}
+.stat-label{font-size:11px}
+.stat-value{font-size:32px;line-height:1.15;margin-top:10px}
+.stat-hint{font-size:12px;margin-top:6px}
+.section-title{display:flex;align-items:center;gap:11px;margin:30px 0 14px;font-size:21px}
+.section-icon{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.section-icon svg{width:20px;height:20px}
+.assignment-list, .certificate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.assignment-card, .certificate-card{padding:20px;min-width:0}
+.assignment-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.assignment-card h3, .certificate-card h3{font-size:17px;margin:0 0 9px}
+.assignment-description{font-size:14px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+.deadline{display:flex;gap:8px;align-items:flex-start;padding:11px 12px;margin:15px 0;font-size:13px}
+.deadline svg{width:17px;height:17px;flex-shrink:0}
+.status-pill{display:inline-flex;align-items:center;border-radius:999px;padding:6px 9px;font-size:11px;white-space:nowrap;background:#f1f1f1;color:#555}
+.status-pill.open{background:#eaf3ff;color:#1555a0}
+.status-pill.done{background:#e7f8ed;color:#16743b}
+.status-pill.late{background:#fff0e8;color:#bd3b00}
+.upload-area{padding:14px;margin-top:12px}
+.upload-area label{display:block;font-size:13px;margin-bottom:8px}
+.upload-area input[type=file]{width:100%;padding:10px;font-size:13px;margin:0}
+.upload-area button, .assignment-card button{margin-top:10px;width:100%;padding:12px;font-size:13px}
+.upload-note{font-size:12px;line-height:1.5;margin:8px 0 0}
+.preview-image{display:block;max-width:100%;max-height:220px;object-fit:contain;margin-top:12px}
+.certificate-card{display:flex;flex-direction:column;gap:10px}
+.certificate-card img{width:100%;max-height:250px;object-fit:contain}
+.certificate-card a{display:flex;align-items:center;justify-content:center;padding:12px;font-size:13px}
+.notice-box{padding:13px 15px;margin-top:12px;font-size:13px;line-height:1.5}
+.notice-box.error-note{background:#fff0ef;color:#a82020}
+@media(max-width:760px){.dashboard-grid{grid-template-columns:1fr}
+.assignment-list, .certificate-grid{grid-template-columns:1fr}
+.stat-value{font-size:29px}}
+@media(max-width:760px){.wrap{width:min(94%,1180px)}
+.top{padding:42px 0 24px}
+.card{padding:23px}
+.grid{grid-template-columns:1fr}
+.head{flex-direction:column;align-items:flex-start}
+.logout{max-width:none}}
+@media(max-width:480px){.top h1{font-size:38px}
+.brand{font-size:10px}
+.card{padding:20px}
+.course{padding:19px}}
+:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#ffffff;--gray:#666666;--light:#f7f7f7;--border:#e7e7e7;--shadow:0 20px 60px rgba(0,0,0,.09)}
+html{scroll-padding-top:24px}
+body{line-height:1.55}
+.wrap{width:min(1160px,92%)}
+.top{padding:48px 0 30px;text-align:left;position:relative}
+.brand{padding:10px 15px;font-size:11px}
+.top h1{font-size:clamp(35px,5vw,56px);line-height:1.04;max-width:780px;margin:20px 0 12px}
+.top p{max-width:650px;font-size:16px;line-height:1.75;margin-top:16px}
+.card{padding:clamp(20px,3vw,34px)}
+#login{max-width:560px;margin:20px auto 0}
+#login h2{font-size:27px}
+#login p{line-height:1.7}
+#student{margin:20px auto 0}
+.head{padding-bottom:23px}
+.student-info{line-height:1.7}
+.dashboard-grid{gap:16px;margin:25px 0 28px}
+.stat-card{padding:22px}
+.stat-label{font-size:10px}
+.stat-value{font-size:35px}
+.stat-hint{font-size:12px;line-height:1.55}
+.section-title{font-size:22px;margin:32px 0 16px}
+.section-icon{width:42px;height:42px}
+.grid{gap:17px;margin-top:20px}
+.course{padding:23px}
+.course h3{font-size:20px}
+.course p{line-height:1.7}
+.assignment-list, .certificate-grid{gap:17px}
+.assignment-card, .certificate-card{padding:21px}
+.assignment-card h3, .certificate-card h3{font-size:18px;line-height:1.4}
+.assignment-description{line-height:1.75}
+.deadline{line-height:1.7}
+.status-pill{padding:7px 10px;font-size:10px}
+.status-pill.open{background:#fff0e8;color:#b32616}
+.status-pill.done{background:#e9f8ef;color:#187447}
+.status-pill.late{background:#fff0e9;color:#c44d28}
+.upload-area{padding:15px}
+.upload-note{line-height:1.65}
+.notice-box{line-height:1.65}
+.notice-box.error-note{background:#fff1ef;color:#a83a2d;border-color:#ffd9d2}
+.loading, .empty{line-height:1.7}
+.error{color:#b42318}
+.success{color:#16804a}
+.foot{padding:28px 0 34px}
+@media(max-width:760px){.top{padding:34px 0 22px;text-align:left}
+.top h1{font-size:clamp(34px,8vw,44px)}
+.head{gap:14px}
+.dashboard-grid{gap:12px}
+.stat-card{padding:18px}
+.section-title{font-size:20px;margin-top:26px}}
+@media(max-width:480px){.wrap{width:92%}
+.top{padding-top:28px}
+.top h1{font-size:34px}
+.top p{font-size:14px}
+.brand{font-size:10px}
+.card{padding:18px}
+.course{padding:19px}
+.assignment-card, .certificate-card{padding:16px}
+.assignment-top{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#fff;--gray:#667085;--light:#fff;--border:#ececec;--shadow:0 12px 30px rgba(25,25,25,.055)}
+.wrap{width:min(1180px,94%);max-width:1180px}
+.top{text-align:left;padding:32px 0 18px}
+.top h1{font-size:clamp(38px,5vw,60px);margin:18px 0 8px}
+.top p{font-size:15px}
+.card{padding:28px}
+#login{max-width:560px;margin:30px auto}
+#login h2{font-size:27px}
+#student{margin:20px auto 50px;overflow:visible}
+.head{align-items:flex-start;padding:30px;min-height:250px}
+.grid{gap:18px}
+.course{padding:22px}
+.course h3{font-size:20px}
+.assignment-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.assignment-card{padding:21px!important}
+.assignment-card h3{font-size:18px}
+.assignment-description{line-height:1.7}
+.upload-area{padding:15px!important}
+.status-pill{border-radius:999px!important}
+@media(max-width:760px){.wrap{width:92%}
+.top{padding:25px 0 12px}
+.card{padding:20px}
+.head{padding:22px;min-height:0;flex-direction:column;gap:12px}
+.logout{max-width:none}
+.grid, .assignment-list{grid-template-columns:1fr}
+.course{padding:19px}}
+:root{--red:#12d6f5;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#ffffff;--gray:#626262;--light:#ffffff;--border:#eaeaea;--shadow:0 12px 32px rgba(25,25,25,.06)}
+.top p{line-height:1.75}
+#student{padding:26px}
+#student .head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;min-height:250px;padding:30px;position:relative;overflow:hidden}
+#student .head .tag{display:inline-flex;align-items:center;padding:8px 14px;font-size:11px}
+#student .head h2, #student .head h2[style], #student .head h3{line-height:1.2}
+#student .head .student-info{font-size:14px;line-height:1.7}
+#student .head .logout{position:relative;z-index:2}
+.dashboard-grid{gap:16px}
+.stat-card{padding:22px!important}
+.assignment-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.assignment-card .status, .tag-status{border-radius:999px}
+.certificate-card a{display:inline-flex;justify-content:center;align-items:center;padding:12px 16px}
+@media(max-width:760px){#student{padding:12px}
+#student .head{padding:24px 20px;min-height:220px}
+.assignment-list{grid-template-columns:1fr}
+.dashboard-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){#student .head h2, #student .head h2[style]{font-size:28px!important}
+.dashboard-grid{grid-template-columns:1fr}
+.stat-card{padding:18px!important}
+.assignment-card{padding:17px!important}}
+:root{--brand-red:#12d6f5;--brand-yellow:#12d6f5;--brand-black:#07111f}
+body{padding-bottom:94px}
+.wrap{width:min(1180px,94%)!important}
+.top{display:flex;align-items:center;justify-content:space-between;gap:18px;text-align:left!important;padding:20px 0 16px!important}
+.top .brand{padding:0!important;font-size:23px!important;line-height:.9;display:block}
+.top h1, .top p{display:none}
+#login{margin:22px auto 30px!important}
+#student{padding:0!important;overflow:visible!important;margin:10px auto 25px!important}
+#student .head{display:block!important;min-height:0!important;padding:28px 25px 25px!important;position:relative;overflow:hidden}
+#student .head>div{position:relative;z-index:1}
+#student .head .tag{padding:9px 13px!important;font-size:11px!important}
+#student .head h2{font-size:clamp(30px,5vw,48px)!important;margin:24px 0 10px!important}
+#student .head .student-info{font-size:15px!important}
+#student .head .logout{margin-top:18px!important;max-width:180px!important;position:relative;z-index:3}
+.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px!important;margin:18px 0 27px!important}
+.stat-card{padding:18px 16px!important;min-width:0}
+.stat-label{font-size:10px!important}
+.stat-value{font-size:30px!important;margin-top:8px!important;overflow-wrap:anywhere}
+.stat-hint{font-size:11px!important;line-height:1.4}
+#student .section-title{font-size:17px!important;margin:29px 0 15px!important}
+#coursesContainer{scroll-margin-top:18px}
+.course{padding:20px!important}
+.course h3{font-size:19px!important}
+.links a, .links .copy{min-height:44px}
+.assignment-list, .certificate-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#student .logout{width:100%;max-width:none!important;margin-top:25px}
+#student .dashboard-nav{position:fixed;z-index:1000;left:50%;transform:translateX(-50%);bottom:12px;width:min(780px,calc(100% - 28px));padding:9px 10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;padding-bottom:max(9px,env(safe-area-inset-bottom))}
+.dashboard-nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 2px;font-size:10px;min-width:0}
+.dashboard-nav a .nav-icon{font-size:21px;line-height:1.1}
+@media(max-width:760px){.wrap{width:92%!important}
+.top{padding:18px 0 14px!important}
+.top .brand{font-size:22px!important}
+.dashboard-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+.stat-card{padding:14px 10px!important}
+.stat-value{font-size:25px!important}
+.stat-hint{font-size:10px!important}
+.assignment-list, .certificate-grid{grid-template-columns:1fr}}
+@media(max-width:390px){#student .head{padding:23px 18px!important}
+.dashboard-grid{grid-template-columns:1fr 1fr!important}
+.dashboard-grid .stat-card:last-child{grid-column:1/-1}
+.dashboard-nav a{font-size:9px}
+.dashboard-nav a .nav-icon{font-size:19px}}
+.course-lessons{margin-top:18px;display:grid;gap:14px}
+.course-lesson{padding:14px}
+.course-lesson h4{margin:0 0 8px;font-size:16px}
+.course-lesson p{line-height:1.5}
+.video-frame{position:relative;display:block;width:100%;max-width:none;min-width:0;margin:12px 0;aspect-ratio:16/9;overflow:hidden;border-radius:14px;background:#000;box-shadow:0 8px 24px rgba(0,0,0,.12);isolation:isolate}
+.video-frame iframe, .video-frame video{position:absolute;display:block;inset:0;width:100%;height:100%;max-width:100%;max-height:100%;margin:0;padding:0;border:0;background:#000;box-sizing:border-box}
+.video-frame video{object-fit:contain;touch-action:manipulation}
+.video-frame iframe{object-fit:contain}
+.video-expand{position:absolute;z-index:20;top:10px;right:10px;width:46px;height:46px;border:1px solid rgba(255,255,255,.5);border-radius:12px;background:rgba(0,0,0,.82);color:#fff;font-size:27px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.35);touch-action:manipulation}
+.video-frame:fullscreen, .video-frame:-webkit-full-screen{position:fixed;width:100vw;height:100vh;max-width:none;max-height:none;aspect-ratio:auto;border-radius:0;margin:0;background:#000;inset:0}
+.video-frame:fullscreen iframe, .video-frame:-webkit-full-screen iframe, .video-frame:fullscreen video, .video-frame:-webkit-full-screen video{width:100%;height:100%;object-fit:contain}
+.video-frame:fullscreen .video-expand, .video-frame:-webkit-full-screen .video-expand{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+@media(max-width:480px){.course-lesson{min-width:0;padding:12px}
+.video-frame{width:100%;max-width:none;aspect-ratio:16/9;margin:12px 0;border-radius:12px}
+.video-expand{width:48px;height:48px;top:8px;right:8px}}
+download-photo:disabled{opacity:.65;cursor:wait}
+.brand-logo{display:block;width:min(380px,90vw);height:150px;max-height:none;object-fit:contain;object-position:center center;margin:0 auto}
+@media(max-width:480px){.brand-logo{width:min(390px,92vw);height:160px}}
+.course-photo{display:block;width:100%;max-height:420px;object-fit:contain;margin:10px 0}
+.download-photo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:11px 16px;cursor:pointer}
+.lesson-locked{border:1px solid #f3c5b9!important;background:linear-gradient(145deg,#fff,#fff7f4)!important;position:relative}
+.locked-icon{width:54px;height:54px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:#fff0eb;font-size:27px;margin-bottom:12px}
+.lock-label{display:inline-block;margin-left:6px;padding:5px 8px;font-size:10px;vertical-align:middle}
+.locked-notice{border:1px dashed #f0b4a5;background:#fff;border-radius:12px;padding:12px;color:#9b3324;font-size:13px;line-height:1.6}
+.video-frame{width:100%;margin:0 0 30px 0;border-radius:20px;overflow:hidden;background:#07111f}
+.video-frame video{width:100%;height:auto;max-width:100%;display:block;position:relative;inset:auto;aspect-ratio:16/9}
+.video-frame iframe{position:absolute;inset:0;width:100%;height:100%;max-width:100%;display:block}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<style id="course-media-responsive">
+/* Documents PDF : boutons utilisables au doigt et mise en page adaptative */
+.document-lesson{display:flex;flex-direction:column;gap:10px;min-width:0}
+.document-icon{width:58px;height:66px;border-radius:13px;display:flex;align-items:center;justify-content:center;background:#e8f7fb;color:#087f9b;font-weight:900;letter-spacing:.04em;border:1px solid #bcebf3}
+.document-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.document-actions a,.document-actions button{display:flex;align-items:center;justify-content:center;flex:1 1 190px;min-height:48px;margin:0;padding:12px 16px;border:0;border-radius:12px;text-align:center;font:inherit;font-size:14px;font-weight:800;cursor:pointer}
+.document-open{background:#eaf1f8;color:#10243a}
+.document-actions button{background:linear-gradient(135deg,#12d6f5,#4aa8ff);color:#061827}
+.document-actions button:disabled{opacity:.7;cursor:wait}
+
+/* Lecteur vidéo fluide sur téléphone, tablette et ordinateur */
+.course-lesson,.course,.course-lessons{min-width:0;max-width:100%}
+.video-frame{position:relative!important;display:block!important;width:100%!important;max-width:100%!important;min-width:0!important;aspect-ratio:16/9!important;height:auto!important;margin:12px 0 20px!important;padding:0!important;overflow:hidden!important;border-radius:16px!important;background:#000!important}
+.video-frame iframe,.video-frame video{position:absolute!important;inset:0!important;display:block!important;width:100%!important;height:100%!important;max-width:100%!important;max-height:100%!important;margin:0!important;padding:0!important;border:0!important;object-fit:contain!important;background:#000!important}
+.video-frame video{touch-action:pan-y!important}
+.video-expand{z-index:5;touch-action:manipulation}
+.course-lesson p{overflow-wrap:anywhere}
+@media (max-width: 900px){
+  .course-lesson{padding:16px!important}
+  .video-frame{border-radius:13px!important}
+}
+@media (max-width: 600px){
+  .course-lesson{padding:13px!important}
+  .video-frame{width:100%!important;aspect-ratio:16/9!important;border-radius:11px!important;margin:10px 0 16px!important}
+  .video-expand{width:42px!important;height:42px!important;top:7px!important;right:7px!important;font-size:24px!important}
+  .document-actions{display:grid;grid-template-columns:1fr;width:100%}
+  .document-actions a,.document-actions button{width:100%;min-height:50px;font-size:14px}
+}
+.video-frame:fullscreen,.video-frame:-webkit-full-screen{width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;aspect-ratio:auto!important;border-radius:0!important}
+.video-frame:fullscreen iframe,.video-frame:-webkit-full-screen iframe,.video-frame:fullscreen video,.video-frame:-webkit-full-screen video{width:100%!important;height:100%!important;object-fit:contain!important}
+</style>
+
+
+<style id="akademi-video-final-fix">
+/* Lecteur responsive final : téléphone, tablette et ordinateur */
+#coursesContainer .course,
+#coursesContainer .course-lesson,
+#coursesContainer .course-lessons {min-width:0;max-width:100%}
+
+#coursesContainer .video-frame{
+  position:relative!important;
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  height:auto!important;
+  aspect-ratio:16/9!important;
+  margin:14px 0 18px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  isolation:isolate;
+  background:#000!important;
+  border-radius:14px!important;
+}
+#coursesContainer .video-frame > video,
+#coursesContainer .video-frame > iframe{
+  position:absolute!important;
+  inset:0!important;
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  background:#000!important;
+}
+#coursesContainer .video-frame > video{object-fit:contain!important;touch-action:manipulation}
+#coursesContainer .video-frame > iframe{object-fit:contain!important}
+#coursesContainer .video-expand{
+  position:absolute!important;
+  z-index:30!important;
+  top:10px!important;
+  right:10px!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:46px!important;
+  height:46px!important;
+  min-height:46px!important;
+  margin:0!important;
+  padding:0!important;
+  border:1px solid rgba(255,255,255,.55)!important;
+  border-radius:12px!important;
+  background:rgba(5,12,22,.86)!important;
+  color:#fff!important;
+  font-size:27px!important;
+  line-height:1!important;
+  cursor:pointer!important;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+#coursesContainer .video-expand:focus-visible{outline:3px solid #12d6f5;outline-offset:3px}
+#coursesContainer .video-frame:fullscreen,
+#coursesContainer .video-frame:-webkit-full-screen{
+  position:fixed!important;
+  inset:0!important;
+  z-index:2147483000!important;
+  width:100vw!important;
+  height:100vh!important;
+  max-width:none!important;
+  max-height:none!important;
+  aspect-ratio:auto!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:#000!important;
+}
+#coursesContainer .video-frame:fullscreen > video,
+#coursesContainer .video-frame:-webkit-full-screen > video,
+#coursesContainer .video-frame:fullscreen > iframe,
+#coursesContainer .video-frame:-webkit-full-screen > iframe{
+  width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;
+  object-fit:contain!important;background:#000!important;
+}
+#coursesContainer .video-frame:fullscreen .video-expand,
+#coursesContainer .video-frame:-webkit-full-screen .video-expand{
+  top:max(12px,env(safe-area-inset-top))!important;
+  right:max(12px,env(safe-area-inset-right))!important;
+}
+@media(max-width:600px){
+  #coursesContainer .video-frame{width:100%!important;aspect-ratio:16/9!important;border-radius:11px!important}
+  #coursesContainer .video-expand{width:44px!important;height:44px!important;min-height:44px!important;top:7px!important;right:7px!important}
+}
+@media(orientation:landscape) and (max-width:950px){
+  #coursesContainer .video-frame:fullscreen,
+  #coursesContainer .video-frame:-webkit-full-screen{width:100vw!important;height:100dvh!important}
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="brand"><img class="brand-logo" src="LOGO%20AKADEMI%20DIZAY.png" alt="Logo Akademi Dizay"></div>
+</header>
+
+<section id="login" class="card">
+
+  <h2>Accès élève</h2>
+
+  <p style="color:#777">
+    Entrez votre code personnel pour voir vos formations.
+  </p>
+
+  <input
+    id="code"
+    type="password"
+    placeholder="Code d'accès personnel"
+    autocomplete="off"
+  >
+
+  <button onclick="login()">
+    Accéder à mes cours
+  </button>
+
+  <div id="error" class="error"></div>
+
+</section>
+
+
+<section id="student" class="card hidden"></section>
+
+
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   CONFIGURATION SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL =
+"https://tlkuxqojbjpycgsaqone.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_AaCz0QDY9858XQtbOBybZw_uXhXfloL";
+
+const supabaseClient =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================================================
+   LOGIN ÉLÈVE
+   ========================================================= */
+
+async function login(){
+
+  const code =
+    document.getElementById("code")
+    .value
+    .trim();
+
+  const error =
+    document.getElementById("error");
+
+  const loginBox =
+    document.getElementById("login");
+
+  const studentBox =
+    document.getElementById("student");
+
+
+  error.textContent = "";
+
+  if(!code){
+
+    error.textContent =
+      "Veuillez entrer votre code d'accès.";
+
+    return;
+  }
+
+
+  loginBox.querySelector("button").disabled = true;
+
+  loginBox.querySelector("button").textContent =
+    "Connexion...";
+
+
+  try{
+
+    /*
+      Appel de la fonction SQL
+      student_login(code)
+    */
+
+    const { data, error: dbError } =
+      await supabaseClient.rpc(
+        "student_login",
+        {
+          p_code: code
+        }
+      );
+
+
+    if(dbError){
+
+      console.error(dbError);
+
+      error.textContent =
+        "Erreur de connexion. Vérifiez la configuration Supabase.";
+
+      return;
+    }
+
+
+    if (!data || data.ok !== true || !data.student) {
+  throw new Error(data?.message || "Code d'accès incorrect.");
+}
+
+const student = {
+  ...data.student,
+  courses: data.courses || []
+};
+
+await afficherEspaceEleve(student);
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+    error.textContent =
+      "Une erreur est survenue. Veuillez réessayer.";
+
+  }
+
+  finally{
+
+    loginBox.querySelector("button").disabled = false;
+
+    loginBox.querySelector("button").textContent =
+      "Accéder à mes cours";
+
+  }
+}
+
+
+/* =========================================================
+   AFFICHER ESPACE ÉLÈVE
+   ========================================================= */
+
+async function afficherEspaceEleve(student){
+  window.currentStudent = student;
+  __akStart({db:supabaseClient,role:"student",name:student.nom,code:String(student.code||student.student_code||"")});
+
+  const loginBox =
+    document.getElementById("login");
+
+  const studentBox =
+    document.getElementById("student");
+
+
+  loginBox.classList.add("hidden");
+
+  studentBox.classList.remove("hidden");
+
+
+  studentBox.innerHTML = `
+
+    <div class="head">
+
+      <div>
+
+        <span class="tag">
+          ÉLÈVE
+        </span>
+
+        <h2 style="
+          font-size:34px;
+          margin:12px 0 3px;
+        ">
+          ${escapeHtml(student.nom)}
+        </h2>
+
+        <div class="student-info">
+          ${escapeHtml(student.telephone || "")}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="messageContainer"></div>
+
+
+
+    <nav class="dashboard-nav" aria-label="Navigation élève">
+      <a href="#student" class="active"><span class="nav-icon">▦</span><span>Accueil</span></a>
+      <a href="#coursesContainer"><span class="nav-icon">▤</span><span>Cours</span></a>
+      <a href="#assignmentsContainer"><span class="nav-icon">▤</span><span>Devoirs</span></a>
+      <a href="#certificatesContainer"><span class="nav-icon">⇩</span><span>Certificats</span></a>
+      <a href="#messageContainer"><span class="nav-icon">•••</span><span>Plus</span></a>
+    </nav>
+
+    <div class="dashboard-grid" aria-label="Résumé de votre parcours">
+      <div class="stat-card">
+        <div class="stat-label">Ma note</div>
+        <div class="stat-value" id="studentNote">—<span style="font-size:15px;color:#777"> / 100</span></div>
+        <div class="stat-hint">Dernière note publiée</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Certificats obtenus</div>
+        <div class="stat-value" id="certificateCount">0</div>
+        <div class="stat-hint">Certificats disponibles dans votre espace</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Mes formations</div>
+        <div class="stat-value" id="courseCount">0</div>
+        <div class="stat-hint">Formations qui vous sont attribuées</div>
+      </div>
+    </div>
+
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v13A2.5 2.5 0 0 1 6.5 16H20"/></svg></span>
+      Mes formations
+    </h2>
+    <div id="coursesContainer" class="loading">Chargement de vos formations...</div>
+
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8z"/><path d="M8 3v5h8V3M8 14h8M8 17h5"/></svg></span>
+      Mes devoirs
+    </h2>
+    <p style="color:#666;line-height:1.6;margin-top:-4px">Consultez les consignes, la date et l'heure limites, puis envoyez une photo de votre travail.</p>
+    <div id="assignmentsContainer" class="loading">Chargement de vos devoirs...</div>
+
+    <h2 class="section-title">
+      <span class="section-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+      Mes certificats
+    </h2>
+    <p style="color:#666;line-height:1.6;margin-top:-4px">Vos certificats seront affichés ici dès que l'administration les aura ajoutés à votre dossier.</p>
+    <div id="certificatesContainer" class="loading">Chargement de vos certificats...</div>
+
+    <button class="logout" onclick="logout()">Se déconnecter</button>
+  `;
+
+
+  await chargerMessages();
+  afficherCours(student.courses);
+  await chargerTableauDeBord(student);
+}
+
+
+/* =========================================================
+   CHARGER LES COURS DE L'ÉLÈVE
+   ========================================================= */
+
+async function afficherCours(courses){
+
+  const count = document.getElementById("courseCount");
+  if(count) count.textContent = String((courses || []).length);
+
+  const container =
+    document.getElementById("coursesContainer");
+
+  if(!courses || courses.length === 0){
+
+    container.innerHTML = `
+      <div class="empty">
+        Aucune formation ne vous a encore été attribuée.
+      </div>
+    `;
+
+    return;
+  }
+
+  container.className = "grid";
+  container.innerHTML = '<div class="empty">Chargement des leçons…</div>';
+  const studentCode = String(window.currentStudent?.code || window.currentStudent?.student_code || '');
+  const doneSet=new Set();try{const pr=await supabaseClient.rpc('student_get_progress',{p_code:studentCode});(pr.data||[]).forEach(x=>doneSet.add(String(x.lesson_id)))}catch(e){}
+  const cards = await Promise.all(courses.map(async course => {
+    let lessons = [], lessonError = null;
+    if(studentCode){
+      const result = await supabaseClient.rpc('student_list_course_lessons',{p_code:studentCode,p_course_slug:course.slug});
+      lessons = result.data || []; lessonError = result.error;
+    }
+    const lessonHtml = lessonError
+      ? `<p class="hint">Les leçons intégrées ne sont pas encore disponibles. L’administrateur doit installer le SQL de la bibliothèque des cours.</p>`
+      : lessons.length ? lessons.map(lesson => {
+        const rawMediaUrl = String(lesson.media_url || '').trim();
+        const mediaType = String(lesson.content_type || '').toLowerCase();
+        // Google Drive share links (/view or /open) must use its embedded player (/preview).
+        const driveFileMatch = rawMediaUrl.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);
+        const driveOpenMatch = rawMediaUrl.match(/drive\.google\.com\/open\?id=([a-zA-Z0-9_-]+)/);
+        const mediaUrl = driveFileMatch
+          ? `https://drive.google.com/file/d/${driveFileMatch[1]}/preview`
+          : driveOpenMatch
+            ? `https://drive.google.com/file/d/${driveOpenMatch[1]}/preview`
+            : rawMediaUrl;
+        const isDirectVideo = /\.(mp4|webm|ogg|mov|m4v)(?:$|[?#])/i.test(mediaUrl);
+        const isPdf = mediaType === 'pdf' || mediaType === 'document' || mediaType === 'file' || /\.pdf(?:$|[?#])/i.test(mediaUrl);
+        if(lesson.is_student_locked || lesson.is_locked || !mediaUrl) return `<article class="course-lesson lesson-locked"><div class="locked-icon" aria-hidden="true">🔒</div><h4>${escapeHtml(lesson.title)} <span class="lock-label">COURS VERROUILLÉ</span></h4><p>${escapeHtml(lesson.description||'')}</p><div class="locked-notice">Cette leçon est visible, mais l’accès a été verrouillé par l’administration.</div></article>`;
+        if(isPdf) return `<article class="course-lesson document-lesson"><div class="document-icon" aria-hidden="true">PDF</div><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'Document de formation au format PDF.')}</p><div class="document-actions"><a class="document-open" href="${escapeHtml(mediaUrl)}" target="_blank" rel="noopener">Ouvrir le PDF</a><button type="button" class="download-file" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml(safeFileName(lesson.title||'document'))}.pdf">Télécharger le document PDF</button></div><p class="upload-note">Sur iPhone/iPad, si le PDF s’ouvre dans l’aperçu, utilisez Partager puis « Enregistrer dans Fichiers ».</p></article>`;
+        if(mediaType === 'photo') return `<article class="course-lesson"><h4>${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><img class="course-photo" src="${escapeHtml(mediaUrl)}" alt="${escapeHtml(lesson.title)}"><button type="button" class="download-photo" data-download-url="${escapeHtml(mediaUrl)}" data-download-name="${escapeHtml((lesson.title||'photo').replace(/[^a-z0-9_-]/gi,'_'))}.${/\.png(?:$|[?#])/i.test(mediaUrl)?'png':/\.webp(?:$|[?#])/i.test(mediaUrl)?'webp':/\.gif(?:$|[?#])/i.test(mediaUrl)?'gif':'jpg'}">Télécharger la photo</button></article>`;
+        const videoPlayer = isDirectVideo
+          ? `<video controls playsinline webkit-playsinline preload="metadata" aria-label="${escapeHtml(lesson.title)}"><source src="${escapeHtml(mediaUrl)}">Votre navigateur ne peut pas lire cette vidéo.</video>`
+          : `<iframe src="${escapeHtml(mediaUrl)}" title="${escapeHtml(lesson.title)}" loading="lazy" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+        return `<article class="course-lesson${doneSet.has(String(lesson.id))?' is-done':''}" data-lid="${escapeHtml(lesson.id)}" data-course="${escapeHtml(course.slug)}"><h4>▶ ${escapeHtml(lesson.title)}</h4><p>${escapeHtml(lesson.description||'')}</p><div class="video-frame">${videoPlayer}${isDirectVideo ? '<button type="button" class="video-expand" aria-label="Agrandir la vidéo" title="Agrandir la vidéo">⛶</button>' : ''}</div><button type="button" class="lesson-done-btn">${doneSet.has(String(lesson.id))?'✓ Cours terminé':'Marquer comme terminé'}</button></article>`;
+      }).join('') : '<p class="hint">Aucune leçon publiée pour le moment.</p>';
+    const vids=lessons.filter(l=>l.content_type!=='photo'&&!(l.is_student_locked||l.is_locked||!l.media_url)),dn=vids.filter(l=>doneSet.has(String(l.id))).length,pc=vids.length?Math.round(dn*100/vids.length):0;
+    return `<div class="course"><h3>${escapeHtml(course.nom||'Formation')}</h3><div class="pg"><div class="pg-bar"><i style="width:${pc}%"></i></div><div class="pg-txt">Progression : ${dn}/${vids.length} cours terminés · ${pc}%</div></div><p>Votre formation et ses leçons sont disponibles ci-dessous.</p><div class="course-lessons"><h4>Leçons de la formation</h4>${lessonHtml}</div></div>`;
+  }));
+  container.innerHTML = cards.join('');
+}
+
+
+/* =========================================================
+   NOTES, DEVOIRS ET CERTIFICATS
+   Tables attendues : notes, devoirs, devoirs_remis, certificats.
+   Les noms de colonnes sont centralisés dans les fonctions ci-dessous.
+   ========================================================= */
+
+function studentIdOf(student){
+  return student?.id ?? student?.eleve_id ?? student?.student_id ?? student?.profile_id ?? null;
+}
+
+function formatDateFr(value){
+  if(!value) return "Date non précisée";
+  const d = new Date(value);
+  if(Number.isNaN(d.getTime())) return escapeHtml(value);
+  return d.toLocaleDateString("fr-FR",{day:"2-digit",month:"long",year:"numeric"});
+}
+
+function formatTimeFr(value){
+  if(!value) return "Heure non précisée";
+  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
+  return match ? `${match[1].padStart(2,"0")}:${match[2]}` : escapeHtml(value);
+}
+
+function safeFileName(name){
+  return String(name || "fichier").normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9._-]/g,"_").slice(-100);
+}
+
+async function chargerTableauDeBord(student){
+  const studentId = studentIdOf(student);
+  const noteEl = document.getElementById("studentNote");
+  const assignmentsEl = document.getElementById("assignmentsContainer");
+  const certificatesEl = document.getElementById("certificatesContainer");
+  if(!studentId){
+    assignmentsEl.innerHTML = '<div class="notice-box error-note">Impossible d’identifier votre dossier élève. La fonction student_login doit renvoyer l’identifiant de l’élève dans le champ id.</div>';
+    certificatesEl.innerHTML = '<div class="empty">Votre identifiant élève est nécessaire pour charger vos certificats.</div>';
+    return;
+  }
+  await Promise.all([
+    chargerNote(studentId, student),
+    chargerDevoirs(studentId, student.code),
+    chargerCertificats(studentId)
+  ]);
+}
+
+async function chargerNote(studentId, student){
+  const noteEl = document.getElementById("studentNote");
+  const noteDirecte = student.note_sur_100 ?? student.note ?? student.notes;
+  if(noteDirecte !== undefined && noteDirecte !== null && noteDirecte !== ""){
+    const n = Number(noteDirecte);
+    noteEl.innerHTML = `${Number.isFinite(n) ? escapeHtml(n) : "—"}<span style="font-size:15px;color:#777"> / 100</span>`;
+    return;
+  }
+  try{
+    const {data,error} = await supabaseClient.from("notes")
+      .select("note_sur_100, note, created_at")
+      .eq("eleve_id",studentId)
+      .order("created_at",{ascending:false})
+      .limit(1);
+    if(error) throw error;
+    const value = data?.[0]?.note_sur_100 ?? data?.[0]?.note;
+    noteEl.innerHTML = `${value !== undefined && value !== null ? escapeHtml(value) : "—"}<span style="font-size:15px;color:#777"> / 100</span>`;
+  }catch(err){
+    console.warn("Chargement de la note :",err.message || err);
+    noteEl.innerHTML = `—<span style="font-size:15px;color:#777"> / 100</span>`;
+  }
+}
+
+async function chargerDevoirs(studentId, studentCode){
+  const container = document.getElementById("assignmentsContainer");
+  try{
+    if(!studentCode){
+      container.className="empty";
+      container.textContent="Impossible d’identifier votre code élève pour afficher vos devoirs personnels. Contactez l’administrateur.";
+      return;
+    }
+    const [{data:devoirs,error:devoirsError},{data:remises,error:remisesError}] = await Promise.all([
+      // IMPORTANT : ne charger que les devoirs affectés à ce code élève.
+      supabaseClient.from("devoirs").select("*").eq("publie",true).eq("student_code",String(studentCode)).order("date_limite",{ascending:true}),
+      supabaseClient.from("devoirs_remis").select("*").eq("eleve_id",studentId).order("created_at",{ascending:false})
+    ]);
+    if(devoirsError) throw devoirsError;
+    if(remisesError) throw remisesError;
+    if(!devoirs || devoirs.length===0){
+      container.className="empty";
+      container.textContent="Aucun devoir n’a été publié pour le moment.";
+      return;
+    }
+    const remisParDevoir = new Map((remises||[]).map(r=>[String(r.devoir_id),r]));
+    // Évite d’afficher plusieurs fois le même devoir si la base contient des doublons.
+    // Priorité à la ligne pour laquelle l’élève a déjà remis un fichier.
+    const devoirsUniques = [];
+    const indexParCle = new Map();
+    for (const d of devoirs) {
+      // Les copies synchronisées peuvent avoir des IDs, dates ou champs techniques différents.
+      // Pour l’affichage, un même titre normalisé ne doit apparaître qu’une fois.
+      const titreCle = String(d.titre || d.nom || "devoir sans titre")
+        .normalize("NFD").replace(/[\\u0300-\\u036f]/g, "")
+        .trim().toLowerCase().replace(/\\s+/g, " ");
+      const cle = titreCle;
+      if (!indexParCle.has(cle)) {
+        indexParCle.set(cle, devoirsUniques.length);
+        devoirsUniques.push(d);
+      } else {
+        const idx = indexParCle.get(cle);
+        const actuel = devoirsUniques[idx];
+        // Garder en priorité le devoir auquel l’élève a déjà remis un fichier.
+        if (!remisParDevoir.has(String(actuel.id)) && remisParDevoir.has(String(d.id))) {
+          devoirsUniques[idx] = d;
+        } else if (String(d.description || d.consignes || "").length > String(actuel.description || actuel.consignes || "").length) {
+          // Si aucun devoir n’a été remis, conserver la fiche la plus complète.
+          if (!remisParDevoir.has(String(actuel.id))) devoirsUniques[idx] = d;
+        }
+      }
+    }
+    container.className="assignment-list";
+    container.innerHTML = devoirsUniques.map(d=>{
+      const remise = remisParDevoir.get(String(d.id));
+      const deadline = d.date_limite ? new Date(`${String(d.date_limite).slice(0,10)}T${String(d.heure_limite||"23:59:00").slice(0,8)}`) : null;
+      const enRetard = !remise && deadline && !Number.isNaN(deadline.getTime()) && deadline < new Date();
+      const status = remise ? '<span class="status-pill done">Devoir envoyé</span>' : enRetard ? '<span class="status-pill late">Date limite dépassée</span>' : '<span class="status-pill open">À remettre</span>';
+      const description = d.description || d.consignes || "Aucune description n’a été ajoutée pour ce devoir.";
+      const remiseUrl = remise?.fichier_url || remise?.photo_url || "";
+      return `<article class="assignment-card">
+        <div class="assignment-top"><h3>${escapeHtml(d.titre || d.nom || "Devoir sans titre")}</h3>${status}</div>
+        <div class="assignment-description">${escapeHtml(description)}</div>
+        <div class="deadline"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><strong>Date limite :</strong> ${formatDateFr(d.date_limite)}<br><strong>Heure limite :</strong> ${formatTimeFr(d.heure_limite)}</div></div>
+        ${remiseUrl ? `<p class="upload-note">Votre fichier a été envoyé. <a href="${escapeHtml(remiseUrl)}" target="_blank" rel="noopener">Voir le devoir envoyé</a></p>` : `
+          <div class="upload-area">
+            <label for="devoir-file-${escapeHtml(d.id)}">Photo ou fichier du devoir</label>
+            <input id="devoir-file-${escapeHtml(d.id)}" type="file" accept="image/*,.pdf" multiple />
+            <p class="upload-note">Vous pouvez sélectionner plusieurs photos et/ou PDF en une seule fois. Chaque fichier sera envoyé séparément (10 Mo maximum par fichier).</p>
+            <button type="button" onclick="envoyerDevoir('${encodeURIComponent(String(d.id))}','${encodeURIComponent(String(studentId))}')">Envoyer mes fichiers</button>
+            <div id="devoir-msg-${escapeHtml(d.id)}" class="upload-note" aria-live="polite"></div>
+          </div>`}
+      </article>`;
+    }).join("");
+  }catch(err){
+    console.error("Chargement des devoirs :",err);
+    container.className="";
+    container.innerHTML='<div class="notice-box error-note">Les devoirs ne peuvent pas être chargés. Vérifiez que les tables « devoirs » et « devoirs_remis » existent et que leurs autorisations Supabase sont configurées.</div>';
+  }
+}
+
+async function envoyerDevoir(encodedDevoirId,encodedStudentId){
+  const devoirId = decodeURIComponent(encodedDevoirId);
+  const studentId = decodeURIComponent(encodedStudentId);
+  const input = document.getElementById(`devoir-file-${devoirId}`);
+  const message = document.getElementById(`devoir-msg-${devoirId}`);
+  const button = input?.closest(".upload-area")?.querySelector("button");
+  const files = Array.from(input?.files || []);
+  if(!files.length){ message.textContent="Veuillez sélectionner au moins un fichier."; return; }
+  const invalid = files.find(file => file.size > 10*1024*1024 || !(file.type.startsWith("image/") || file.type==="application/pdf"));
+  if(invalid){ message.textContent = invalid.size > 10*1024*1024 ? `« ${invalid.name} » dépasse 10 Mo.` : `« ${invalid.name} » n’est pas une image ou un PDF.`; return; }
+  if(button){button.disabled=true;button.textContent="Envoi en cours…";}
+  let sent = 0;
+  try{
+    for (const file of files) {
+      message.textContent=`Envoi du fichier ${sent+1} sur ${files.length} : ${file.name}`;
+      const path = `${studentId}/${devoirId}/${Date.now()}-${Math.random().toString(36).slice(2,8)}-${safeFileName(file.name)}`;
+      const {data:uploadData,error:uploadError} = await supabaseClient.storage.from("devoirs").upload(path,file,{upsert:false,contentType:file.type});
+      if(uploadError) throw uploadError;
+      const {data:urlData} = supabaseClient.storage.from("devoirs").getPublicUrl(uploadData.path);
+      const fichierUrl = urlData?.publicUrl;
+      const {error:insertError} = await supabaseClient.from("devoirs_remis").insert({
+        devoir_id:devoirId, eleve_id:studentId, fichier_url:fichierUrl,
+        nom_fichier:file.name, statut:"remis"
+      });
+      if(insertError) throw insertError;
+      sent++;
+    }
+    message.textContent=`Succès : ${sent} fichier(s) envoyé(s).`;
+    await chargerDevoirs(studentId, window.currentStudent?.code || window.studentSession?.code || document.getElementById("studentCode")?.value?.trim());
+  }catch(err){
+    console.error("Envoi du devoir :",err);
+    message.textContent = sent ? `${sent} fichier(s) envoyé(s), mais un autre envoi a échoué. Relancez pour les fichiers restants.` : "L’envoi a échoué. Vérifiez le bucket Storage « devoirs », les autorisations et les colonnes de la table devoirs_remis.";
+  }finally{
+    if(button){button.disabled=false;button.textContent="Envoyer mes fichiers";}
+  }
+}
+
+// Téléchargement robuste des certificats (images ou PDF hébergés sur Supabase).
+document.addEventListener("click", async (event) => {
+  const link = event.target.closest("a.certificate-download");
+  if (!link) return;
+  event.preventDefault();
+  const url = link.dataset.url || link.href;
+  const originalText = link.textContent;
+  link.textContent = "Préparation du téléchargement…";
+  link.style.pointerEvents = "none";
+  try {
+    const response = await fetch(url, { mode: "cors" });
+    if (!response.ok) throw new Error("Le fichier n’est pas accessible (HTTP " + response.status + ").");
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const ext = (blob.type || "").includes("pdf") ? ".pdf" : ((blob.type || "").includes("png") ? ".png" : ((blob.type || "").includes("jpeg") ? ".jpg" : ".file"));
+    const a = document.createElement("a");
+    a.href = objectUrl;
+    a.download = (link.dataset.name || "certificat") + ext;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+    link.textContent = "Téléchargement lancé";
+  } catch (error) {
+    console.error("Téléchargement du certificat :", error);
+    // Fallback : ouvrir le fichier directement pour que l’élève puisse l’enregistrer.
+    window.open(url, "_blank", "noopener");
+    link.textContent = "Ouvrir le certificat";
+  } finally {
+    setTimeout(() => { link.textContent = originalText; link.style.pointerEvents = ""; }, 2500);
+  }
+});
+
+async function chargerCertificats(studentId){
+  const container = document.getElementById("certificatesContainer");
+  try{
+    const {data,error} = await supabaseClient.from("certificats")
+      .select("*")
+      .eq("eleve_id",studentId)
+      .order("created_at",{ascending:false});
+    if(error) throw error;
+    const certificates = data || [];
+    document.getElementById("certificateCount").textContent=String(certificates.length);
+    if(!certificates.length){
+      container.className="empty";
+      container.textContent="Aucun certificat n’est encore disponible. Il apparaîtra ici dès que l’administration l’aura ajouté.";
+      return;
+    }
+    container.className="certificate-grid";
+    container.innerHTML=certificates.map(c=>{
+      const url = c.fichier_url || c.photo_url || c.image_url || "";
+      return `<article class="certificate-card">
+        <h3>${escapeHtml(c.titre || c.nom || "Certificat de formation")}</h3>
+        ${url ? `${/\.(pdf)(\?|$)/i.test(url) ? '<div class="notice-box">Document PDF prêt à être téléchargé.</div>' : `<img src="${escapeHtml(url)}" alt="${escapeHtml(c.titre || "Certificat")}" loading="lazy" onerror="this.style.display='none'">`}<a href="${escapeHtml(url)}" class="certificate-download" data-url="${escapeHtml(url)}" data-name="${escapeHtml((c.titre || c.nom || "certificat").replace(/[^a-z0-9_-]+/gi,"-") )}" target="_blank" rel="noopener">Télécharger mon certificat</a>` : '<div class="notice-box">Le certificat est enregistré, mais son fichier n’est pas encore disponible.</div>'}
+        <p class="upload-note">Ajouté le ${formatDateFr(c.created_at)}</p>
+      </article>`;
+    }).join("");
+  }catch(err){
+    console.error("Chargement des certificats :",err);
+    document.getElementById("certificateCount").textContent="—";
+    container.className="";
+    container.innerHTML='<div class="notice-box error-note">Les certificats ne peuvent pas être chargés. Vérifiez la table « certificats » et les autorisations Supabase.</div>';
+  }
+}
+
+/* =========================================================
+   CHARGER LES MESSAGES ADMIN
+   ========================================================= */
+
+async function chargerMessages(){
+
+  const container =
+    document.getElementById("messageContainer");
+
+
+  try{
+
+    const { data, error } =
+      await supabaseClient
+      .from("messages")
+      .select("*")
+      .in(
+        "audience",
+        ["all","students"]
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+    if(error){
+
+      console.error(error);
+
+      return;
+    }
+
+
+    if(!data || data.length === 0){
+
+      return;
+    }
+
+
+    container.innerHTML =
+      data
+      .map(message => `
+
+        <div class="message">
+
+          <strong>
+            Message de l'administration
+          </strong>
+
+          <br>
+
+          ${escapeHtml(message.message)}
+
+        </div>
+
+      `)
+      .join("");
+
+  }
+
+  catch(err){
+
+    console.error(err);
+
+  }
+}
+
+
+/* =========================================================
+   COPIER UN TEXTE
+   ========================================================= */
+
+async function copyText(encoded){
+
+  try{
+
+    const text =
+      decodeURIComponent(encoded);
+
+    await navigator.clipboard.writeText(text);
+
+    alert("Copié !");
+
+  }
+
+  catch(e){
+
+    alert(
+      "Copie impossible sur cet appareil."
+    );
+
+  }
+}
+
+
+/* =========================================================
+   DÉCONNEXION
+   ========================================================= */
+
+function logout(){
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   PROTECTION HTML
+   ========================================================= */
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(
+      /[&<>"']/g,
+      function(m){
+
+        return {
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          '"':"&quot;",
+          "'":"&#039;"
+        }[m];
+
+      }
+    );
+
+}
+
+
+/* Navigation du tableau de bord mobile */
+document.addEventListener("click", function(event){
+  const link = event.target.closest(".dashboard-nav a");
+  if(!link) return;
+  document.querySelectorAll(".dashboard-nav a").forEach(a=>a.classList.toggle("active", a===link));
+});
+
+/* =========================================================
+   ENTER POUR SE CONNECTER
+   ========================================================= */
+
+document
+  .getElementById("code")
+  .addEventListener(
+    "keydown",
+    function(e){
+
+      if(e.key === "Enter"){
+
+        login();
+
+      }
+
+    }
+  );
+
+</script>
+
+
+<script>
+// Téléchargement des images de cours : essaie le fichier direct, puis un téléchargement Blob si autorisé par le serveur.
+/* Bouton d’agrandissement : passe le lecteur entier en plein écran */
+document.addEventListener('click', async function(event){
+  const button = event.target.closest('.video-expand');
+  if(!button) return;
+
+  const frame = button.closest('.video-frame');
+  if(!frame) return;
+
+  const video = frame.querySelector('video');
+  const iframe = frame.querySelector('iframe');
+  const isThisFullscreen =
+    document.fullscreenElement === frame ||
+    document.webkitFullscreenElement === frame;
+
+  try {
+    if(isThisFullscreen) {
+      if(document.exitFullscreen) await document.exitFullscreen();
+      else if(document.webkitExitFullscreen) document.webkitExitFullscreen();
+      return;
+    }
+
+    /* iPhone/iPad : utiliser le plein écran natif du lecteur vidéo */
+    if(video && typeof video.webkitEnterFullscreen === 'function') {
+      video.webkitEnterFullscreen();
+      return;
+    }
+
+    /* Navigateurs modernes : agrandir le conteneur complet */
+    if(typeof frame.requestFullscreen === 'function') {
+      await frame.requestFullscreen();
+      return;
+    }
+    if(typeof frame.webkitRequestFullscreen === 'function') {
+      frame.webkitRequestFullscreen();
+      return;
+    }
+
+    /* Dernier recours : plein écran de la vidéo elle-même */
+    if(video && typeof video.requestFullscreen === 'function') {
+      await video.requestFullscreen();
+      return;
+    }
+
+    /* Pour les lecteurs intégrés (YouTube, Vimeo, etc.),
+       le bouton plein écran interne du lecteur reste disponible. */
+    if(iframe) {
+      const innerButton = button;
+      innerButton.title = 'Utilisez aussi le bouton plein écran du lecteur vidéo';
+      innerButton.setAttribute('aria-label','Plein écran : utilisez le contrôle du lecteur intégré');
+    }
+  } catch(error) {
+    console.warn('Plein écran indisponible dans ce navigateur :', error);
+    try {
+      if(video && typeof video.webkitEnterFullscreen === 'function') {
+        video.webkitEnterFullscreen();
+      } else if(video && typeof video.requestFullscreen === 'function') {
+        await video.requestFullscreen();
+      } else if(frame.webkitRequestFullscreen) {
+        frame.webkitRequestFullscreen();
+      }
+    } catch(fallbackError) {
+      console.warn('Le navigateur a refusé le plein écran :', fallbackError);
+    }
+  }
+});
+
+document.addEventListener('click', async function(event){
+  const button = event.target.closest('.download-file[data-download-url]');
+  if(!button) return;
+  const url = button.getAttribute('data-download-url');
+  const filename = button.getAttribute('data-download-name') || 'document.pdf';
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Préparation du PDF…';
+  try {
+    const response = await fetch(url, {mode:'cors'});
+    if(!response.ok) throw new Error('HTTP ' + response.status);
+    const blob = await response.blob();
+    const pdfBlob = blob.type === 'application/pdf' ? blob : new Blob([blob], {type:'application/pdf'});
+    const objectUrl = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = objectUrl;
+    a.download = filename.toLowerCase().endsWith('.pdf') ? filename : filename + '.pdf';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 60000);
+    button.textContent = 'Téléchargement lancé';
+  } catch(error) {
+    console.warn('Téléchargement PDF direct indisponible :', error);
+    // Certains hébergeurs bloquent le téléchargement cross-origin : ouverture du PDF en secours.
+    window.open(url, '_blank', 'noopener');
+    button.textContent = 'PDF ouvert — enregistrez-le';
+  } finally {
+    setTimeout(() => { button.disabled = false; button.textContent = originalText; }, 3000);
+  }
+});
+
+document.addEventListener('click', async function(event){
+  const button = event.target.closest('.download-photo[data-download-url]');
+  if(!button) return;
+  const url = button.getAttribute('data-download-url');
+  const filename = button.getAttribute('data-download-name') || 'photo.jpg';
+  const originalText = button.textContent;
+  button.disabled = true;
+  button.textContent = 'Téléchargement…';
+  try {
+    const response = await fetch(url, {mode:'cors'});
+    if(!response.ok) throw new Error('Téléchargement impossible');
+    const blob = await response.blob();
+    const objectUrl = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = objectUrl; a.download = filename; a.style.display = 'none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(objectUrl), 1500);
+  } catch(error) {
+    // Fallback: ouvre la ressource si le stockage distant bloque CORS.
+    const a = document.createElement('a');
+    a.href = url; a.download = filename; a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  } finally {
+    button.disabled = false; button.textContent = originalText;
+  }
+});
+</script>
+
+
+<style id="dizay-clean">
+/* ===== THÈME CLASSIQUE — navy + cyan · Inter ===== */
+:root{
+  --red:#e5484d;--orange:#12d6f5;--yellow:#12d6f5;--dark:#07111f;--white:#fff;--gray:#5b6b7d;--light:#f5f8fc;--line:#e3eaf2;--bg:#f5f8fc;--border:#e3eaf2;--ink:#0b1b2e;
+  --r:#12d6f5;--o:#12d6f5;--y:#12d6f5;
+  --cy:#12d6f5;--cy-d:#0ab3d1;--cy-ink:#04121f;--navy:#07111f;--navy-2:#0c2340;--blue:#1d8fdc;--muted:#5b6b7d;--soft:#eef3f9;
+  --grad:linear-gradient(135deg,#12d6f5 0%,#4aa8ff 100%);--grad-text:linear-gradient(90deg,#0ab3d1,#2b6fe0);--grad-navy:linear-gradient(135deg,#07111f,#16407a);
+  --sh:0 1px 2px rgba(7,17,31,.04),0 10px 30px -14px rgba(7,17,31,.14);
+  --sh-lg:0 2px 4px rgba(7,17,31,.05),0 26px 50px -22px rgba(7,17,31,.28);
+  --ease:cubic-bezier(.22,.8,.24,1);--f:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*,*:before,*:after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html body{margin:0;font-family:var(--f);font-weight:500;font-size:16px;line-height:1.6;color:var(--ink);background-color:var(--light);background-image:none;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+html body:before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 60% 34% at 50% -8%,rgba(18,214,245,.13),transparent 70%)}
+::selection{background:rgba(18,214,245,.28)}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+/* Typographie : gros titres ExtraBold · sous-titres Medium · petits textes SemiBold */
+h1,h2,h3,h4,.brand,.name,.authlogo,.logo-nav,.section-title,.stat b,.stat-value,.price,.formation-price,.number,.natcash-number{font-family:var(--f);font-weight:800;letter-spacing:-.025em;line-height:1.12;text-transform:none}
+h1{letter-spacing:-.035em;line-height:1.05}
+h2{font-size:clamp(24px,3vw,34px)}h3{font-size:19px}
+p,.section-header p,.hero-content p,.top p,.authsub,.student-info,.role{font-weight:500}
+small,label,.label,.hint,.muted,.pill,.tag,.kicker,.k,.status-pill,.badge-count,button,.btn,.portal-btn,.formation-btn,.submit-btn,.contact-btn,.links a,.certificate-card a,.copy,.tab,.navbtn,.nav-links a,.foot,footer,.stat span,.stat small,.stat-label,.empty,.msg,.notice,.hero-mini-stats span,.natcash-label,.hero-badge,.section-header span,.finance-kicker,.controller-code-kicker{font-family:var(--f);font-weight:600}
+.gradient-text,.accent{background:linear-gradient(90deg,#12d6f5,#6cc4ff,#a3adff);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.brand span,.authlogo span,.logo-nav span,.brand i{color:var(--cy-d);font-style:normal}
+/* Boutons */
+:where(button),.btn,.portal-btn,.formation-btn,.submit-btn,.contact-btn,.links a,.certificate-card a,.copy{
+  font-size:14.5px;line-height:1.2;display:inline-flex;align-items:center;justify-content:center;gap:8px;text-align:center;
+  padding:13px 24px;border:1.5px solid transparent;border-radius:999px;cursor:pointer;background:var(--grad);color:var(--cy-ink);
+  transition:transform .2s var(--ease),box-shadow .2s var(--ease),background .2s,filter .2s,border-color .2s,color .2s}
+:where(button):hover:not(:disabled),.btn:hover,.portal-btn:hover,.formation-btn:hover,.submit-btn:hover,.contact-btn:hover,.links a:hover,.certificate-card a:hover{transform:translateY(-1px);filter:brightness(1.06);box-shadow:0 12px 24px -12px rgba(18,214,245,.75)}
+:where(button):active:not(:disabled),.btn:active,.portal-btn:active{transform:translateY(0);box-shadow:none}
+:where(button):disabled{opacity:.5;cursor:not-allowed;box-shadow:none}
+.btn-primary:after,.formation-btn:after,.contact-btn:after{content:"→";font-weight:700;transition:transform .2s var(--ease)}
+.btn-primary:hover:after,.formation-btn:hover:after,.contact-btn:hover:after{transform:translateX(3px)}
+.btn-glass,.btn-light,.logout,.portal-btn.dark,.copy,.btn.dark,.btn-secondary,.tabs button:not(.active){background:#fff;color:var(--ink);border:1.5px solid #cfd9e6;box-shadow:none}
+.btn-glass:hover,.btn-light:hover,.logout:hover,.portal-btn.dark:hover,.copy:hover,.btn.dark:hover,.btn-secondary:hover,.tabs button:not(.active):hover{border-color:var(--ink);background:#fff;box-shadow:none;filter:none}
+.btn-danger,.delete-order{background:#fff;color:#d33a40;border:1.5px solid #f1c3c6;box-shadow:none}
+.btn-danger:hover,.delete-order:hover{background:#d33a40;color:#fff;border-color:#d33a40;box-shadow:none}
+.btn.green{background:#16a34a;color:#fff}
+.btn.sm,.portal-btn.small{padding:9px 16px;font-size:13px}
+.menu-toggle,.portfolio-arrow,.controller-code-close,.video-expand{border-radius:50%}
+/* Champs */
+input:where(:not([type=checkbox],[type=radio],[type=range],[type=file],[type=submit],[type=button])),select,textarea{
+  font-family:var(--f);font-weight:500;font-size:15px;color:var(--ink);background:#fff;border:1.5px solid #d5deea;border-radius:12px;padding:13px 16px;outline:none;transition:border-color .2s,box-shadow .2s}
+input::placeholder,textarea::placeholder{color:#97a5b6;font-weight:500}
+input:hover,select:hover,textarea:hover{border-color:#b7c5d6}
+input:focus,select:focus,textarea:focus{border-color:var(--cy-d);box-shadow:0 0 0 4px rgba(18,214,245,.2)}
+:focus-visible{outline:2px solid var(--cy-d);outline-offset:2px}
+input[type=file]{padding:9px;border:1.5px dashed #c3d0e0;border-radius:12px;background:var(--soft);width:100%;font-weight:600}
+input[type=file]::file-selector-button{font-family:var(--f);font-weight:600;font-size:13px;border:0;border-radius:999px;padding:8px 16px;margin-right:12px;background:var(--navy);color:#fff;cursor:pointer}
+input[type=checkbox],input[type=radio]{accent-color:var(--cy-d)}
+label,.label{font-size:13px;color:#33465c}
+/* Cartes */
+.card,.panel,.side,.main,.stat,.stat-card,.course,.assignment-card,.certificate-card,.person,.submission-card,.finance-agent,.formation-card,.about-box,.order-item,.chat-card,.authbox,.private-profile,.request-status,.finance-panel,.controller-code-box,.validation-box,.waiting-box,.success-box,.loaderbox,.agent-money-card,.withdrawals,.money-box{
+  background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh)}
+.item,.row,.course-lesson,.money-stat,.file,.lesson-student-row{background:var(--soft);border:1px solid var(--line);border-radius:12px}
+.message,.msg{border-radius:12px}
+.course,.formation-card,.person,.submission-card,.stat,.stat-card,.order-item,.agent-money-card{transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
+.course:hover,.formation-card:hover,.person:hover,.submission-card:hover,.stat:hover,.stat-card:hover,.assignment-card:hover,.order-item:hover,.agent-money-card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg);border-color:#cfe3f0}
+.stat b,.stat-value{font-weight:800;color:var(--ink)}
+.stat span,.stat small,.stat-label,.agent-money-card span{color:var(--muted);font-size:12.5px}
+.price,.formation-price,.agent-money-card b,.withdrawal-amount{color:var(--blue);font-weight:800}
+.notice,.notice-box,.hint-box,.publicite-notice,.error-note,.upload-note,.locked-notice,.message{background:#eaf8fd;border:1px solid #c9ecf7;border-left:4px solid var(--cy);border-radius:12px;color:#0b3a4d;font-size:14px}
+.hint,.muted,small,.empty,.empty-money,.stat-hint{color:var(--muted)}
+.error,.controller-code-error{color:#d33a40;font-weight:600}
+/* Étiquettes */
+.section-header span,.finance-kicker,.controller-code-kicker,.kicker,.k{display:inline-block;background:none;border:0;padding:0;color:var(--blue);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#cfe9f2;font-size:12.5px;letter-spacing:.02em}
+.hero-badge:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cy)}
+.tag{display:inline-flex;align-items:center;padding:5px 12px;border-radius:8px;background:#dcebf8;color:#2b6fa8;font-size:12px;letter-spacing:.02em;text-transform:none}
+.status-pill,.pill{display:inline-flex;align-items:center;padding:5px 12px;border-radius:999px;font-size:12px}
+.badge-count,.chat-notification,.chat-notification-dot{background:var(--cy);color:var(--cy-ink);border-radius:999px}
+/* Onglets & navigation */
+.tabs{background:#fff;border:1px solid var(--line);border-radius:999px;padding:5px;box-shadow:var(--sh)}
+.tab,.navbtn,.tabs button{border-radius:999px;font-size:13.5px;padding:10px 18px}
+.tab:not(.active),.navbtn:not(.active){background:#fff;color:var(--ink);border:1.5px solid transparent;box-shadow:none}
+.tab:not(.active):hover,.navbtn:not(.active):hover{background:var(--soft);box-shadow:none;filter:none}
+.tab.active,.navbtn.active,.tabs button.active{background:var(--grad-navy);color:#fff;border-color:var(--navy);box-shadow:none}
+.navbtn{border-radius:12px}
+.premium-bottom-nav,.dashboard-nav,#student .dashboard-nav{background:rgba(7,17,31,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.1);border-radius:20px;box-shadow:0 20px 40px -16px rgba(7,17,31,.55)}
+.premium-bottom-nav a,.dashboard-nav a{color:#9fb1c6;font-weight:600;border-radius:14px;transition:background .25s,color .25s}
+.premium-bottom-nav a:hover,.dashboard-nav a:hover{color:#fff}
+.premium-bottom-nav a.active,.dashboard-nav a.active{background:var(--grad);color:var(--cy-ink)}
+.avatar{background:var(--grad);color:var(--cy-ink);font-weight:800;border-radius:12px}
+.bar,.progress-shell{background:#e3eaf2;border-radius:99px;overflow:hidden}
+.fill,.progress-fill{background:var(--grad);border-radius:99px}
+.spin{border:3px solid #dbe5f0;border-top-color:var(--cy-d)}
+.loader,.waiting-overlay,.validation-overlay{background:rgba(245,248,252,.88);backdrop-filter:blur(6px)}
+.controller-code-backdrop{background:rgba(7,17,31,.6);backdrop-filter:blur(5px)}
+.controller-code-orb{background:var(--cy);color:var(--cy-ink);border-radius:14px}
+.bubble,.chat-bubble{border-radius:16px;background:var(--soft);border:1px solid var(--line)}
+.bubble.me,.me .bubble,.chat-bubble.me{background:var(--grad);color:var(--cy-ink);border-color:var(--cy)}
+.video-frame{background:#000;border-radius:14px;overflow:hidden}
+.upload-area{background:var(--soft);border:1.5px dashed #c3d0e0;border-radius:12px}
+.locked-icon,.section-icon,.side-icon,.status-icon{background:#e3f6fc;color:var(--cy-d);border-radius:12px}
+.natcash-premium,footer{background:var(--navy);color:#fff}
+.natcash-label{color:var(--cy);letter-spacing:.12em;text-transform:uppercase;font-size:11px}
+footer{color:#aab9cb;font-size:13.5px}footer a{color:var(--cy)!important}
+.foot{color:var(--muted);font-size:13px}
+*{scrollbar-width:thin;scrollbar-color:#c3d0e0 transparent}
+::-webkit-scrollbar{width:9px;height:9px}::-webkit-scrollbar-thumb{background:#c3d0e0;border-radius:99px}
+/* Animations simples */
+@keyframes dzIn{from{opacity:0;translate:0 14px}to{opacity:1;translate:0 0}}
+.top,.hero,.authbox,#login,.card,.stat,.stat-card,.panel{animation:dzIn .55s var(--ease) backwards}
+.stat:nth-child(2){animation-delay:.06s}.stat:nth-child(3){animation-delay:.12s}.stat:nth-child(4){animation-delay:.18s}
+@supports (animation-timeline:view()){.section-header,.formation-card,.service,.about-box,.portfolio-slide,.order-item{animation:dzIn linear both;animation-timeline:view();animation-range:entry 0% entry 35%}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Dégradés doux */
+.section-header span,.finance-kicker,.controller-code-kicker{background:var(--grad-text);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{background:linear-gradient(135deg,#e1f8fd,#dfe9ff)}
+.stat,.stat-card{background:linear-gradient(180deg,#fff,#f3f8ff)}
+.card,.course,.formation-card,.person,.about-box{background:linear-gradient(180deg,#fff 0%,#fbfdff 100%)}
+.badge-count,.chat-notification,.chat-notification-dot{background:var(--grad)}
+[hidden]{display:none!important}
+
+#login{max-width:520px}
+#student .head{background:radial-gradient(ellipse 60% 90% at 90% 0%,rgba(29,143,220,.4),transparent 65%),radial-gradient(ellipse 40% 60% at 0% 100%,rgba(18,214,245,.14),transparent 65%),var(--navy);color:#fff;border-radius:20px;box-shadow:var(--sh-lg)}
+#student .head h2{color:#fff;font-size:clamp(28px,4vw,44px)}
+#student .head .student-info{color:#b4c3d6}
+#student .head .tag{background:rgba(255,255,255,.1);color:var(--cy)}
+.section-title{font-size:19px}
+.course-photo{border-radius:12px;object-fit:cover}
+.stat-value{font-size:30px}
+
+</style>
+<script>window.__akStart=function(o){if(!window.AKCHAT){alert("Le fichier akademi-chat.js est introuvable : mettez-le dans le même dossier que cette page.");return}try{AKCHAT.start(o)}catch(e){console.error(e);alert("Chat : "+e.message)}};</script><script src="akademi-chat.js"></script><script>
+document.addEventListener('click',async e=>{const b=e.target.closest('.lesson-done-btn');if(!b)return;const a=b.closest('.course-lesson'),done=!a.classList.contains('is-done'),code=String(window.currentStudent?.code||window.currentStudent?.student_code||'');
+ b.disabled=true;const {data}=await supabaseClient.rpc('student_set_lesson_done',{p_code:code,p_course_slug:a.dataset.course,p_lesson_id:a.dataset.lid,p_done:done});b.disabled=false;if(!data?.ok)return alert('Impossible d’enregistrer pour le moment.');
+ a.classList.toggle('is-done',done);b.textContent=done?'✓ Cours terminé':'Marquer comme terminé';
+ const c=a.closest('.course'),all=c.querySelectorAll('.course-lesson[data-lid]'),dn=c.querySelectorAll('.course-lesson.is-done').length,p=all.length?Math.round(dn*100/all.length):0;
+ c.querySelector('.pg-bar i').style.width=p+'%';c.querySelector('.pg-txt').textContent='Progression : '+dn+'/'+all.length+' cours terminés · '+p+'%'});
+</script><link rel="stylesheet" href="baba-pro.css"><script src="baba-pro.js"></script></body>
+</html>
